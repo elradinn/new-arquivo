@@ -34,3 +34,4 @@ require __DIR__ . '/workspace.php';
 require __DIR__ . '/workflow.php';
 require __DIR__ . '/metadata.php';
 require __DIR__ . '/numbering_scheme.php';
+require __DIR__ . '/user.php';
