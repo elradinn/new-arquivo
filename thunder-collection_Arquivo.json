@@ -1,0 +1,432 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "Arquivo",
+    "collectionId": "b2430b0e-3d97-4d69-8d8b-ef5898129a02",
+    "dateExported": "2024-09-26T06:35:59.877Z",
+    "version": "1.2",
+    "folders": [
+        {
+            "_id": "c4ff74c3-e881-47d1-858f-25ac4e0dbea8",
+            "name": "Workspaces",
+            "containerId": "",
+            "created": "2024-09-24T15:01:48.232Z",
+            "sortNum": 10000
+        },
+        {
+            "_id": "c1239df5-4697-4ea8-a6ac-2180c00df7c7",
+            "name": "Template",
+            "containerId": "",
+            "created": "2024-09-24T15:02:02.115Z",
+            "sortNum": 20000
+        },
+        {
+            "_id": "4d7c31d0-98a4-4f74-8a1b-e63dcb04ef87",
+            "name": "Documents",
+            "containerId": "",
+            "created": "2024-09-24T15:02:11.137Z",
+            "sortNum": 30000
+        },
+        {
+            "_id": "d2d2b5fd-9874-4295-9da4-f0dc85b4de51",
+            "name": "Folders",
+            "containerId": "",
+            "created": "2024-09-24T15:23:27.569Z",
+            "sortNum": 35000
+        },
+        {
+            "_id": "1aac904b-8fc7-4eff-b1f6-a9918cc072c7",
+            "name": "Items",
+            "containerId": "",
+            "created": "2024-09-24T15:12:46.811Z",
+            "sortNum": 40000
+        },
+        {
+            "_id": "4c7aaf2b-290c-482d-9b18-0ac8de70437b",
+            "name": "Document Approval",
+            "containerId": "",
+            "created": "2024-09-24T15:31:05.769Z",
+            "sortNum": 50000
+        },
+        {
+            "_id": "f64348ba-2171-4771-8a12-f3bf057e42d5",
+            "name": "Workflow",
+            "containerId": "",
+            "created": "2024-09-25T00:41:00.002Z",
+            "sortNum": 55000
+        },
+        {
+            "_id": "07f20a7d-ca15-4228-92fb-4999892c2a3a",
+            "name": "Document User Approval",
+            "containerId": "",
+            "created": "2024-09-24T15:36:12.410Z",
+            "sortNum": 60000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "b500c5f0-3b7b-4f97-acdd-f1b053c4115e",
+            "colId": "b2430b0e-3d97-4d69-8d8b-ef5898129a02",
+            "containerId": "c4ff74c3-e881-47d1-858f-25ac4e0dbea8",
+            "name": "Get All Workspaces",
+            "url": "http://localhost/workspaces",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2024-09-24T14:50:04.446Z",
+            "modified": "2024-09-24T15:21:49.831Z",
+            "headers": [
+                {
+                    "name": "Cookie",
+                    "value": "{{cookie}}"
+                },
+                {
+                    "name": "X-Xsrf-Token",
+                    "value": "{{x-xsrf-token}}"
+                }
+            ]
+        },
+        {
+            "_id": "526ce736-d143-41a8-80cd-be02a7c4956b",
+            "colId": "b2430b0e-3d97-4d69-8d8b-ef5898129a02",
+            "containerId": "c1239df5-4697-4ea8-a6ac-2180c00df7c7",
+            "name": "Request Template",
+            "url": "http://localhost/api-route",
+            "method": "TEMPLATE",
+            "sortNum": 10000,
+            "created": "2024-09-24T14:57:21.544Z",
+            "modified": "2024-09-24T15:01:21.664Z",
+            "headers": [
+                {
+                    "name": "Cookie",
+                    "value": "{{cookie}}"
+                },
+                {
+                    "name": "X-Xsrf-Token",
+                    "value": "{{x-xsrf-token}}"
+                }
+            ]
+        },
+        {
+            "_id": "fc34dad6-1aaf-4b13-bb51-9b477fdea464",
+            "colId": "b2430b0e-3d97-4d69-8d8b-ef5898129a02",
+            "containerId": "4d7c31d0-98a4-4f74-8a1b-e63dcb04ef87",
+            "name": "Create Document",
+            "url": "http://localhost/documents",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2024-09-24T15:02:44.257Z",
+            "modified": "2024-09-25T13:22:12.563Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Cookie",
+                    "value": "{{cookie}}"
+                },
+                {
+                    "name": "X-Xsrf-Token",
+                    "value": "{{x-xsrf-token}}"
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"parent_id\": 11, \n  \"name\": \"workflowdoc_new_new.pdf\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "976cf143-767f-499a-84a6-5088307a8bc4",
+            "colId": "b2430b0e-3d97-4d69-8d8b-ef5898129a02",
+            "containerId": "1aac904b-8fc7-4eff-b1f6-a9918cc072c7",
+            "name": "Get All Items",
+            "url": "http://localhost/items",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2024-09-24T15:12:59.030Z",
+            "modified": "2024-09-24T15:13:21.452Z",
+            "headers": [
+                {
+                    "name": "Cookie",
+                    "value": "{{cookie}}"
+                },
+                {
+                    "name": "X-Xsrf-Token",
+                    "value": "{{x-xsrf-token}}"
+                }
+            ]
+        },
+        {
+            "_id": "388afb92-6c69-4035-a7c9-579171bea2aa",
+            "colId": "b2430b0e-3d97-4d69-8d8b-ef5898129a02",
+            "containerId": "d2d2b5fd-9874-4295-9da4-f0dc85b4de51",
+            "name": "Create Folder",
+            "url": "http://localhost/folders",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-09-24T15:23:27.569Z",
+            "modified": "2024-09-25T01:50:31.399Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "*/*",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Cookie",
+                    "value": "{{cookie}}"
+                },
+                {
+                    "name": "X-Xsrf-Token",
+                    "value": "{{x-xsrf-token}}"
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"parent_id\": 1, \n  \"name\": \"Wiee Folder\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "5993022b-df09-4a7c-b7da-5156e5f9a35d",
+            "colId": "b2430b0e-3d97-4d69-8d8b-ef5898129a02",
+            "containerId": "4c7aaf2b-290c-482d-9b18-0ac8de70437b",
+            "name": "Get All Document Approvals",
+            "url": "http://localhost/document-approvals",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2024-09-24T15:31:05.769Z",
+            "modified": "2024-09-24T15:32:13.839Z",
+            "headers": [
+                {
+                    "name": "Cookie",
+                    "value": "{{cookie}}"
+                },
+                {
+                    "name": "X-Xsrf-Token",
+                    "value": "{{x-xsrf-token}}"
+                }
+            ]
+        },
+        {
+            "_id": "f59ba90a-f536-46cf-929f-fa43b91c6000",
+            "colId": "b2430b0e-3d97-4d69-8d8b-ef5898129a02",
+            "containerId": "07f20a7d-ca15-4228-92fb-4999892c2a3a",
+            "name": "Approve Document",
+            "url": "http://localhost/document-approvals/{documentApprovalId}/accept",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-09-24T15:36:12.410Z",
+            "modified": "2024-09-24T15:41:07.327Z",
+            "headers": [
+                {
+                    "name": "Cookie",
+                    "value": "{{cookie}}"
+                },
+                {
+                    "name": "X-Xsrf-Token",
+                    "value": "{{x-xsrf-token}}"
+                }
+            ],
+            "params": [
+                {
+                    "name": "documentApprovalId",
+                    "value": "6",
+                    "isPath": true
+                }
+            ]
+        },
+        {
+            "_id": "9d6cab10-ec1f-4eec-8eaf-cdd75bd07d1c",
+            "colId": "b2430b0e-3d97-4d69-8d8b-ef5898129a02",
+            "containerId": "f64348ba-2171-4771-8a12-f3bf057e42d5",
+            "name": "Get All Workflows",
+            "url": "http://localhost/workflows",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2024-09-25T00:41:00.002Z",
+            "modified": "2024-09-25T01:07:12.875Z",
+            "headers": [
+                {
+                    "name": "Cookie",
+                    "value": "{{cookie}}"
+                },
+                {
+                    "name": "X-Xsrf-Token",
+                    "value": "{{x-xsrf-token}}"
+                }
+            ]
+        },
+        {
+            "_id": "eb5a4c09-120b-4ab2-afb7-870204a841b3",
+            "colId": "b2430b0e-3d97-4d69-8d8b-ef5898129a02",
+            "containerId": "1aac904b-8fc7-4eff-b1f6-a9918cc072c7",
+            "name": "Delete All Items",
+            "url": "http://localhost/items",
+            "method": "DELETE",
+            "sortNum": 20000,
+            "created": "2024-09-24T15:19:11.561Z",
+            "modified": "2024-09-24T15:19:19.855Z",
+            "headers": [
+                {
+                    "name": "Cookie",
+                    "value": "{{cookie}}"
+                },
+                {
+                    "name": "X-Xsrf-Token",
+                    "value": "{{x-xsrf-token}}"
+                }
+            ]
+        },
+        {
+            "_id": "a2f4acf7-5b2f-48c9-8d87-a54131226ff6",
+            "colId": "b2430b0e-3d97-4d69-8d8b-ef5898129a02",
+            "containerId": "c4ff74c3-e881-47d1-858f-25ac4e0dbea8",
+            "name": "Create Workspace",
+            "url": "http://localhost/workspaces",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-09-24T15:19:54.152Z",
+            "modified": "2024-09-24T15:20:12.023Z",
+            "headers": [
+                {
+                    "name": "Cookie",
+                    "value": "{{cookie}}"
+                },
+                {
+                    "name": "X-Xsrf-Token",
+                    "value": "{{x-xsrf-token}}"
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"name\": \"Applications\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "ed86e610-773f-430e-8fd3-654684b1c909",
+            "colId": "b2430b0e-3d97-4d69-8d8b-ef5898129a02",
+            "containerId": "4d7c31d0-98a4-4f74-8a1b-e63dcb04ef87",
+            "name": "Get All Documents",
+            "url": "http://localhost/documents",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2024-09-24T15:22:15.650Z",
+            "modified": "2024-09-24T15:22:32.895Z",
+            "headers": [
+                {
+                    "name": "Cookie",
+                    "value": "{{cookie}}"
+                },
+                {
+                    "name": "X-Xsrf-Token",
+                    "value": "{{x-xsrf-token}}"
+                }
+            ]
+        },
+        {
+            "_id": "b5e88482-5dae-40e1-919b-0b81dd8dcfa2",
+            "colId": "b2430b0e-3d97-4d69-8d8b-ef5898129a02",
+            "containerId": "d2d2b5fd-9874-4295-9da4-f0dc85b4de51",
+            "name": "Get All Folders",
+            "url": "http://localhost/folders",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2024-09-24T15:23:27.570Z",
+            "modified": "2024-09-24T15:25:19.033Z",
+            "headers": [
+                {
+                    "name": "Cookie",
+                    "value": "{{cookie}}"
+                },
+                {
+                    "name": "X-Xsrf-Token",
+                    "value": "{{x-xsrf-token}}"
+                }
+            ]
+        },
+        {
+            "_id": "a72f373c-a80b-46ac-bd7b-6484eb263625",
+            "colId": "b2430b0e-3d97-4d69-8d8b-ef5898129a02",
+            "containerId": "4c7aaf2b-290c-482d-9b18-0ac8de70437b",
+            "name": "Create Document Approval",
+            "url": "http://localhost/document-approvals",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-09-24T15:31:05.770Z",
+            "modified": "2024-09-24T15:35:50.210Z",
+            "headers": [
+                {
+                    "name": "Cookie",
+                    "value": "{{cookie}}"
+                },
+                {
+                    "name": "X-Xsrf-Token",
+                    "value": "{{x-xsrf-token}}"
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"document_id\": 32,\n  \"resolution\": \"Testing approval\",\n  \"destination_id\": null,\n  \n  \"users\": [\n    { \"user_id\": 2 }\n  ]\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "c01ca6eb-c7c9-4446-b5f2-41f2a3223497",
+            "colId": "b2430b0e-3d97-4d69-8d8b-ef5898129a02",
+            "containerId": "07f20a7d-ca15-4228-92fb-4999892c2a3a",
+            "name": "Reject Document",
+            "url": "http://localhost/document-approvals/{documentApprovalId}/reject",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-09-24T15:36:12.411Z",
+            "modified": "2024-09-24T15:46:48.920Z",
+            "headers": [
+                {
+                    "name": "Cookie",
+                    "value": "{{cookie}}"
+                },
+                {
+                    "name": "X-Xsrf-Token",
+                    "value": "{{x-xsrf-token}}"
+                }
+            ],
+            "params": [
+                {
+                    "name": "documentApprovalId",
+                    "value": "7",
+                    "isPath": true
+                }
+            ]
+        },
+        {
+            "_id": "2b0422b0-1447-4a31-9673-0e3126833c6a",
+            "colId": "b2430b0e-3d97-4d69-8d8b-ef5898129a02",
+            "containerId": "f64348ba-2171-4771-8a12-f3bf057e42d5",
+            "name": "Create Workflow",
+            "url": "http://localhost/workflows",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-09-25T00:41:00.003Z",
+            "modified": "2024-09-25T01:50:58.188Z",
+            "headers": [
+                {
+                    "name": "Cookie",
+                    "value": "{{cookie}}"
+                },
+                {
+                    "name": "X-Xsrf-Token",
+                    "value": "{{x-xsrf-token}}"
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"folder_id\": 11,\n  \"resolution\": \"Testing approval\",\n  \"destination_id\": null,\n  \n  \"users\": [\n    { \"user_id\": 2 }\n  ]\n}",
+                "form": []
+            }
+        }
+    ],
+    "ref": "8ziV-Btr_CopdRdtIYmwKaHgG95kcvtQbcs92e3gTB6ge8C5y4zBoTGvMI9XisPfvBwd3k1BbVXA5SMV2NXHqQ"
+}

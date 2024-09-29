@@ -1,0 +1,18 @@
+{
+    "clientName": "Thunder Client",
+    "environmentName": "Arquivo",
+    "environmentId": "7cbc8e9d-8b11-4049-b3ae-6f088adf5ef6",
+    "dateExported": "2024-09-26T06:34:59.236Z",
+    "version": "1.2",
+    "variables": [
+        {
+            "name": "cookie",
+            "value": "XSRF-TOKEN=eyJpdiI6ImJLMXFkNFJodkJLOW42bmo5b0UralE9PSIsInZhbHVlIjoidFIyQXdMSXE4SllQRW9FSUV5WU9EdHllVnR1a3VYc0dieXc1WjdaWXVNbEZSYTRMRHowVGtKcE11cnkwSnRnNWVKQ0tFQ3lKQ2w1MFM3WktnbU1HUXRMVVJpMG9hVVQvSjhWeU44Uk5STmdISzB5U1JxRzkzVW1ESmtmUDNFSzgiLCJtYWMiOiI1M2U3OGY0NzI0MDFiZmU4MWJiMGM2MTRhNzkyNDE3NzI3NTM0ZDg1MDQ2MWI0N2M3NWU0NDc1ZTc1NDI2ZDMyIiwidGFnIjoiIn0%3D; laratine_session=eyJpdiI6InNmMDhQS3d5QU1ZalhGSThVS1JBdkE9PSIsInZhbHVlIjoiNWtuV0tISlRlQUdZbWlQY3lycGtxTmNKV2lKeXdBdkJPd3RtUXpBSkw5dmJsZEJKUzZOWEFCTDV2VTlSVmxreUdrT29NMEFDa2hycFJGQzJFMjJBSHEvb3dMdUVPL2dORGlIK3ZIOUZZNTdFc1F5cjJvQlZCWUtmU0xjcy9OQXEiLCJtYWMiOiI1NDA5YWJlNzBkNmMxY2NhODExMTQ0YWM4NTU0YWU5ZjJmMGE2NzQxMTA4MWY0MGM4NzllNDg4ZjBhNWE3ZTE4IiwidGFnIjoiIn0%3D"
+        },
+        {
+            "name": "x-xsrf-token",
+            "value": "eyJpdiI6IjZxUE11c0dlTFl5QjFvRERSQWg1UVE9PSIsInZhbHVlIjoidGpUSXpkdHFub0xwOEJvRXhoRW13Tmg1aGVhSm1VUWloVllHT3JpZGVBRGo1S05YUUNXcDdheHhrakJZSVU3OTQyWG80bXQ4NWozT2gzcHFqZFBMb2tMVmc2ZUczZ2VWT21sSWNwTnlmaEdZeVZRaTBCNElzakU3emh3LzU0ZjciLCJtYWMiOiJkM2EyNzQ2MDUyMTIzODg3NmJiMTQxNjY5M2ExYWRlYzdlMDBhYmFmMTgwMzQxMWMxNGFlOGJiMDNkMWYxOGU2IiwidGFnIjoiIn0="
+        }
+    ],
+    "ref": "SIdgKjzPCtcsY4uWKb9kZaJ31_2mU1yHDGGAKX5t6R0kTl4_oLksn0g8dZEd8s-Y"
+}
