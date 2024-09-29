@@ -7,7 +7,7 @@ use Domain\Document\Models\Document;
 use Domain\Folder\Models\Folder;
 use Domain\NumberingScheme\Models\NumberingScheme;
 use Support\Utilities\GenerateDocumentNumbering;
-use Illuminate\Support\Facades\Log;
+
 
 class ApplyDocumentNumberingListener
 {
@@ -15,11 +15,7 @@ class ApplyDocumentNumberingListener
     {
         $document = $event->document;
 
-        Log::info('ApplyDocumentNumberingListener: Document: ' . $document);
         $folder = Folder::find($document->item->parent_id);
-
-
-        Log::info('ApplyDocumentNumberingListener: Folder ID - ' . $folder->item_id);
 
         if ($folder) {
             $numberingScheme = NumberingScheme::where('folder_id', $folder->item_id)->first();
@@ -29,8 +25,6 @@ class ApplyDocumentNumberingListener
                 $document = Document::find($document->item->id);
                 $document->document_number = $documentNumber;
                 $document->save();
-
-                Log::info('ApplyDocumentNumberingListener: Document number applied - ' . $documentNumber);
             }
         }
     }

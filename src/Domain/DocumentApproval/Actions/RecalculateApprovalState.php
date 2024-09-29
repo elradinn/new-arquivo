@@ -9,7 +9,7 @@ use Domain\DocumentApproval\States\Rejected;
 use Domain\DocumentApprovalHasUser\States\Rejected as UserRejected;
 use Domain\DocumentApprovalHasUser\States\Approved as UserApproved;
 use Domain\DocumentApprovalHasUser\States\Pending as UserPending;
-use Illuminate\Support\Facades\Log;
+
 
 class RecalculateApprovalState
 {

@@ -7,7 +7,6 @@ use Domain\Document\Events\DocumentUploaded;
 use Domain\Document\Models\Document;
 use Domain\Item\Actions\CreateItemAction;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 
 class CreateDocumentAction
 {
@@ -24,8 +23,6 @@ class CreateDocumentAction
             'parent_id' => $data->parent_id,
         ]);
 
-        Log::info('Created Item: ' . $item);
-
         $document = new Document([
             'name' => $data->name,
             'owned_by' => Auth::id(),
@@ -33,8 +30,6 @@ class CreateDocumentAction
 
         $document->item()->associate($item);
         $document->save();
-
-        Log::info('New Document: ' . $document);
 
         event(new DocumentUploaded($document));
     }

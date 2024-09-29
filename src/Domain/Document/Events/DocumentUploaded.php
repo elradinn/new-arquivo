@@ -5,7 +5,7 @@ namespace Domain\Document\Events;
 use Domain\Document\Models\Document;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
+
 
 class DocumentUploaded
 {
@@ -16,6 +16,5 @@ class DocumentUploaded
     public function __construct(Document $document)
     {
         $this->document = $document;
-        Log::info('DocumentUploaded: ' . $this->document);
     }
 }
