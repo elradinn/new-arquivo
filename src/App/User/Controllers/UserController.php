@@ -25,6 +25,7 @@ class UserController extends Controller
     ) {
         $this->registerUserAction = $registerUserAction;
         $this->updateUserAction = $updateUserAction;
+        $this->deleteUserAction = $deleteUserAction;
     }
 
     public function index(): JsonResponse
@@ -52,6 +53,6 @@ class UserController extends Controller
     {
         $this->deleteUserAction->execute($user);
 
-        return response()->json(null, Response::HTTP_NO_CONTENT);
+        return response()->json(['message' => 'User deleted successfully'], Response::HTTP_NO_CONTENT);
     }
 }
