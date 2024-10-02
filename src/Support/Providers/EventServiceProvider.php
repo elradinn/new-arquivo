@@ -9,7 +9,7 @@ use Domain\Document\Listeners\CreateDocumentApprovalFromWorkflowListener;
 use Domain\DocumentApproval\Events\DocumentApprovalCreated;
 use Domain\DocumentApproval\Listeners\SendDocumentApprovalNotificationListener;
 use Domain\DocumentApprovalHasUser\Events\UserApprovalUpdated;
-use Domain\DocumentApprovalHasUser\Listeners\RecalculateOverallStateListener;
+use Domain\DocumentApproval\Listeners\RecalculateOverallStateListener;
 
 class EventServiceProvider extends ServiceProvider
 {

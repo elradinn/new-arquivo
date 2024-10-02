@@ -1,6 +1,6 @@
 <?php
 
-namespace Domain\DocumentApprovalHasUser\Listeners;
+namespace Domain\DocumentApproval\Listeners;
 
 use Domain\DocumentApproval\Actions\RecalculateApprovalStateAction;
 use Domain\DocumentApprovalHasUser\Events\UserApprovalUpdated;
