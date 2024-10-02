@@ -7,19 +7,26 @@ use Domain\Document\Models\Document;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Domain\Document\Data\DocumentUploadData;
-use Domain\Document\Actions\CreateDocumentAction;
+use Domain\Document\Actions\UploadDocumentAction;
+use Domain\Document\Events\DocumentUploaded;
 
 class DocumentController extends Controller
 {
+    public function __construct(
+        protected UploadDocumentAction $uploadDocumentAction
+    ) {}
+
     public function index(): JsonResponse
     {
         $documents = Document::all();
         return response()->json($documents, 200);
     }
 
-    public function store(DocumentUploadData $data, CreateDocumentAction $action): JsonResponse
+    public function store(DocumentUploadData $data): JsonResponse
     {
-        $action->execute($data);
+        $document = $this->uploadDocumentAction->execute($data);
+
+        event(new DocumentUploaded($document));
 
         return response()->json(['message' => 'Document created successfully'], 201);
     }

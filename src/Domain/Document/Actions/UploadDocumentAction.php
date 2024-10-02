@@ -3,12 +3,12 @@
 namespace Domain\Document\Actions;
 
 use Domain\Document\Data\DocumentUploadData;
-use Domain\Document\Events\DocumentUploaded;
 use Domain\Document\Models\Document;
 use Domain\Item\Actions\CreateItemAction;
+use Domain\Item\Data\CreateItemData;
 use Illuminate\Support\Facades\Auth;
 
-class CreateDocumentAction
+class UploadDocumentAction
 {
     protected CreateItemAction $createItemAction;
 
@@ -17,20 +17,17 @@ class CreateDocumentAction
         $this->createItemAction = $createItemAction;
     }
 
-    public function execute(DocumentUploadData $data)
+    public function execute(DocumentUploadData $data): Document
     {
-        $item = $this->createItemAction->execute([
-            'parent_id' => $data->parent_id,
-        ]);
+        $item = $this->createItemAction->execute(
+            CreateItemData::from([
+                'parent_id' => $data->parent_id,
+            ])
+        );
 
-        $document = new Document([
+        return $item->document()->create([
             'name' => $data->name,
             'owned_by' => Auth::id(),
         ]);
-
-        $document->item()->associate($item);
-        $document->save();
-
-        event(new DocumentUploaded($document));
     }
 }

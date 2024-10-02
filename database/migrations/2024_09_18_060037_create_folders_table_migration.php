@@ -9,7 +9,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('folders', function (Blueprint $table) {
-            $table->unsignedInteger('item_id')->primary(); // Use item_id as the primary key
+            $table->uuid('item_id')->primary(); // Use item_id as the primary key
             $table->string('name');
             $table->unsignedBigInteger('owned_by')->nullable();
             $table->softDeletes();

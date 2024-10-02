@@ -10,10 +10,10 @@ return new class extends Migration
     {
         Schema::create('document_approvals', function (Blueprint $table) {
             $table->bigIncrements('id'); // Changed to bigIncrements
-            $table->unsignedInteger('document_id'); // Changed to unsignedInteger
+            $table->uuid('document_id'); // Changed to unsignedInteger
             $table->text('resolution')->nullable();
             $table->string('overall_state')->nullable();
-            $table->unsignedInteger('destination')->nullable(); // Changed to unsignedBigInteger
+            $table->uuid('destination')->nullable(); // Changed to unsignedBigInteger
             $table->softDeletes();
             $table->timestamps();
 

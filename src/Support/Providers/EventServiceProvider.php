@@ -4,7 +4,7 @@ namespace Support\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Domain\Document\Events\DocumentUploaded;
-use Domain\Document\Listeners\ApplyDocumentNumberingListener;
+use Domain\Document\Listeners\ApplyDocumentNumberListener;
 use Domain\Document\Listeners\CreateDocumentApprovalFromWorkflowListener;
 use Domain\DocumentApproval\Events\DocumentApprovalCreated;
 use Domain\DocumentApproval\Listeners\SendDocumentApprovalNotificationListener;
@@ -16,7 +16,7 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         DocumentUploaded::class => [
             CreateDocumentApprovalFromWorkflowListener::class,
-            ApplyDocumentNumberingListener::class,
+            ApplyDocumentNumberListener::class,
         ],
         DocumentApprovalCreated::class => [
             SendDocumentApprovalNotificationListener::class,

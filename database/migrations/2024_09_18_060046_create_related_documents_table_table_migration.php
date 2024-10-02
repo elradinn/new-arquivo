@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('related_documents', function (Blueprint $table) {
             $table->id();
             // Change foreignId to unsignedInteger since documents use item_id as primary key
-            $table->unsignedInteger('document_id');
-            $table->unsignedInteger('related_document_id');
+            $table->uuid('document_id');
+            $table->uuid('related_document_id');
             $table->timestamps();
 
             // Define foreign keys explicitly to reference 'item_id' in 'documents'

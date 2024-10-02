@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('numbering_schemes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('folder_id')->unique();
+            $table->uuid('folder_id')->unique();
             $table->string('prefix');
             $table->timestamps();
             $table->softDeletes();

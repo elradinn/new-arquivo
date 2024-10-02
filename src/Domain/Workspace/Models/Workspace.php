@@ -6,10 +6,11 @@ use Domain\Item\Models\Item;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class Workspace extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $primaryKey = 'item_id'; // Use item_id as the primary key
 

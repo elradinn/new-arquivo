@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('workflow_has_users', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('workflow_id');
+            $table->uuid('workflow_id');
             $table->unsignedBigInteger('user_id');
             $table->string('user_state')->nullable();
             $table->text('comment')->nullable();

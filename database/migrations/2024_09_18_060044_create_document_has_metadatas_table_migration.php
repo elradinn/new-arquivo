@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('document_has_metadata', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedInteger('document_id');
+            $table->uuid('document_id');
             $table->unsignedBigInteger('metadata_id');
             $table->text('value')->nullable();
             $table->timestamps();

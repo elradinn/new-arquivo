@@ -9,8 +9,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('items', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('parent_id')->unsigned()->nullable();
+            $table->uuid('id')->primary();
+            $table->uuid('parent_id')->nullable();
             $table->integer('position', false, true);
             $table->softDeletes();
 
@@ -23,8 +23,8 @@ return new class extends Migration
         Schema::create('item_closure', function (Blueprint $table) {
             $table->increments('closure_id');
 
-            $table->integer('ancestor', false, true);
-            $table->integer('descendant', false, true);
+            $table->uuid('ancestor');
+            $table->uuid('descendant');
             $table->integer('depth', false, true);
 
             $table->foreign('ancestor')

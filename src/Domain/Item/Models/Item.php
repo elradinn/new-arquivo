@@ -7,9 +7,12 @@ use Domain\Folder\Models\Folder;
 use Domain\Workspace\Models\Workspace;
 use Franzose\ClosureTable\Models\Entity;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class Item extends Entity
 {
+    use HasUuids;
+
     /**
      * The table associated with the model.
      *

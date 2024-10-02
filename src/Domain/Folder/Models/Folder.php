@@ -3,13 +3,17 @@
 namespace Domain\Folder\Models;
 
 use Domain\Item\Models\Item;
+use Domain\NumberingScheme\Models\NumberingScheme;
 use Domain\Workflow\Models\Workflow;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class Folder extends Model
 {
+    use HasUuids;
+
     protected $primaryKey = 'item_id'; // Use item_id as the primary key
 
     protected $fillable = [
@@ -24,6 +28,11 @@ class Folder extends Model
 
     public function workflow(): HasOne
     {
-        return $this->hasOne(Workflow::class, 'folder_id');
+        return $this->hasOne(Workflow::class);
+    }
+
+    public function numberingScheme(): HasOne
+    {
+        return $this->hasOne(NumberingScheme::class);
     }
 }

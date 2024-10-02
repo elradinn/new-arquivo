@@ -9,10 +9,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('workflows', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedInteger('folder_id')->unique();
+            $table->uuid('id')->primary();
+            $table->uuid('folder_id')->unique();
             $table->text('resolution')->nullable();
-            $table->unsignedInteger('destination')->nullable();
+            $table->uuid('destination')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

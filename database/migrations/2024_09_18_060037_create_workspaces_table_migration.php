@@ -9,8 +9,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('workspaces', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger('item_id')->unique();
+            // $table->increments('id');
+            $table->uuid('item_id')->primary();
             $table->string('name');
             $table->unsignedBigInteger('owned_by')->nullable();
             $table->softDeletes();

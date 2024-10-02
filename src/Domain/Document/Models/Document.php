@@ -10,9 +10,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class Document extends Model
 {
+    use HasUuids;
+
     protected $primaryKey = 'item_id'; // Use item_id as the primary key
     public $incrementing = false; // Since item_id is not auto-incrementing integer
 
