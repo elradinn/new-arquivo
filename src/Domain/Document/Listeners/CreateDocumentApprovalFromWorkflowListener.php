@@ -11,6 +11,10 @@ use Domain\Folder\Models\Folder;
 
 class CreateDocumentApprovalFromWorkflowListener
 {
+    public function __construct(
+        protected CreateDocumentApprovalAction $createDocumentApprovalAction
+    ) {}
+
     public function handle(DocumentUploaded $event)
     {
         $document = $event->document;
@@ -26,8 +30,7 @@ class CreateDocumentApprovalFromWorkflowListener
                 users: $workflow->workflowUsers->map(fn($user) => new CreateDocumentApprovalHasUserData($user->user_id))->all()
             );
 
-            $createDocumentApprovalAction = new CreateDocumentApprovalAction();
-            $createDocumentApprovalAction->execute($createDocumentApprovalData);
+            $this->createDocumentApprovalAction->execute($createDocumentApprovalData);
         }
     }
 }

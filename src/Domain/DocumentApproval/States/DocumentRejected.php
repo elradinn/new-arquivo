@@ -2,7 +2,7 @@
 
 namespace Domain\DocumentApproval\States;
 
-class Rejected extends DocumentApprovalState
+class DocumentRejected extends DocumentApprovalState
 {
     public function label(): string
     {

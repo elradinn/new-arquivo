@@ -23,7 +23,7 @@ class ApplyDocumentNumberListener
         if ($folder) {
             // $numberingScheme = NumberingScheme::where('folder_id', $folder->item_id)->first();
 
-            $numberingScheme = $folder->numberingScheme()->get();
+            $numberingScheme = $folder->numberingScheme;
 
             if ($numberingScheme) {
                 $documentNumber = $this->generateDocumentNumberAction->execute($numberingScheme->prefix);

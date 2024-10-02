@@ -2,11 +2,15 @@
 
 namespace Domain\DocumentApprovalHasUser\Listeners;
 
-use Domain\DocumentApproval\Actions\RecalculateApprovalState;
+use Domain\DocumentApproval\Actions\RecalculateApprovalStateAction;
 use Domain\DocumentApprovalHasUser\Events\UserApprovalUpdated;
 
 class RecalculateOverallStateListener
 {
+    public function __construct(
+        protected RecalculateApprovalStateAction $recalculateApprovalStateAction
+    ) {}
+
     /**
      * Handle the event.
      *
@@ -16,7 +20,6 @@ class RecalculateOverallStateListener
     public function handle(UserApprovalUpdated $event)
     {
         // Recalculate the overall state when a user's decision is updated
-        $recalculateAction = new RecalculateApprovalState($event->documentApproval);
-        $recalculateAction->execute();
+        $this->recalculateApprovalStateAction->execute($event->documentApproval);
     }
 }

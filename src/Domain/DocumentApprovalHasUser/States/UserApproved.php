@@ -2,10 +2,10 @@
 
 namespace Domain\DocumentApprovalHasUser\States;
 
-class Rejected extends UserApprovalState
+class UserApproved extends UserApprovalState
 {
     public function label(): string
     {
-        return 'rejected';
+        return 'approved';
     }
 }

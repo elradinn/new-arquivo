@@ -1,11 +1,11 @@
 <?php
 
-namespace Domain\ActivityLog\Observers;
+namespace Domain\DocumentApprovalHasUser\Observers;
 
 use Domain\DocumentApprovalHasUser\Models\DocumentApprovalHasUser;
-use Spatie\Activitylog\Models\Activity;
+use Illuminate\Support\Facades\Auth;
 
-class DocumentApprovalHasUserObserver
+class DocumentApprovalHasUserLoggingObserver
 {
     public function updated(DocumentApprovalHasUser $userApproval)
     {
@@ -15,7 +15,7 @@ class DocumentApprovalHasUserObserver
 
             activity()
                 ->performedOn($userApproval)
-                ->causedBy(auth()->user())
+                ->causedBy(Auth::id())
                 ->withProperties([
                     'old_state' => $oldState,
                     'new_state' => $newState,

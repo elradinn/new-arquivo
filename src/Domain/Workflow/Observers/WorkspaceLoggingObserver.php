@@ -1,17 +1,17 @@
 <?php
 
-namespace Domain\ActivityLog\Observers;
+namespace Domain\Workflow\Observers;
 
 use Domain\Workspace\Models\Workspace;
-use Spatie\Activitylog\Models\Activity;
+use Illuminate\Support\Facades\Auth;
 
-class WorkspaceObserver
+class WorkspaceLoggingObserver
 {
     public function created(Workspace $workspace)
     {
         activity()
             ->performedOn($workspace)
-            ->causedBy(auth()->user())
+            ->causedBy(Auth::id())
             ->log("Workspace created: {$workspace->name}");
     }
 
@@ -19,7 +19,7 @@ class WorkspaceObserver
     {
         activity()
             ->performedOn($workspace)
-            ->causedBy(auth()->user())
+            ->causedBy(Auth::id())
             ->log("Workspace updated: {$workspace->name}");
     }
 
@@ -27,7 +27,7 @@ class WorkspaceObserver
     {
         activity()
             ->performedOn($workspace)
-            ->causedBy(auth()->user())
+            ->causedBy(Auth::id())
             ->log("Workspace deleted: {$workspace->name}");
     }
 }

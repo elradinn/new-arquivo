@@ -3,15 +3,15 @@
 namespace Domain\DocumentApproval\Actions;
 
 use Domain\DocumentApproval\Models\DocumentApproval;
-use Domain\DocumentApproval\States\Approved;
-use Domain\DocumentApproval\States\Pending;
-use Domain\DocumentApproval\States\Rejected;
-use Domain\DocumentApprovalHasUser\States\Rejected as UserRejected;
-use Domain\DocumentApprovalHasUser\States\Approved as UserApproved;
-use Domain\DocumentApprovalHasUser\States\Pending as UserPending;
 
+use Domain\DocumentApproval\States\DocumentApproved;
+use Domain\DocumentApproval\States\DocumentRejected;
 
-class RecalculateApprovalState
+use Domain\DocumentApprovalHasUser\States\UserRejected;
+use Domain\DocumentApprovalHasUser\States\UserApproved;
+use Domain\DocumentApprovalHasUser\States\UserPending;
+
+class RecalculateApprovalStateAction
 {
     protected $documentApproval;
 
@@ -23,7 +23,7 @@ class RecalculateApprovalState
     /**
      * Execute the action to recalculate the overall state of the document approval.
      */
-    public function execute()
+    public function execute(): void
     {
         $documentApprovalUsers = $this->documentApproval->documentApprovalUsers;
 
@@ -33,9 +33,9 @@ class RecalculateApprovalState
         }
 
         if ($documentApprovalUsers->contains('user_state', UserRejected::class)) {
-            $this->documentApproval->overall_state->transitionTo(Rejected::class);
+            $this->documentApproval->overall_state->transitionTo(DocumentRejected::class);
         } elseif ($documentApprovalUsers->every('user_state', UserApproved::class)) {
-            $this->documentApproval->overall_state->transitionTo(Approved::class);
+            $this->documentApproval->overall_state->transitionTo(DocumentApproved::class);
         }
     }
 }

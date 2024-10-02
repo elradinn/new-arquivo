@@ -2,7 +2,7 @@
 
 namespace Domain\DocumentApproval\States;
 
-class Approved extends DocumentApprovalState
+class DocumentApproved extends DocumentApprovalState
 {
     public function label(): string
     {

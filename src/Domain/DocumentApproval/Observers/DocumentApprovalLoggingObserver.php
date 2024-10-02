@@ -1,17 +1,17 @@
 <?php
 
-namespace Domain\ActivityLog\Observers;
+namespace Domain\DocumentApproval\Observers;
 
 use Domain\DocumentApproval\Models\DocumentApproval;
-use Spatie\Activitylog\Models\Activity;
+use Illuminate\Support\Facades\Auth;
 
-class DocumentApprovalObserver
+class DocumentApprovalLoggingObserver
 {
     public function created(DocumentApproval $documentApproval)
     {
         activity()
             ->performedOn($documentApproval)
-            ->causedBy(auth()->user())
+            ->causedBy(Auth::id())
             ->log("Document Approval created: {$documentApproval->id}");
     }
 
@@ -19,7 +19,7 @@ class DocumentApprovalObserver
     {
         activity()
             ->performedOn($documentApproval)
-            ->causedBy(auth()->user())
+            ->causedBy(Auth::id())
             ->log("Document Approval updated: {$documentApproval->id}");
     }
 
@@ -27,7 +27,7 @@ class DocumentApprovalObserver
     {
         activity()
             ->performedOn($documentApproval)
-            ->causedBy(auth()->user())
+            ->causedBy(Auth::id())
             ->log("Document Approval deleted: {$documentApproval->id}");
     }
 }

@@ -3,14 +3,16 @@
 namespace Support\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Domain\DocumentApprovalHasUser\Models\DocumentApprovalHasUser;
-use Domain\ActivityLog\Observers\DocumentApprovalHasUserObserver;
-use Domain\DocumentApproval\Models\DocumentApproval;
-use Domain\ActivityLog\Observers\DocumentApprovalObserver;
+
 use Domain\Folder\Models\Folder;
-use Domain\ActivityLog\Observers\FolderObserver;
+use Domain\Folder\Observers\FolderLoggingObserver;
+use Domain\Workflow\Observers\WorkspaceLoggingObserver;
 use Domain\Workspace\Models\Workspace;
-use Domain\ActivityLog\Observers\WorkspaceObserver;
+
+use Domain\DocumentApprovalHasUser\Models\DocumentApprovalHasUser;
+use Domain\DocumentApproval\Models\DocumentApproval;
+use Domain\DocumentApproval\Observers\DocumentApprovalLoggingObserver;
+use Domain\DocumentApprovalHasUser\Observers\DocumentApprovalHasUserLoggingObserver;
 
 class ObserverServiceProvider extends ServiceProvider
 {
@@ -19,10 +21,10 @@ class ObserverServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        DocumentApprovalHasUser::observe(DocumentApprovalHasUserObserver::class);
-        DocumentApproval::observe(DocumentApprovalObserver::class);
-        Folder::observe(FolderObserver::class);
-        Workspace::observe(WorkspaceObserver::class);
+        DocumentApprovalHasUser::observe(DocumentApprovalHasUserLoggingObserver::class);
+        DocumentApproval::observe(DocumentApprovalLoggingObserver::class);
+        Folder::observe(FolderLoggingObserver::class);
+        Workspace::observe(WorkspaceLoggingObserver::class);
     }
 
     /**

@@ -1,17 +1,17 @@
 <?php
 
-namespace Domain\ActivityLog\Observers;
+namespace Domain\Folder\Observers;
 
 use Domain\Folder\Models\Folder;
-use Spatie\Activitylog\Models\Activity;
+use Illuminate\Support\Facades\Auth;
 
-class FolderObserver
+class FolderLoggingObserver
 {
     public function created(Folder $folder)
     {
         activity()
             ->performedOn($folder)
-            ->causedBy(auth()->user())
+            ->causedBy(Auth::id())
             ->log("Folder created: {$folder->name}");
     }
 
@@ -19,7 +19,7 @@ class FolderObserver
     {
         activity()
             ->performedOn($folder)
-            ->causedBy(auth()->user())
+            ->causedBy(Auth::id())
             ->log("Folder updated: {$folder->name}");
     }
 
@@ -27,7 +27,7 @@ class FolderObserver
     {
         activity()
             ->performedOn($folder)
-            ->causedBy(auth()->user())
+            ->causedBy(Auth::id())
             ->log("Folder deleted: {$folder->name}");
     }
 }
