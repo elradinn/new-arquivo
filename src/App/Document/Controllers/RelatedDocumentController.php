@@ -21,6 +21,7 @@ class RelatedDocumentController extends Controller
      *
      * @param  \Domain\Document\Models\Document  $document
      * @param  \Domain\Document\Models\Document  $relatedDocument
+     * 
      * @return \Illuminate\Http\JsonResponse
      */
     public function attach(Document $document, Document $relatedDocument): JsonResponse
@@ -37,6 +38,7 @@ class RelatedDocumentController extends Controller
      *
      * @param  \Domain\Document\Models\Document  $document
      * @param  \Domain\Document\Models\Document  $relatedDocument
+     * 
      * @return \Illuminate\Http\JsonResponse
      */
     public function detach(Document $document, Document $relatedDocument): JsonResponse
