@@ -11,14 +11,14 @@ class Workflow extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'folder_id',
+        'folder_item_id',
         'resolution',
         'destination',
     ];
 
     public function folder()
     {
-        return $this->belongsTo(Folder::class, 'folder_id');
+        return $this->belongsTo(Folder::class);
     }
 
     public function workflowUsers()

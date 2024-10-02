@@ -3,10 +3,12 @@
 namespace Domain\Item\Data;
 
 use Spatie\LaravelData\Data;
+use Spatie\LaravelData\Attributes\Validation\Uuid;
 
 class CreateItemData extends Data
 {
     public function __construct(
-        public ?int $parent_id = null,
+        #[Uuid()]
+        public ?string $parent_id = null,
     ) {}
 }

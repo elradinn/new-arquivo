@@ -10,12 +10,10 @@ use Illuminate\Support\Facades\Auth;
 
 class UploadDocumentAction
 {
-    protected CreateItemAction $createItemAction;
 
-    public function __construct(CreateItemAction $createItemAction)
-    {
-        $this->createItemAction = $createItemAction;
-    }
+    public function __construct(
+        protected CreateItemAction $createItemAction,
+    ) {}
 
     public function execute(DocumentUploadData $data): Document
     {

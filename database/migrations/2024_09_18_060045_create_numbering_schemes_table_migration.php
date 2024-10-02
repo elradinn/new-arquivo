@@ -10,12 +10,12 @@ return new class extends Migration
     {
         Schema::create('numbering_schemes', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->uuid('folder_id')->unique();
+            $table->uuid('folder_item_id')->unique();
             $table->string('prefix');
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('folder_id')->references('item_id')->on('folders')->onDelete('cascade');
+            $table->foreign('folder_item_id')->references('item_id')->on('folders')->onDelete('cascade');
         });
     }
 

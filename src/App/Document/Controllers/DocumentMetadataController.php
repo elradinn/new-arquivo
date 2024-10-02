@@ -4,23 +4,28 @@ namespace App\Document\Controllers;
 
 use App\Common\Controllers\Controller;
 use Domain\Document\Models\Document;
+use Domain\DocumentHasMetadata\Actions\AttachDocumentMetadataAction;
+use Domain\DocumentHasMetadata\Actions\DetachDocumentMetadataAction;
+use Domain\DocumentHasMetadata\Actions\UpdateDocumentMetadataAction;
+use Domain\DocumentHasMetadata\Data\AttachDocumentMetadataData;
+use Domain\DocumentHasMetadata\Data\UpdateDocumentMetadataData;
 use Domain\Metadata\Models\Metadata;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class DocumentMetadataController extends Controller
 {
+    public function __construct(
+        protected AttachDocumentMetadataAction $attachDocumentMetadataAction,
+        protected UpdateDocumentMetadataAction $updateDocumentMetadataAction,
+        protected DetachDocumentMetadataAction $detachDocumentMetadataAction
+    ) {}
+
     /**
      * Attach metadata to a document.
      */
-    public function attach(Request $request, Document $document): JsonResponse
+    public function attach(AttachDocumentMetadataData $data, Document $document): JsonResponse
     {
-        $validated = $request->validate([
-            'metadata_id' => 'required|exists:metadata,id',
-            'value' => 'required|string', // Adjust validation based on metadata type
-        ]);
-
-        $document->metadata()->attach($validated['metadata_id'], ['value' => $validated['value']]);
+        $this->attachDocumentMetadataAction->execute($document, $data);
 
         return response()->json(['message' => 'Metadata attached successfully.'], 200);
     }
@@ -28,13 +33,9 @@ class DocumentMetadataController extends Controller
     /**
      * Update metadata value for a document.
      */
-    public function update(Request $request, Document $document, Metadata $metadata): JsonResponse
+    public function update(UpdateDocumentMetadataData $data, Document $document, Metadata $metadata): JsonResponse
     {
-        $validated = $request->validate([
-            'value' => 'required|string', // Adjust validation based on metadata type
-        ]);
-
-        $document->metadata()->updateExistingPivot($metadata->id, ['value' => $validated['value']]);
+        $this->updateDocumentMetadataAction->execute($document, $metadata, $data);
 
         return response()->json(['message' => 'Metadata updated successfully.'], 200);
     }
@@ -44,25 +45,8 @@ class DocumentMetadataController extends Controller
      */
     public function detach(Document $document, Metadata $metadata): JsonResponse
     {
-        $document->metadata()->detach($metadata->id);
+        $this->detachDocumentMetadataAction->execute($document, $metadata);
 
         return response()->json(['message' => 'Metadata detached successfully.'], 200);
-    }
-
-    /**
-     * List all metadata for a document.
-     */
-    public function list(Document $document): JsonResponse
-    {
-        $metadata = $document->metadata()->get()->map(function ($item) {
-            return [
-                'name' => $item->name,
-                'value' => $item->pivot->value,
-                'created_at' => $item->pivot->created_at,
-                'updated_at' => $item->pivot->updated_at,
-            ];
-        });
-
-        return response()->json($metadata, 200);
     }
 }

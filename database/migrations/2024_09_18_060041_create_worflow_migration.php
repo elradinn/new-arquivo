@@ -10,13 +10,13 @@ return new class extends Migration
     {
         Schema::create('workflows', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('folder_id')->unique();
+            $table->uuid('folder_item_id')->unique();
             $table->text('resolution')->nullable();
             $table->uuid('destination')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('folder_id')->references('item_id')->on('folders')->onDelete('cascade');
+            $table->foreign('folder_item_id')->references('item_id')->on('folders')->onDelete('cascade');
             $table->foreign('destination')->references('id')->on('items')->onDelete('cascade');
         });
     }

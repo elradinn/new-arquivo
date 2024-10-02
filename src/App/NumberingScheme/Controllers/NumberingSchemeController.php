@@ -12,7 +12,7 @@ class NumberingSchemeController extends Controller
     public function store(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'folder_id' => 'required|exists:folders,item_id|unique:numbering_schemes,folder_id',
+            'folder_item_id' => 'required|exists:folders,item_id|unique:numbering_schemes,folder_id',
             'prefix' => 'required|string',
         ]);
 

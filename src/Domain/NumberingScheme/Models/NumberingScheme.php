@@ -11,12 +11,12 @@ class NumberingScheme extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'folder_id',
+        'folder_item_id',
         'prefix',
     ];
 
     public function folder()
     {
-        return $this->belongsTo(Folder::class, 'folder_id');
+        return $this->belongsTo(Folder::class);
     }
 }

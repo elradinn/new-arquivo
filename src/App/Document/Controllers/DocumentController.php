@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Domain\Document\Data\DocumentUploadData;
 use Domain\Document\Actions\UploadDocumentAction;
 use Domain\Document\Events\DocumentUploaded;
+use App\Document\Resource\DocumentResource;
 
 class DocumentController extends Controller
 {
@@ -35,5 +36,11 @@ class DocumentController extends Controller
     {
         Document::query()->delete();
         return response()->json(['message' => 'All documents deleted']);
+    }
+
+    public function show(Document $document): JsonResponse
+    {
+        $documentResource = DocumentResource::fromModel($document);
+        return response()->json($documentResource, 200);
     }
 }

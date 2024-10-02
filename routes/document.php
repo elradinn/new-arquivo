@@ -11,6 +11,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/documents', [DocumentController::class, 'index']);
     Route::post('/documents', [DocumentController::class, 'store']);
     Route::delete('/documents', [DocumentController::class, 'deleteAll']);
+    Route::get('/documents/{document}', [DocumentController::class, 'show']); // Add this line
 });
 
 Route::get('/document-approvals', [DocumentApprovalController::class, 'index']);
