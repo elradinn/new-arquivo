@@ -4,11 +4,11 @@ namespace App\Document\Controllers;
 
 use App\Common\Controllers\Controller;
 use Domain\Document\Models\Document;
-use Domain\DocumentHasMetadata\Actions\AttachDocumentMetadataAction;
-use Domain\DocumentHasMetadata\Actions\DetachDocumentMetadataAction;
-use Domain\DocumentHasMetadata\Actions\UpdateDocumentMetadataAction;
-use Domain\DocumentHasMetadata\Data\AttachDocumentMetadataData;
-use Domain\DocumentHasMetadata\Data\UpdateDocumentMetadataData;
+use Domain\Document\Actions\AttachDocumentMetadataAction;
+use Domain\Document\Actions\DetachDocumentMetadataAction;
+use Domain\Document\Actions\UpdateDocumentMetadataAction;
+use Domain\Document\Data\AttachDocumentMetadataData;
+use Domain\Document\Data\UpdateDocumentMetadataData;
 use Domain\Metadata\Models\Metadata;
 use Illuminate\Http\JsonResponse;
 
