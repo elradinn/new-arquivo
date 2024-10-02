@@ -2,76 +2,49 @@
 
 namespace App\Document\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use App\Common\Controllers\Controller;
 use Domain\Document\Models\Document;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
+use Domain\Document\Actions\AttachRelatedDocumentAction;
+use Domain\Document\Actions\DetachRelatedDocumentAction;
+use Illuminate\Http\Response;
 
 class RelatedDocumentController extends Controller
 {
+    public function __construct(
+        protected AttachRelatedDocumentAction $attachRelatedDocumentAction,
+        protected DetachRelatedDocumentAction $detachRelatedDocumentAction
+    ) {}
+
     /**
      * Attach a related document to a document.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \Domain\Document\Models\Document  $document
+     * @param  \Domain\Document\Models\Document  $relatedDocument
      * @return \Illuminate\Http\JsonResponse
      */
-    public function attach(Request $request, Document $document): JsonResponse
+    public function attach(Document $document, Document $relatedDocument): JsonResponse
     {
-        $validated = $request->validate([
-            'related_document_id' => 'required|exists:documents,item_id|different:item_id',
-        ]);
-
-        $relatedDocumentId = $validated['related_document_id'];
-
-        // Attach the related document without detaching existing ones
-        $document->relatedDocuments()->syncWithoutDetaching([$relatedDocumentId]);
-
-        // Also attach the inverse relationship if bidirectional
-        $relatedDocument = Document::find($relatedDocumentId);
-        if ($relatedDocument) {
-            $relatedDocument->relatedDocuments()->syncWithoutDetaching([$document->item_id]);
-        }
+        $this->attachRelatedDocumentAction->execute($document, $relatedDocument);
 
         return response()->json([
             'message' => 'Related document attached successfully.',
-        ], 200);
+        ], Response::HTTP_OK);
     }
 
     /**
      * Detach a related document from a document.
      *
      * @param  \Domain\Document\Models\Document  $document
-     * @param  int  $relatedDocumentId
+     * @param  \Domain\Document\Models\Document  $relatedDocument
      * @return \Illuminate\Http\JsonResponse
      */
-    public function detach(Document $document, $relatedDocumentId): JsonResponse
+    public function detach(Document $document, Document $relatedDocument): JsonResponse
     {
-        $document->relatedDocuments()->detach($relatedDocumentId);
-
-        // Also detach the inverse relationship if bidirectional
-        $relatedDocument = Document::find($relatedDocumentId);
-        if ($relatedDocument) {
-            $relatedDocument->relatedDocuments()->detach($document->item_id);
-        }
+        $this->detachRelatedDocumentAction->execute($document, $relatedDocument);
 
         return response()->json([
             'message' => 'Related document detached successfully.',
-        ], 200);
-    }
-
-    /**
-     * List all related documents for a document.
-     *
-     * @param  \Domain\Document\Models\Document  $document
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function index(Document $document): JsonResponse
-    {
-        $relatedDocuments = $document->relatedDocuments()->with('item')->get();
-
-        return response()->json([
-            'related_documents' => $relatedDocuments,
-        ], 200);
+        ], Response::HTTP_OK);
     }
 }

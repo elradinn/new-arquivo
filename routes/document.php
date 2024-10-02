@@ -28,13 +28,10 @@ Route::put('/documents/{document}/metadata/{metadata}', [DocumentMetadataControl
 Route::delete('/documents/{document}/metadata/{metadata}', [DocumentMetadataController::class, 'detach']);
 Route::get('/documents/{document}/metadata', [DocumentMetadataController::class, 'list']);
 
-Route::prefix('documents/{document}')->group(function () {
-    // List related documents
-    Route::get('related', [RelatedDocumentController::class, 'index'])->name('documents.related.index');
-
+Route::prefix('documents/{document}/related/{relatedDocument}')->group(function () {
     // Attach a related document
-    Route::post('related', [RelatedDocumentController::class, 'attach'])->name('documents.related.attach');
+    Route::put('/', [RelatedDocumentController::class, 'attach'])->name('documents.related.attach');
 
     // Detach a related document
-    Route::delete('related/{relatedDocumentId}', [RelatedDocumentController::class, 'detach'])->name('documents.related.detach');
+    Route::delete('/', [RelatedDocumentController::class, 'detach'])->name('documents.related.detach');
 });
