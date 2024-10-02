@@ -32,30 +32,30 @@ class DatabaseSeeder extends Seeder
             'password' => '12345678',
         ]);
 
-        // Create a workspace
-        $createWorkspaceAction = app(CreateWorkspaceAction::class);
-        $workspaceData = new CreateWorkspaceData(name: 'Test Workspace');
-        $createWorkspaceAction->execute($workspaceData);
+        // // Create a workspace
+        // $createWorkspaceAction = app(CreateWorkspaceAction::class);
+        // $workspaceData = new CreateWorkspaceData(name: 'Test Workspace');
+        // $createWorkspaceAction->execute($workspaceData);
 
-        // Retrieve the created workspace item
-        $workspaceItem = \Domain\Item\Models\Item::whereHas('workspace', function ($query) {
-            $query->where('name', 'Test Workspace');
-        })->first();
-
-        // Create a folder within the workspace
-        $createFolderAction = app(CreateFolderAction::class);
-        $folderData = new CreateFolderData(parent_id: $workspaceItem->id, name: 'Test Folder');
-        $createFolderAction->execute($folderData);
-
-        // // Retrieve the created folder item
-        // $folderItem = \Domain\Item\Models\Item::whereHas('folder', function ($query) {
-        //     $query->where('name', 'Test Folder');
+        // // Retrieve the created workspace item
+        // $workspaceItem = \Domain\Item\Models\Item::whereHas('workspace', function ($query) {
+        //     $query->where('name', 'Test Workspace');
         // })->first();
 
-        // // Create a document within the folder
-        // $createDocumentAction = app(CreateDocumentAction::class);
-        // $documentData = new DocumentUploadData(parent_id: $folderItem->id, name: 'Test Document');
-        // $createDocumentAction->execute($documentData);
+        // // Create a folder within the workspace
+        // $createFolderAction = app(CreateFolderAction::class);
+        // $folderData = new CreateFolderData(parent_id: $workspaceItem->id, name: 'Test Folder');
+        // $createFolderAction->execute($folderData);
+
+        // // // Retrieve the created folder item
+        // // $folderItem = \Domain\Item\Models\Item::whereHas('folder', function ($query) {
+        // //     $query->where('name', 'Test Folder');
+        // // })->first();
+
+        // // // Create a document within the folder
+        // // $createDocumentAction = app(CreateDocumentAction::class);
+        // // $documentData = new DocumentUploadData(parent_id: $folderItem->id, name: 'Test Document');
+        // // $createDocumentAction->execute($documentData);
 
         Metadata::create([
             'name' => 'Country',

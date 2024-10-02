@@ -11,21 +11,22 @@ use Domain\User\Actions\RegisterUserAction;
 use Domain\User\Actions\UpdateUserAction;
 use Domain\User\Data\RegisterUserData;
 use Domain\User\Data\UpdateUserData;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
-    protected RegisterUserAction $registerUserAction;
-    protected UpdateUserAction $updateUserAction;
-    protected DeleteUserAction $deleteUserAction;
+    // protected RegisterUserAction $registerUserAction;
+    // protected UpdateUserAction $updateUserAction;
+    // protected DeleteUserAction $deleteUserAction;
 
     public function __construct(
-        RegisterUserAction $registerUserAction,
-        UpdateUserAction $updateUserAction,
-        DeleteUserAction $deleteUserAction
+        protected RegisterUserAction $registerUserAction,
+        protected UpdateUserAction $updateUserAction,
+        protected DeleteUserAction $deleteUserAction
     ) {
-        $this->registerUserAction = $registerUserAction;
-        $this->updateUserAction = $updateUserAction;
-        $this->deleteUserAction = $deleteUserAction;
+        // $this->registerUserAction = $registerUserAction;
+        // $this->updateUserAction = $updateUserAction;
+        // $this->deleteUserAction = $deleteUserAction;
     }
 
     public function index(): JsonResponse
@@ -38,6 +39,8 @@ class UserController extends Controller
     public function register(RegisterUserData $registerUserData): JsonResponse
     {
         $user = $this->registerUserAction->execute($registerUserData);
+
+        Log::info('user id: ' . $user->id);
 
         return response()->json($user, Response::HTTP_CREATED);
     }

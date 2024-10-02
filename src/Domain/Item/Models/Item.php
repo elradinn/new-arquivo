@@ -33,9 +33,10 @@ class Item extends Entity
         'parent_id',
         'position',
     ];
+
     public function workspace(): HasOne
     {
-        return $this->hasOne(Workspace::class, 'item_id');
+        return $this->hasOne(Workspace::class);
     }
 
     public function folder(): HasOne

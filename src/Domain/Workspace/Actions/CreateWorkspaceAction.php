@@ -4,29 +4,31 @@ namespace Domain\Workspace\Actions;
 
 use Domain\Workspace\Data\CreateWorkspaceData;
 use Domain\Item\Actions\CreateItemAction;
+use Domain\Item\Data\CreateItemData;
+use Domain\Item\Models\Item;
+use Domain\Workspace\Models\Workspace;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class CreateWorkspaceAction
 {
-    protected CreateItemAction $createItemAction;
+    public function __construct(
+        protected CreateItemAction $createItemAction
+    ) {}
 
-    public function __construct(CreateItemAction $createItemAction)
+    public function execute(CreateWorkspaceData $data): Workspace
     {
-        $this->createItemAction = $createItemAction;
-    }
+        $item = $this->createItemAction->execute(
+            CreateItemData::from(['parent_id' => null])
+        );
 
-    public function execute(CreateWorkspaceData $data)
-    {
-        // Create the Item first
-        $item = $this->createItemAction->execute([
-            'parent_id' => null, // or set the appropriate parent_id
-            'position' => 0, // or set the appropriate position
-        ]);
+        Log::info("item id: " . $item->id);
 
-        // Create the Workspace associated with the Item
-        $item->workspace()->create([
+        $workspace = $item->workspace()->create([
             'name' => $data->name,
             'owned_by' => Auth::id(),
         ]);
+
+        return Workspace::find($item->id);
     }
 }

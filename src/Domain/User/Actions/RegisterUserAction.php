@@ -10,12 +10,10 @@ class RegisterUserAction
 {
     public function execute(RegisterUserData $data): User
     {
-        $user = User::create([
+        return User::create([
             'name' => $data->name,
             'email' => $data->email,
             'password' => Hash::make($data->password),
         ]);
-
-        return $user;
     }
 }

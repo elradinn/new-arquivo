@@ -4,11 +4,21 @@ namespace App\Metadata\Controllers;
 
 use App\Common\Controllers\Controller;
 use Domain\Metadata\Models\Metadata;
+use Domain\Metadata\Data\CreateMetadataData;
+use Domain\Metadata\Data\UpdateMetadataData;
+use Domain\Metadata\Actions\CreateMetadataAction;
+use Domain\Metadata\Actions\UpdateMetadataAction;
+use Domain\Metadata\Actions\DeleteMetadataAction;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class MetadataController extends Controller
 {
+    public function __construct(
+        protected CreateMetadataAction $createMetadataAction,
+        protected UpdateMetadataAction $updateMetadataAction,
+        protected DeleteMetadataAction $deleteMetadataAction
+    ) {}
+
     /**
      * Display a listing of the metadata.
      */
@@ -21,30 +31,18 @@ class MetadataController extends Controller
     /**
      * Store a newly created metadata in storage.
      */
-    public function store(Request $request): JsonResponse
+    public function store(CreateMetadataData $data): JsonResponse
     {
-        $validated = $request->validate([
-            'name' => 'required|string|unique:metadata,name',
-            'type' => 'required|string|in:string,integer,float,boolean,date,datetime',
-        ]);
-
-        $metadata = Metadata::create($validated);
-
+        $metadata = $this->createMetadataAction->execute($data);
         return response()->json($metadata, 201);
     }
 
     /**
      * Update the specified metadata in storage.
      */
-    public function update(Request $request, Metadata $metadata): JsonResponse
+    public function update(UpdateMetadataData $data, Metadata $metadata): JsonResponse
     {
-        $validated = $request->validate([
-            'name' => 'sometimes|required|string|unique:metadata,name,' . $metadata->id,
-            'type' => 'sometimes|required|string|in:string,integer,float,boolean,date,datetime',
-        ]);
-
-        $metadata->update($validated);
-
+        $metadata = $this->updateMetadataAction->execute($metadata, $data);
         return response()->json($metadata, 200);
     }
 
@@ -53,7 +51,7 @@ class MetadataController extends Controller
      */
     public function destroy(Metadata $metadata): JsonResponse
     {
-        $metadata->delete();
+        $this->deleteMetadataAction->execute($metadata);
         return response()->json(['message' => 'Metadata deleted successfully.'], 200);
     }
 }

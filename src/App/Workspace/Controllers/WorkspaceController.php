@@ -13,16 +13,20 @@ use Domain\Workspace\Actions\CreateWorkspaceAction;
 
 class WorkspaceController extends Controller
 {
+    public function __construct(
+        protected CreateWorkspaceAction $createWorkspaceAction
+    ) {}
+
     public function index(): JsonResponse
     {
         $workspaces = Workspace::all();
         return response()->json($workspaces);
     }
 
-    public function store(CreateWorkspaceData $data, CreateWorkspaceAction $action): JsonResponse
+    public function store(CreateWorkspaceData $data): JsonResponse
     {
-        $action->execute($data);
-        return response()->json($action, 201);
+        $workspace = $this->createWorkspaceAction->execute($data);
+        return response()->json($workspace, 201);
     }
 
     public function deleteAll(): JsonResponse

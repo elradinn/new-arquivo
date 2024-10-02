@@ -9,7 +9,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('workspaces', function (Blueprint $table) {
-            $table->unsignedInteger('item_id')->primary(); // Use item_id as the primary key
+            $table->increments('id');
+            $table->unsignedInteger('item_id')->unique();
             $table->string('name');
             $table->unsignedBigInteger('owned_by')->nullable();
             $table->softDeletes();

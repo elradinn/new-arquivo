@@ -14,6 +14,7 @@ class Workspace extends Model
     protected $primaryKey = 'item_id'; // Use item_id as the primary key
 
     protected $fillable = [
+        'item_id',
         'name',
         'owned_by',
     ];
@@ -23,6 +24,6 @@ class Workspace extends Model
      */
     public function item(): BelongsTo
     {
-        return $this->belongsTo(Item::class, 'item_id');
+        return $this->belongsTo(Item::class);
     }
 }

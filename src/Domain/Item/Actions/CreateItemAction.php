@@ -2,15 +2,13 @@
 
 namespace Domain\Item\Actions;
 
+use Domain\Item\Data\CreateItemData;
 use Domain\Item\Models\Item;
 
 class CreateItemAction
 {
-    public function execute(array $data): Item
+    public function execute(CreateItemData $data): Item
     {
-        $item = new Item($data);
-        $item->save();
-
-        return $item;
+        return Item::create($data->toArray());
     }
 }
