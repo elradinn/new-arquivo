@@ -5,7 +5,7 @@ namespace Domain\Folder\Observers;
 use Domain\Folder\Models\Folder;
 use Illuminate\Support\Facades\Auth;
 
-class FolderLoggingObserver
+class FolderLogObserver
 {
     public function created(Folder $folder)
     {

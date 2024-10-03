@@ -5,7 +5,7 @@ namespace Domain\Document\Observers;
 use Domain\Document\Models\Document;
 use Illuminate\Support\Facades\Auth;
 
-class DocumentLoggingObserver
+class DocumentLogObserver
 {
     public function created(Document $document)
     {

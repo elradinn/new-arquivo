@@ -5,7 +5,7 @@ namespace Domain\DocumentApproval\Observers;
 use Domain\DocumentApproval\Models\DocumentApproval;
 use Illuminate\Support\Facades\Auth;
 
-class DocumentApprovalLoggingObserver
+class DocumentApprovalLogObserver
 {
     public function created(DocumentApproval $documentApproval)
     {

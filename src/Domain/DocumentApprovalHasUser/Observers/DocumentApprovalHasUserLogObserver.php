@@ -5,7 +5,7 @@ namespace Domain\DocumentApprovalHasUser\Observers;
 use Domain\DocumentApprovalHasUser\Models\DocumentApprovalHasUser;
 use Illuminate\Support\Facades\Auth;
 
-class DocumentApprovalHasUserLoggingObserver
+class DocumentApprovalHasUserLogObserver
 {
     public function updated(DocumentApprovalHasUser $userApproval)
     {

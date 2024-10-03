@@ -9,12 +9,20 @@ use Domain\Folder\Models\Folder;
 use Domain\Workspace\Models\Workspace;
 use Domain\DocumentApproval\Models\DocumentApproval;
 use Domain\DocumentApprovalHasUser\Models\DocumentApprovalHasUser;
+use Domain\User\Models\User;
+use Domain\Workflow\Models\Workflow;
+use Domain\Metadata\Models\Metadata;
+use Domain\NumberingScheme\Models\NumberingScheme;
 
-use Domain\Document\Observers\DocumentLoggingObserver;
-use Domain\Folder\Observers\FolderLoggingObserver;
-use Domain\Workspace\Observers\WorkspaceLoggingObserver;
-use Domain\DocumentApproval\Observers\DocumentApprovalLoggingObserver;
-use Domain\DocumentApprovalHasUser\Observers\DocumentApprovalHasUserLoggingObserver;
+use Domain\Document\Observers\DocumentLogObserver;
+use Domain\Workspace\Observers\WorkspaceLogObserver;
+use Domain\Folder\Observers\FolderLogObserver;
+use Domain\DocumentApproval\Observers\DocumentApprovalLogObserver;
+use Domain\DocumentApprovalHasUser\Observers\DocumentApprovalHasUserLogObserver;
+use Domain\User\Observers\UserLogObserver;
+use Domain\Workflow\Observers\WorkflowLogObserver;
+use Domain\Metadata\Observers\MetadataLogObserver;
+use Domain\NumberingScheme\Observers\NumberingSchemeLogObserver;
 
 class ObserverServiceProvider extends ServiceProvider
 {
@@ -23,11 +31,15 @@ class ObserverServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Document::observe(DocumentLoggingObserver::class);
-        Folder::observe(FolderLoggingObserver::class);
-        Workspace::observe(WorkspaceLoggingObserver::class);
-        DocumentApproval::observe(DocumentApprovalLoggingObserver::class);
-        DocumentApprovalHasUser::observe(DocumentApprovalHasUserLoggingObserver::class);
+        Document::observe(DocumentLogObserver::class);
+        Folder::observe(FolderLogObserver::class);
+        Workspace::observe(WorkspaceLogObserver::class);
+        DocumentApproval::observe(DocumentApprovalLogObserver::class);
+        DocumentApprovalHasUser::observe(DocumentApprovalHasUserLogObserver::class);
+        User::observe(UserLogObserver::class);
+        Workflow::observe(WorkflowLogObserver::class);
+        Metadata::observe(MetadataLogObserver::class);
+        NumberingScheme::observe(NumberingSchemeLogObserver::class);
     }
 
     /**

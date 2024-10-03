@@ -5,7 +5,7 @@ namespace Domain\Workspace\Observers;
 use Domain\Workspace\Models\Workspace;
 use Illuminate\Support\Facades\Auth;
 
-class WorkspaceLoggingObserver
+class WorkspaceLogObserver
 {
     public function created(Workspace $workspace)
     {
