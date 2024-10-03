@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Document\Resource;
+namespace Domain\Document\Data;
 
 use Spatie\LaravelData\Resource;
 use Domain\Document\Models\Document;
