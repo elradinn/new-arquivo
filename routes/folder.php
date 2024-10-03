@@ -3,7 +3,15 @@
 use App\Folder\Controllers\FolderController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/folders', [FolderController::class, 'index']);
-Route::post('/folders', [FolderController::class, 'store']);
-Route::delete('/folders', [FolderController::class, 'deleteAll']);
-Route::get('/folders/index/{id}', [FolderController::class, 'showChildren']);
+Route::middleware('auth')->group(function () {
+    Route::prefix('folders')->group(function () {
+
+        Route::post('/', [FolderController::class, 'store']);
+
+        Route::get('/{folder}/edit', [FolderController::class, 'edit']);
+
+        Route::put('/{folder}', [FolderController::class, 'update']);
+
+        Route::delete('/{folder}', [FolderController::class, 'destroy']);
+    });
+});

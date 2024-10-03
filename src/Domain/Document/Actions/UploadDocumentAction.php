@@ -2,7 +2,7 @@
 
 namespace Domain\Document\Actions;
 
-use Domain\Document\Data\DocumentUploadData;
+use Domain\Document\Data\UploadDocumentData;
 use Domain\Document\Models\Document;
 use Domain\Item\Actions\CreateItemAction;
 use Domain\Item\Data\CreateItemData;
@@ -15,7 +15,7 @@ class UploadDocumentAction
         protected CreateItemAction $createItemAction,
     ) {}
 
-    public function execute(DocumentUploadData $data): Document
+    public function execute(UploadDocumentData $data): Document
     {
         $item = $this->createItemAction->execute(
             CreateItemData::from([

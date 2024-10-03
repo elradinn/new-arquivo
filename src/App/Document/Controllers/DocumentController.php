@@ -5,7 +5,7 @@ namespace App\Document\Controllers;
 use App\Common\Controllers\Controller;
 use Domain\Document\Models\Document;
 use Illuminate\Http\JsonResponse;
-use Domain\Document\Data\DocumentUploadData;
+use Domain\Document\Data\UploadDocumentData;
 use Domain\Document\Actions\UploadDocumentAction;
 use Domain\Document\Data\DocumentResourceData;
 use Domain\Document\Events\DocumentUploaded;
@@ -22,7 +22,7 @@ class DocumentController extends Controller
         return response()->json($documents, 200);
     }
 
-    public function store(DocumentUploadData $data): JsonResponse
+    public function store(UploadDocumentData $data): JsonResponse
     {
         $document = $this->uploadDocumentAction->execute($data);
 

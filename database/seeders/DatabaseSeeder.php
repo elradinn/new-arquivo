@@ -9,7 +9,7 @@ use Domain\Workspace\Data\CreateWorkspaceData;
 use Domain\Folder\Actions\CreateFolderAction;
 use Domain\Folder\Data\CreateFolderData;
 use Domain\Document\Actions\UploadDocumentAction;
-use Domain\Document\Data\DocumentUploadData;
+use Domain\Document\Data\UploadDocumentData;
 use Domain\Metadata\Models\Metadata;
 
 class DatabaseSeeder extends Seeder
@@ -63,7 +63,7 @@ class DatabaseSeeder extends Seeder
 
         // Create Document
         $uploadDocumentAction = app(UploadDocumentAction::class);
-        $uploadDocumentAction->execute(new DocumentUploadData(
+        $uploadDocumentAction->execute(new UploadDocumentData(
             parent_id: $folder->item_id,
             name: 'Test Document'
         ));

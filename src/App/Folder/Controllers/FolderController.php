@@ -4,47 +4,45 @@ namespace App\Folder\Controllers;
 
 use App\Common\Controllers\Controller;
 use Domain\Folder\Models\Folder;
-use Domain\Item\Models\Item;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Domain\Folder\Data\CreateFolderData;
-use Illuminate\Support\Facades\Auth;
+use Domain\Folder\Data\UpdateFolderData;
 use Domain\Folder\Actions\CreateFolderAction;
+use Domain\Folder\Actions\DeleteFolderAction;
+use Domain\Folder\Actions\UpdateFolderAction;
+use Domain\Folder\Data\FolderResourceData;
 
 class FolderController extends Controller
 {
-    public function index(): JsonResponse
-    {
-        $folders = Folder::all();
-        return response()->json($folders);
-    }
+    public function __construct(
+        private CreateFolderAction $createFolderAction,
+        private UpdateFolderAction $updateFolderAction,
+        private DeleteFolderAction $deleteFolderAction,
+    ) {}
 
-    public function store(CreateFolderData $data, CreateFolderAction $action): JsonResponse
+    public function store(CreateFolderData $data): JsonResponse
     {
-        $action->execute($data);
+        $this->createFolderAction->execute($data);
 
         return response()->json(['message' => 'Folder created successfully'], 201);
     }
 
-    public function deleteAll(): JsonResponse
+    public function edit(Folder $folder): FolderResourceData
     {
-        Folder::query()->delete();
-        return response()->json(['message' => 'All folders deleted']);
+        return FolderResourceData::from($folder);
     }
 
-    public function showChildren($id): JsonResponse
+    public function update(Folder $folder, UpdateFolderData $data): JsonResponse
     {
-        $items = Item::find($id)->getDescendants();
+        $updatedFolder = $this->updateFolderAction->execute($folder, $data);
 
-        $structuredItems = $items->map(function ($item) {
-            return [
-                'id' => $item->id,
-                'name' => $item->itemable->name ?? null,
-                'type' => $item->itemable_type,
-                'document_number' => $item->itemable->document_number,
-            ];
-        });
+        return response()->json(['message' => 'Folder updated successfully', 'folder' => $updatedFolder]);
+    }
 
-        return response()->json($structuredItems);
+    public function destroy(Folder $folder): JsonResponse
+    {
+        $this->deleteFolderAction->execute($folder);
+
+        return response()->json(['message' => 'Folder deleted successfully']);
     }
 }

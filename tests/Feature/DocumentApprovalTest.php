@@ -3,7 +3,7 @@
 namespace Tests\Feature;
 
 use Domain\Document\Actions\CreateDocumentAction;
-use Domain\Document\Data\DocumentUploadData;
+use Domain\Document\Data\UploadDocumentData;
 use Domain\Document\Models\Document;
 use Domain\DocumentApproval\Actions\CreateDocumentApprovalAction;
 use Domain\DocumentApproval\Data\CreateDocumentApprovalData;
@@ -37,14 +37,14 @@ class DocumentApprovalTest extends TestCase
         // Create an instance of CreateDocumentAction
         $createDocumentAction = new CreateDocumentAction(new \Domain\Item\Actions\CreateItemAction());
 
-        // Define the expected DocumentUploadData
-        $documentUploadData = new DocumentUploadData(
+        // Define the expected UploadDocumentData
+        $UploadDocumentData = new UploadDocumentData(
             parent_id: null,
             name: 'Test Document'
         );
 
         // Execute the action to create the document
-        $createDocumentAction->execute($documentUploadData);
+        $createDocumentAction->execute($UploadDocumentData);
 
         // Retrieve the created document
         $document = Document::where('name', 'Test Document')->firstOrFail();
