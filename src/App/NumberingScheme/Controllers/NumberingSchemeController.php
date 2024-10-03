@@ -3,38 +3,50 @@
 namespace App\NumberingScheme\Controllers;
 
 use App\Common\Controllers\Controller;
+use Domain\NumberingScheme\Actions\CreateNumberingSchemeAction;
+use Domain\NumberingScheme\Actions\DeleteNumberingSchemeAction;
+use Domain\NumberingScheme\Actions\UpdateNumberingSchemeAction;
+use Domain\NumberingScheme\Data\CreateNumberingSchemeData;
+use Domain\NumberingScheme\Data\NumberingSchemeResourceData;
+use Domain\NumberingScheme\Data\UpdateNumberingSchemeData;
 use Domain\NumberingScheme\Models\NumberingScheme;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class NumberingSchemeController extends Controller
 {
-    public function store(Request $request): JsonResponse
-    {
-        $validated = $request->validate([
-            'folder_item_id' => 'required|exists:folders,item_id|unique:numbering_schemes,folder_id',
-            'prefix' => 'required|string',
-        ]);
+    public function __construct(
+        protected CreateNumberingSchemeAction $createNumberingSchemeAction,
+        protected UpdateNumberingSchemeAction $updateNumberingSchemeAction,
+        protected DeleteNumberingSchemeAction $deleteNumberingSchemeAction,
+    ) {}
 
-        $numberingScheme = NumberingScheme::create($validated);
+    /**
+     * @return \Spatie\LaravelData\DataCollection<NumberingSchemeResourceData>
+     */
+    public function index()
+    {
+        $numberingSchemes = NumberingScheme::with('folder')->get();
+
+        return NumberingSchemeResourceData::collect($numberingSchemes);
+    }
+
+    public function store(CreateNumberingSchemeData $data): JsonResponse
+    {
+        $numberingScheme = $this->createNumberingSchemeAction->execute($data);
 
         return response()->json($numberingScheme, 201);
     }
 
-    public function update(Request $request, NumberingScheme $numberingScheme): JsonResponse
+    public function update(UpdateNumberingSchemeData $data, NumberingScheme $numberingScheme): JsonResponse
     {
-        $validated = $request->validate([
-            'prefix' => 'required|string',
-        ]);
-
-        $numberingScheme->update($validated);
+        $numberingScheme = $this->updateNumberingSchemeAction->execute($numberingScheme, $data);
 
         return response()->json($numberingScheme);
     }
 
     public function destroy(NumberingScheme $numberingScheme): JsonResponse
     {
-        $numberingScheme->delete();
+        $this->deleteNumberingSchemeAction->execute($numberingScheme);
 
         return response()->json(['message' => 'Numbering scheme deleted successfully']);
     }

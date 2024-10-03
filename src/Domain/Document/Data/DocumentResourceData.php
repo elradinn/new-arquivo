@@ -5,7 +5,7 @@ namespace App\Document\Resource;
 use Spatie\LaravelData\Resource;
 use Domain\Document\Models\Document;
 
-class DocumentResource extends Resource
+class DocumentResourceData extends Resource
 {
     public function __construct(
         public string $item_id,

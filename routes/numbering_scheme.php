@@ -3,6 +3,17 @@
 use App\NumberingScheme\Controllers\NumberingSchemeController;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/numbering-schemes', [NumberingSchemeController::class, 'store']);
-Route::put('/numbering-schemes/{numberingScheme}', [NumberingSchemeController::class, 'update']);
-Route::delete('/numbering-schemes/{numberingScheme}', [NumberingSchemeController::class, 'destroy']);
+Route::middleware('auth')->group(function () {
+    Route::prefix('numbering-schemes')->group(function () {
+
+        Route::get('/', [NumberingSchemeController::class, 'index']);
+
+        Route::get('/{numberingScheme}', [NumberingSchemeController::class, 'show']);
+
+        Route::post('/create', [NumberingSchemeController::class, 'store']);
+
+        Route::put('/{numberingScheme}', [NumberingSchemeController::class, 'update']);
+
+        Route::delete('/{numberingScheme}', [NumberingSchemeController::class, 'destroy']);
+    });
+});

@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('numbering_schemes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('folder_item_id')->unique();
+            $table->string('name');
             $table->string('prefix');
             $table->timestamps();
             $table->softDeletes();

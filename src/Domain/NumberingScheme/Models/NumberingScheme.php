@@ -12,6 +12,7 @@ class NumberingScheme extends Model
 
     protected $fillable = [
         'folder_item_id',
+        'name',
         'prefix',
     ];
 
