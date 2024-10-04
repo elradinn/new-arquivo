@@ -10,8 +10,6 @@ class CreateDocumentApprovalAction
 {
     public function execute(CreateDocumentApprovalData $data): DocumentApproval
     {
-        // $data = $data->toArray();
-
         $documentApproval = DocumentApproval::create([
             'document_id' => $data->document_id,
             'resolution' => $data->resolution,
