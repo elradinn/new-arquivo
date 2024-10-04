@@ -12,13 +12,12 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('workflow_id');
             $table->unsignedBigInteger('user_id');
-            $table->string('user_state')->nullable();
-            $table->text('comment')->nullable();
             $table->timestamps();
-            $table->softDeletes();
 
             $table->foreign('workflow_id')->references('id')->on('workflows')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->unique(['workflow_id', 'user_id']);
         });
     }
 

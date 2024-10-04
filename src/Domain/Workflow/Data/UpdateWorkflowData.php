@@ -10,13 +10,19 @@ use Domain\User\Models\User;
 
 class UpdateWorkflowData extends Data
 {
+    /**
+     * @param WorkflowHasUserData[] $users_to_add
+     * @param WorkflowHasUserData[] $users_to_remove
+     */
     public function __construct(
+
         public ?string $resolution = null,
 
-        #[Required, Uuid()]
+        #[Uuid()]
         public ?string $destination = null,
 
-        #[Required, DataCollectionOf(User::class)]
-        public array $users = []
+        public ?array $users_to_add,
+
+        public ?array $users_to_remove
     ) {}
 }
