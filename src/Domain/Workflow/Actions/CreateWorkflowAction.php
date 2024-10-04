@@ -8,7 +8,7 @@ use Domain\Workflow\Models\WorkflowHasUser;
 
 class CreateWorkflowAction
 {
-    public function execute(CreateWorkflowData $data): Workflow
+    public function execute(CreateWorkflowData $data): array
     {
         $workflow = Workflow::create([
             'folder_item_id' => $data->folder_item_id,
@@ -18,12 +18,12 @@ class CreateWorkflowAction
 
         $workflowUsers = collect($data->users)->map(function ($user) {
             return new WorkflowHasUser([
-                'user_id' => $user['user_id'],
+                'user_id' => $user->user_id,
             ]);
         });
 
         $workflow->workflowUsers()->saveMany($workflowUsers);
 
-        return $workflow;
+        return ['workflow' => $workflow, 'workflow_users' => $workflowUsers];
     }
 }

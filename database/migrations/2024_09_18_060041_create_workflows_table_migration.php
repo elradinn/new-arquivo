@@ -9,12 +9,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('workflows', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->bigIncrements('id');
             $table->uuid('folder_item_id')->unique();
             $table->text('resolution')->nullable();
             $table->uuid('destination')->nullable();
             $table->timestamps();
-            $table->softDeletes();
 
             $table->foreign('folder_item_id')->references('item_id')->on('folders')->onDelete('cascade');
             $table->foreign('destination')->references('id')->on('items')->onDelete('cascade');

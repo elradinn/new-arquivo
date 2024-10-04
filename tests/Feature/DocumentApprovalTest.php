@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use Domain\Document\Actions\CreateDocumentAction;
+use Domain\Document\Actions\UploadDocumentAction;
 use Domain\Document\Data\UploadDocumentData;
 use Domain\Document\Models\Document;
 use Domain\DocumentApproval\Actions\CreateDocumentApprovalAction;
@@ -35,7 +36,7 @@ class DocumentApprovalTest extends TestCase
         $user3 = User::find($user3->id);
 
         // Create an instance of CreateDocumentAction
-        $createDocumentAction = new CreateDocumentAction(new \Domain\Item\Actions\CreateItemAction());
+        $createDocumentAction = new UploadDocumentAction(new \Domain\Item\Actions\CreateItemAction());
 
         // Define the expected UploadDocumentData
         $UploadDocumentData = new UploadDocumentData(
@@ -106,12 +107,12 @@ class DocumentApprovalTest extends TestCase
         $this->assertDatabaseHas('document_approval_has_users', [
             'document_approval_id' => $documentApproval->id,
             'user_id' => $user1->id,
-            'user_state' => \Domain\DocumentApprovalHasUser\States\Approved::class,
+            'user_state' => \Domain\DocumentApprovalHasUser\States\UserApproved::class,
         ]);
 
         // Verify the overall state of the document approval
         $documentApproval->refresh();
-        $this->assertEquals(\Domain\DocumentApproval\States\Pending::class, $documentApproval->overall_state);
+        $this->assertEquals(\Domain\DocumentApproval\States\DocumentPending::class, $documentApproval->overall_state);
 
         // User 2 accepts the document approval
         $this->actingAs($user2)->post("/document-approvals/{$documentApproval->id}/accept")
@@ -122,12 +123,12 @@ class DocumentApprovalTest extends TestCase
         $this->assertDatabaseHas('document_approval_has_users', [
             'document_approval_id' => $documentApproval->id,
             'user_id' => $user2->id,
-            'user_state' => \Domain\DocumentApprovalHasUser\States\Approved::class,
+            'user_state' => \Domain\DocumentApprovalHasUser\States\UserApproved::class,
         ]);
 
         // Verify the overall state of the document approval
         $documentApproval->refresh();
-        $this->assertEquals(\Domain\DocumentApproval\States\Pending::class, $documentApproval->overall_state);
+        $this->assertEquals(\Domain\DocumentApproval\States\DocumentPending::class, $documentApproval->overall_state);
 
         // User 3 rejects the document approval
         $this->actingAs($user3)->post("/document-approvals/{$documentApproval->id}/reject")
@@ -138,11 +139,11 @@ class DocumentApprovalTest extends TestCase
         $this->assertDatabaseHas('document_approval_has_users', [
             'document_approval_id' => $documentApproval->id,
             'user_id' => $user3->id,
-            'user_state' => \Domain\DocumentApprovalHasUser\States\Rejected::class,
+            'user_state' => \Domain\DocumentApprovalHasUser\States\UserRejected::class,
         ]);
 
         // Verify the overall state of the document approval
         $documentApproval->refresh();
-        $this->assertEquals(\Domain\DocumentApproval\States\Rejected::class, $documentApproval->overall_state);
+        $this->assertEquals(\Domain\DocumentApproval\States\DocumentRejected::class, $documentApproval->overall_state);
     }
 }

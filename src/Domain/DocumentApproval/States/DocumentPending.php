@@ -2,7 +2,7 @@
 
 namespace Domain\DocumentApproval\States;
 
-class Pending extends DocumentApprovalState
+class DocumentPending extends DocumentApprovalState
 {
     public function label(): string
     {

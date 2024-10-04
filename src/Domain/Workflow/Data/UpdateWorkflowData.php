@@ -4,23 +4,19 @@ namespace Domain\Workflow\Data;
 
 use Spatie\LaravelData\Data;
 use Spatie\LaravelData\Attributes\Validation\Uuid;
+use Spatie\LaravelData\Attributes\DataCollectionOf;
 use Spatie\LaravelData\Attributes\Validation\Required;
+use Domain\User\Models\User;
 
-class CreateWorkflowData extends Data
+class UpdateWorkflowData extends Data
 {
-    /**
-     * @param WorkflowHasUserData[] $users
-     */
     public function __construct(
-        #[Required, Uuid()]
-        public string $folder_item_id,
-
         public ?string $resolution = null,
 
-        #[Uuid()]
+        #[Required, Uuid()]
         public ?string $destination = null,
 
-        #[Required]
-        public array $users
+        #[Required, DataCollectionOf(User::class)]
+        public array $users = []
     ) {}
 }

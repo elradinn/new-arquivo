@@ -12,7 +12,7 @@ class WorkspaceLogObserver
         activity()
             ->performedOn($workspace)
             ->causedBy(Auth::id())
-            ->log("Workspace created: {$workspace->id}");
+            ->log("Workspace created: {$workspace->name}");
     }
 
     public function updated(Workspace $workspace)
@@ -20,7 +20,7 @@ class WorkspaceLogObserver
         activity()
             ->performedOn($workspace)
             ->causedBy(Auth::id())
-            ->log("Workspace updated: {$workspace->id}");
+            ->log("Workspace updated: {$workspace->name}");
     }
 
     public function deleted(Workspace $workspace)
@@ -28,6 +28,6 @@ class WorkspaceLogObserver
         activity()
             ->performedOn($workspace)
             ->causedBy(Auth::id())
-            ->log("Workspace deleted: {$workspace->id}");
+            ->log("Workspace deleted: {$workspace->name}");
     }
 }

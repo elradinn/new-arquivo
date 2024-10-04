@@ -15,7 +15,7 @@ class DocumentUserApprovalController extends Controller
             ->where('user_id', $request->user()->id)
             ->firstOrFail();
 
-        $userApproval->user_state->transitionTo(\Domain\DocumentApprovalHasUser\States\Approved::class);
+        $userApproval->user_state->transitionTo(\Domain\DocumentApprovalHasUser\States\UserApproved::class);
 
         return response()->json(['message' => 'Document approval accepted.']);
     }
@@ -26,7 +26,7 @@ class DocumentUserApprovalController extends Controller
             ->where('user_id', $request->user()->id)
             ->firstOrFail();
 
-        $userApproval->user_state->transitionTo(\Domain\DocumentApprovalHasUser\States\Rejected::class);
+        $userApproval->user_state->transitionTo(\Domain\DocumentApprovalHasUser\States\UserRejected::class);
 
         return response()->json(['message' => 'Document approval rejected.']);
     }

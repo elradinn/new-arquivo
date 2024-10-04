@@ -12,7 +12,7 @@ class DocumentLogObserver
         activity()
             ->performedOn($document)
             ->causedBy(Auth::id())
-            ->log("Document created: {$document->id}");
+            ->log("Document created: {$document->name}");
     }
 
     public function updated(Document $document)
@@ -20,7 +20,7 @@ class DocumentLogObserver
         activity()
             ->performedOn($document)
             ->causedBy(Auth::id())
-            ->log("Document updated: {$document->id}");
+            ->log("Document updated: {$document->name}");
     }
 
     public function deleted(Document $document)
@@ -28,6 +28,6 @@ class DocumentLogObserver
         activity()
             ->performedOn($document)
             ->causedBy(Auth::id())
-            ->log("Document deleted: {$document->id}");
+            ->log("Document deleted: {$document->name}");
     }
 }

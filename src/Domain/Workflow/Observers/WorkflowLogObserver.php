@@ -12,7 +12,7 @@ class WorkflowLogObserver
         activity()
             ->performedOn($workflow)
             ->causedBy(Auth::id())
-            ->log("Workflow created: {$workflow->id}");
+            ->log("Workflow created: {$workflow->name}");
     }
 
     public function updated(Workflow $workflow)
@@ -20,7 +20,7 @@ class WorkflowLogObserver
         activity()
             ->performedOn($workflow)
             ->causedBy(Auth::id())
-            ->log("Workflow updated: {$workflow->id}");
+            ->log("Workflow updated: {$workflow->name}");
     }
 
     public function deleted(Workflow $workflow)
@@ -28,6 +28,6 @@ class WorkflowLogObserver
         activity()
             ->performedOn($workflow)
             ->causedBy(Auth::id())
-            ->log("Workflow deleted: {$workflow->id}");
+            ->log("Workflow deleted: {$workflow->name}");
     }
 }

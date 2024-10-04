@@ -12,8 +12,8 @@ abstract class DocumentApprovalState extends State
     public static function config(): StateConfig
     {
         return parent::config()
-            ->default(Pending::class)
-            ->allowTransition(Pending::class, Approved::class)
-            ->allowTransition(Pending::class, Rejected::class);
+            ->default(DocumentPending::class)
+            ->allowTransition(DocumentPending::class, DocumentApproved::class)
+            ->allowTransition(DocumentPending::class, DocumentRejected::class);
     }
 }

@@ -12,8 +12,8 @@ abstract class UserApprovalState extends State
     public static function config(): StateConfig
     {
         return parent::config()
-            ->default(Pending::class)
-            ->allowTransition(Pending::class, Approved::class)
-            ->allowTransition(Pending::class, Rejected::class);
+            ->default(UserPending::class)
+            ->allowTransition(UserPending::class, UserApproved::class)
+            ->allowTransition(UserPending::class, UserRejected::class);
     }
 }
