@@ -5,7 +5,7 @@ namespace Domain\DocumentApprovalHasUser\States;
 use Illuminate\Support\Facades\Auth;
 use Spatie\ModelStates\Transition;
 use Domain\DocumentApprovalHasUser\Models\DocumentApprovalHasUser;
-use Domain\DocumentApproval\Actions\RecalculateDocumentState;
+use Domain\DocumentApproval\Actions\RecalculateDocumentStateAction;
 use Domain\DocumentApproval\Actions\SendDocumentApprovalNotificationAction;
 use Domain\DocumentApprovalHasUser\States\UserApprovalAccepted;
 
@@ -17,7 +17,7 @@ class UserApprovalPendingToAccepted extends Transition
 
     public function handle(
         SendDocumentApprovalNotificationAction $sendDocumentApprovalNotification,
-        RecalculateDocumentState $recalculateDocumentState
+        RecalculateDocumentStateAction $recalculateDocumentStateAction
     ): DocumentApprovalHasUser {
 
         $this->documentApprovalHasUser->user_state = new UserApprovalAccepted($this->documentApprovalHasUser);
@@ -25,7 +25,7 @@ class UserApprovalPendingToAccepted extends Transition
 
         $sendDocumentApprovalNotification->execute($this->documentApprovalHasUser->documentApproval);
 
-        $recalculateDocumentState->execute($this->documentApprovalHasUser->documentApproval);
+        $recalculateDocumentStateAction->execute($this->documentApprovalHasUser->documentApproval);
 
         activity()
             ->performedOn($this->documentApprovalHasUser)

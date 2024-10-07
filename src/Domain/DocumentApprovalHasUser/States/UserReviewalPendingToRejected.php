@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\ModelStates\Transition;
 use Domain\DocumentApprovalHasUser\Models\DocumentApprovalHasUser;
 use Domain\DocumentApproval\Actions\SendDocumentApprovalNotificationAction;
-use Domain\DocumentApproval\Actions\RecalculateDocumentState;
+use Domain\DocumentApproval\Actions\RecalculateDocumentStateAction;
 use Domain\DocumentApprovalHasUser\States\UserReviewalRejected;
 
 class UserReviewalPendingToRejected extends Transition
@@ -17,7 +17,7 @@ class UserReviewalPendingToRejected extends Transition
 
     public function handle(
         SendDocumentApprovalNotificationAction $sendDocumentApprovalNotification,
-        RecalculateDocumentState $recalculateDocumentState
+        RecalculateDocumentStateAction $recalculateDocumentStateAction
     ): DocumentApprovalHasUser {
 
         $this->documentApprovalHasUser->user_state = new UserReviewalRejected($this->documentApprovalHasUser);
@@ -25,7 +25,7 @@ class UserReviewalPendingToRejected extends Transition
 
         $sendDocumentApprovalNotification->execute($this->documentApprovalHasUser->documentApproval);
 
-        $recalculateDocumentState->execute($this->documentApprovalHasUser->documentApproval);
+        $recalculateDocumentStateAction->execute($this->documentApprovalHasUser->documentApproval);
 
         activity()
             ->performedOn($this->documentApprovalHasUser)
