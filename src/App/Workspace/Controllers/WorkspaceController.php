@@ -28,10 +28,4 @@ class WorkspaceController extends Controller
         $workspace = $this->createWorkspaceAction->execute($data);
         return response()->json($workspace, 201);
     }
-
-    public function deleteAll(): JsonResponse
-    {
-        Workspace::truncate();
-        return response()->json(['message' => 'All workspaces deleted']);
-    }
 }

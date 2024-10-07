@@ -4,6 +4,7 @@ use App\Folder\Controllers\FolderController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
+
     Route::prefix('folders')->group(function () {
 
         Route::post('/', [FolderController::class, 'store']);

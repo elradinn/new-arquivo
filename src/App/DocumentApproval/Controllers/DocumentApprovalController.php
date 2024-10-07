@@ -27,12 +27,4 @@ class DocumentApprovalController extends Controller
 
         return response()->json($documentApproval, 201);
     }
-
-    public function deleteAll(): JsonResponse
-    {
-        DocumentApprovalHasUser::query()->delete();
-        DocumentApproval::query()->delete();
-
-        return response()->json(['message' => 'All document approvals deleted']);
-    }
 }
