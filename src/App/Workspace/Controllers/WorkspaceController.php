@@ -17,6 +17,11 @@ class WorkspaceController extends Controller
         protected CreateWorkspaceAction $createWorkspaceAction
     ) {}
 
+    public function show(Workspace $workspace): JsonResponse
+    {
+        return response()->json(Item::find($workspace->item->id)->getChildren()->load('folder', 'document'));
+    }
+
     public function index(): JsonResponse
     {
         $workspaces = Workspace::all();

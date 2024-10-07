@@ -15,12 +15,6 @@ class DocumentController extends Controller
         protected UploadDocumentAction $uploadDocumentAction
     ) {}
 
-    public function index(): JsonResponse
-    {
-        $documents = Document::all();
-        return response()->json($documents, 200);
-    }
-
     public function store(UploadDocumentData $data): JsonResponse
     {
         $document = $this->uploadDocumentAction->execute($data);

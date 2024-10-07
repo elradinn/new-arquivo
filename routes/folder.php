@@ -5,7 +5,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
 
-    Route::prefix('folders')->group(function () {
+    Route::prefix('folder')->group(function () {
+
+        Route::get('/{folder}', [FolderController::class, 'show']);
 
         Route::post('/', [FolderController::class, 'store']);
 

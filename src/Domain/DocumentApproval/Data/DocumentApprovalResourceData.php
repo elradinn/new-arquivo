@@ -30,8 +30,6 @@ class DocumentApprovalResourceData extends Resource
 
     public static function fromModel(DocumentApproval $documentApproval): self
     {
-        Log::info($documentApproval->documentApprovalUsers);
-
         return new self(
             id: $documentApproval->id,
             document_id: $documentApproval->document_id,

@@ -11,6 +11,8 @@ use Domain\Folder\Actions\CreateFolderAction;
 use Domain\Folder\Actions\DeleteFolderAction;
 use Domain\Folder\Actions\UpdateFolderAction;
 use Domain\Folder\Data\FolderResourceData;
+use Domain\Item\Models\Item;
+use Illuminate\Support\Facades\Log;
 
 class FolderController extends Controller
 {
@@ -19,6 +21,11 @@ class FolderController extends Controller
         private UpdateFolderAction $updateFolderAction,
         private DeleteFolderAction $deleteFolderAction,
     ) {}
+
+    public function show(Folder $folder): JsonResponse
+    {
+        return response()->json(Item::find($folder->item->id)->getChildren()->load('folder', 'document'));
+    }
 
     public function store(CreateFolderData $data): JsonResponse
     {
