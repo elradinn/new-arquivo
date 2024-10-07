@@ -2,11 +2,11 @@
 
 namespace Domain\DocumentApproval\Models;
 
-use Domain\Document\Models\Document;
-use Domain\DocumentApproval\States\DocumentApprovalState;
-use Domain\DocumentApprovalHasUser\Models\DocumentApprovalHasUser;
 use Domain\Item\Models\Item;
+use Domain\Document\Models\Document;
 use Domain\User\Models\User;
+use App\Domain\DocumentApproval\States\DocumentState;
+use Domain\DocumentApprovalHasUser\Models\DocumentApprovalHasUser;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\ModelStates\HasStates;
@@ -23,7 +23,7 @@ class DocumentApproval extends Model
     ];
 
     protected $casts = [
-        'overall_state' => DocumentApprovalState::class,
+        'overall_state' => DocumentState::class,
     ];
 
     public function document()

@@ -25,8 +25,6 @@ class DocumentApprovalController extends Controller
 
         $documentApproval = $createDocumentApprovalAction->execute($data);
 
-        event(new DocumentApprovalCreated($documentApproval));
-
         return response()->json($documentApproval, 201);
     }
 

@@ -8,7 +8,6 @@ use Illuminate\Http\JsonResponse;
 use Domain\Document\Data\UploadDocumentData;
 use Domain\Document\Actions\UploadDocumentAction;
 use Domain\Document\Data\DocumentResourceData;
-use Domain\Document\Events\DocumentUploaded;
 
 class DocumentController extends Controller
 {
@@ -25,10 +24,7 @@ class DocumentController extends Controller
     public function store(UploadDocumentData $data): JsonResponse
     {
         $document = $this->uploadDocumentAction->execute($data);
-
-        event(new DocumentUploaded($document));
-
-        return response()->json(['message' => 'Document created successfully'], 201);
+        return response()->json($document, 201);
     }
 
     public function show(Document $document): JsonResponse

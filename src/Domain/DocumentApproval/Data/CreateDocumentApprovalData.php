@@ -2,26 +2,30 @@
 
 namespace Domain\DocumentApproval\Data;
 
-use Domain\DocumentApprovalHasUser\Data\CreateDocumentApprovalHasUserData;
-use Domain\Folder\Data\CreateFolderData;
-use Spatie\LaravelData\Attributes\DataCollectionOf;
 use Spatie\LaravelData\Data;
-use Spatie\LaravelData\DataCollection;
+use Spatie\LaravelData\Attributes\Validation\In;
+use Spatie\LaravelData\Attributes\Validation\Required;
+use Spatie\LaravelData\Attributes\Validation\Uuid;
+use Domain\DocumentApprovalHasUser\Data\CreateDocumentApprovalHasUserData;
 
 class CreateDocumentApprovalData extends Data
 {
+    /**
+     * @param CreateDocumentApprovalHasUserData[] $users
+     */
     public function __construct(
-        public int $document_id,
+        #[Required, Uuid()]
+        public string $document_id,
+
+        #[Required, In(['reviewal', 'approval'])]
+        public string $type,
+
         public ?string $resolution = null,
-        public ?int $destination = null,
 
-        // #[DataCollectionOf(CreateDocumentApprovalHasUserData::class)]
-        // public DataCollection $users
+        #[Uuid()]
+        public ?string $destination = null,
 
-        /** @var CreateDocumentApprovalHasUserData[] */
+        #[Required]
         public array $users
-
-        // #[DataCollectionOf(CreateDocumentApprovalHasUserData::class)]
-        // public DataCollection $users
     ) {}
 }

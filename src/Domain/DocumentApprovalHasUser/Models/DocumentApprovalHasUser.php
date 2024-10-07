@@ -6,8 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Domain\User\Models\User;
 use Domain\DocumentApproval\Models\DocumentApproval;
-use Domain\DocumentApprovalHasUser\Events\UserApprovalUpdated;
-use Domain\DocumentApprovalHasUser\States\UserApprovalState;
+use Domain\DocumentApprovalHasUser\States\UserState;
 use Spatie\ModelStates\HasStates;
 
 class DocumentApprovalHasUser extends Model
@@ -22,7 +21,7 @@ class DocumentApprovalHasUser extends Model
     ];
 
     protected $casts = [
-        'user_state' => UserApprovalState::class,
+        'user_state' => UserState::class,
     ];
 
     public function documentApproval()
@@ -33,16 +32,5 @@ class DocumentApprovalHasUser extends Model
     public function users()
     {
         return $this->belongsTo(User::class);
-    }
-
-    /**
-     * Boot method to handle model events
-     */
-    protected static function booted()
-    {
-        // Trigger the event after a user decision is saved
-        static::saved(function ($userApproval) {
-            event(new UserApprovalUpdated($userApproval->documentApproval));
-        });
     }
 }

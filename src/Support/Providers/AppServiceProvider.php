@@ -15,17 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(CreateWorkspaceAction::class, function ($app) {
-            return new CreateWorkspaceAction($app->make(\Domain\Item\Actions\CreateItemAction::class));
-        });
-
-        $this->app->bind(CreateFolderAction::class, function ($app) {
-            return new CreateFolderAction($app->make(\Domain\Item\Actions\CreateItemAction::class));
-        });
-
-        $this->app->bind(UploadDocumentAction::class, function ($app) {
-            return new UploadDocumentAction($app->make(\Domain\Item\Actions\CreateItemAction::class));
-        });
+        //
     }
 
     /**

@@ -23,9 +23,16 @@ class CreateWorkspaceAction
             ])
         );
 
-        return $item->workspace()->create([
+        $workspace = $item->workspace()->create([
             'name' => $data->name,
             'owned_by' => Auth::id(),
         ]);
+
+        activity()
+            ->performedOn($workspace)
+            ->causedBy(Auth::id())
+            ->log("Workspace created");
+
+        return $workspace;
     }
 }

@@ -40,8 +40,6 @@ class UserController extends Controller
     {
         $user = $this->registerUserAction->execute($registerUserData);
 
-        Log::info('user id: ' . $user->id);
-
         return response()->json($user, Response::HTTP_CREATED);
     }
 
