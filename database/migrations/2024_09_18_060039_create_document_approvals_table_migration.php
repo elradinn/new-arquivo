@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('document_approvals', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->uuid('document_item_id')->unique();
+            $table->uuid('document_id')->unique();
             $table->text('resolution')->nullable();
             $table->string('overall_state');
             $table->uuid('destination')->nullable();
