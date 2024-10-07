@@ -9,7 +9,7 @@ use Spatie\LaravelData\Resource;
 class DocumentApprovalResourceData extends Resource
 {
     public function __construct(
-        public int $id,
+        public string $id,
 
         public string $document_id,
 
@@ -42,7 +42,8 @@ class DocumentApprovalResourceData extends Resource
             document_user_approvals: $documentApproval->documentApprovalUsers->map(fn($documentUserApproval) => [
                 'id' => $documentUserApproval->id,
                 'user_id' => $documentUserApproval->user_id,
-                'user_state' => $documentUserApproval->state,
+                'user_state' => $documentUserApproval->user_state,
+                'comment' => $documentUserApproval->comment,
                 'created_at' => $documentUserApproval->created_at,
                 'updated_at' => $documentUserApproval->updated_at,
             ])->toArray(),

@@ -7,12 +7,8 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('user_approval/{userApproval}')->group(function () {
 
-        Route::post('reviewal/accept', [DocumentUserApprovalController::class, 'acceptReviewal']);
+        Route::post('/accept', [DocumentUserApprovalController::class, 'accept']);
 
-        Route::post('reviewal/reject', [DocumentUserApprovalController::class, 'rejectReviewal']);
-
-        Route::post('approval/accept', [DocumentUserApprovalController::class, 'acceptApproval']);
-
-        Route::post('approval/reject', [DocumentUserApprovalController::class, 'rejectApproval']);
+        Route::post('/reject', [DocumentUserApprovalController::class, 'reject']);
     });
 });

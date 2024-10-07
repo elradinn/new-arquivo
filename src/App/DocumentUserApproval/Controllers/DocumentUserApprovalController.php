@@ -4,40 +4,34 @@ namespace App\DocumentUserApproval\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use App\Common\Controllers\Controller;
-use Domain\DocumentApproval\Data\DocumentApprovalResourceData;
 use Domain\DocumentApprovalHasUser\Models\DocumentApprovalHasUser;
 use Domain\DocumentApprovalHasUser\States\UserApprovalAccepted;
+use Domain\DocumentApprovalHasUser\States\UserApprovalPending;
 use Domain\DocumentApprovalHasUser\States\UserApprovalRejected;
 use Domain\DocumentApprovalHasUser\States\UserReviewalAccepted;
+use Domain\DocumentApprovalHasUser\States\UserReviewalPending;
 use Domain\DocumentApprovalHasUser\States\UserReviewalRejected;
-use Illuminate\Support\Facades\Log;
 
 class DocumentUserApprovalController extends Controller
 {
-    public function acceptReviewal(DocumentApprovalHasUser $userApproval): JsonResponse
+    public function accept(DocumentApprovalHasUser $userApproval): JsonResponse
     {
-        $userApproval->user_state->transitionTo(UserReviewalAccepted::class);
+        if ($userApproval->user_state instanceof UserReviewalPending) {
+            $userApproval->user_state->transitionTo(UserReviewalAccepted::class);
+        } else if ($userApproval->user_state instanceof UserApprovalPending) {
+            $userApproval->user_state->transitionTo(UserApprovalAccepted::class);
+        }
 
         return response()->json($userApproval);
     }
 
-    public function rejectReviewal(DocumentApprovalHasUser $userApproval): JsonResponse
+    public function reject(DocumentApprovalHasUser $userApproval): JsonResponse
     {
-        $userApproval->user_state->transitionTo(UserReviewalRejected::class);
-
-        return response()->json($userApproval);
-    }
-
-    public function acceptApproval(DocumentApprovalHasUser $userApproval): JsonResponse
-    {
-        $userApproval->user_state->transitionTo(UserApprovalAccepted::class);
-
-        return response()->json($userApproval);
-    }
-
-    public function rejectApproval(DocumentApprovalHasUser $userApproval): JsonResponse
-    {
-        $userApproval->user_state->transitionTo(UserApprovalRejected::class);
+        if ($userApproval->user_state instanceof UserReviewalPending) {
+            $userApproval->user_state->transitionTo(UserReviewalRejected::class);
+        } else if ($userApproval->user_state instanceof UserApprovalPending) {
+            $userApproval->user_state->transitionTo(UserApprovalRejected::class);
+        }
 
         return response()->json($userApproval);
     }

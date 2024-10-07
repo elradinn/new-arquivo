@@ -25,4 +25,11 @@ class DocumentApprovalController extends Controller
 
         return response()->json($documentApproval, 201);
     }
+
+    public function cancel(DocumentApproval $documentApproval): JsonResponse
+    {
+        $documentApproval->delete();
+
+        return response()->json(['message' => 'Document approval canceled.']);
+    }
 }

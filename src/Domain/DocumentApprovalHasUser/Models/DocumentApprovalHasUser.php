@@ -7,10 +7,11 @@ use Domain\User\Models\User;
 use Domain\DocumentApproval\Models\DocumentApproval;
 use Domain\DocumentApprovalHasUser\States\UserState;
 use Spatie\ModelStates\HasStates;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 
 class DocumentApprovalHasUser extends Model
 {
-    use HasStates;
+    use HasUuids, HasStates;
 
     protected $fillable = [
         'document_approval_id',

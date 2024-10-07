@@ -10,5 +10,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/{documentApproval}', [DocumentApprovalController::class, 'show']);
 
         Route::post('/', [DocumentApprovalController::class, 'store']);
+
+        Route::delete('/{documentApproval}', [DocumentApprovalController::class, 'cancel']);
     });
 });
