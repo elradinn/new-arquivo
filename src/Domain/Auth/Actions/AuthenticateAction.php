@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Auth\Services;
+namespace Domain\Auth\Actions;
 
 use Domain\Auth\Data\LoginData;
 use Illuminate\Support\Facades\Auth;
@@ -9,14 +9,14 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Support\Str;
 
-class AuthService
+class AuthenticateAction
 {
     /**
      * Attempt to authenticate the user.
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function authenticate(LoginData $data): void
+    public function execute(LoginData $data): void
     {
         $this->ensureIsNotRateLimited($data->email);
 
