@@ -9,7 +9,6 @@ use Domain\Item\Actions\CreateItemAction;
 use Domain\Item\Data\CreateItemData;
 use Domain\NumberingScheme\Actions\ApplyDocumentNumberAction;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 
 class UploadDocumentAction
 {
