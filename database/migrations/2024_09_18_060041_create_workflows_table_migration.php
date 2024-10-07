@@ -13,6 +13,7 @@ return new class extends Migration
             $table->uuid('folder_item_id')->unique();
             $table->text('resolution')->nullable();
             $table->uuid('destination')->nullable();
+            $table->string('type');
             $table->timestamps();
 
             $table->foreign('folder_item_id')->references('item_id')->on('folders')->onDelete('cascade');

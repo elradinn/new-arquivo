@@ -5,7 +5,7 @@ namespace Domain\DocumentApproval\Models;
 use Domain\Item\Models\Item;
 use Domain\Document\Models\Document;
 use Domain\User\Models\User;
-use App\Domain\DocumentApproval\States\DocumentState;
+use Domain\DocumentApproval\States\DocumentState;
 use Domain\DocumentApprovalHasUser\Models\DocumentApprovalHasUser;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;

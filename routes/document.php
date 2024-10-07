@@ -17,8 +17,12 @@ Route::middleware('auth')->group(function () {
 Route::get('/document-approvals', [DocumentApprovalController::class, 'index']);
 Route::post('/document-approvals', [DocumentApprovalController::class, 'store']);
 
-Route::post('/document-approvals/{documentApprovalId}/accept', [DocumentUserApprovalController::class, 'accept']);
-Route::post('/document-approvals/{documentApprovalId}/reject', [DocumentUserApprovalController::class, 'reject']);
+Route::post('/document-approvals/{documentApprovalId}/reviewal/accept', [DocumentUserApprovalController::class, 'acceptReviewal']);
+Route::post('/document-approvals/{documentApprovalId}/reviewal/reject', [DocumentUserApprovalController::class, 'rejectReviewal']);
+
+Route::post('/document-approvals/{documentApprovalId}/approval/accept', [DocumentUserApprovalController::class, 'acceptApproval']);
+Route::post('/document-approvals/{documentApprovalId}/approval/reject', [DocumentUserApprovalController::class, 'rejectApproval']);
+
 
 Route::delete('/document-approvals', [DocumentApprovalController::class, 'deleteAll']);
 

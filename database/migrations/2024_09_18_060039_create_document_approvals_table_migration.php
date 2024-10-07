@@ -14,6 +14,7 @@ return new class extends Migration
             $table->text('resolution')->nullable();
             $table->string('overall_state')->nullable();
             $table->uuid('destination')->nullable(); // Changed to unsignedBigInteger
+            $table->string('type');
             $table->softDeletes();
             $table->timestamps();
 
