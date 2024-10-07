@@ -1,0 +1,16 @@
+<?php
+
+namespace Domain\DocumentApprovalHasUser\Data;
+
+use Spatie\LaravelData\Resource;
+
+class DocumentUserApprovalResourceData extends Resource
+{
+    public function __construct(
+        public int $id,
+        public int $document_approval_id,
+        public string $user_state,
+        public string $created_at,
+        public string $updated_at
+    ) {}
+}

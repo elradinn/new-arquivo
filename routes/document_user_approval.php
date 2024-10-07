@@ -5,17 +5,16 @@ use App\DocumentUserApproval\Controllers\DocumentUserApprovalController;
 
 Route::middleware('auth')->group(function () {
 
-    Route::prefix('user_approval/{userApproval}/reviewal')->group(function () {
+    Route::prefix('user_approval/{userApproval}')->group(function () {
 
-        Route::post('/accept', [DocumentUserApprovalController::class, 'acceptReviewal']);
+        Route::get('/', [DocumentUserApprovalController::class, 'show']);
 
-        Route::post('/reject', [DocumentUserApprovalController::class, 'rejectReviewal']);
-    });
+        Route::post('reviewal/accept', [DocumentUserApprovalController::class, 'acceptReviewal']);
 
-    Route::prefix('user_approval/{userApproval}/approval')->group(function () {
+        Route::post('reviewal/reject', [DocumentUserApprovalController::class, 'rejectReviewal']);
 
-        Route::post('/accept', [DocumentUserApprovalController::class, 'acceptApproval']);
+        Route::post('approval/accept', [DocumentUserApprovalController::class, 'acceptApproval']);
 
-        Route::post('/reject', [DocumentUserApprovalController::class, 'rejectApproval']);
+        Route::post('approval/reject', [DocumentUserApprovalController::class, 'rejectApproval']);
     });
 });
