@@ -9,10 +9,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('document_approval_has_users', function (Blueprint $table) {
-            $table->bigIncrements('id')->primary(); // Changed to bigIncrements
-            $table->unsignedBigInteger('document_approval_id'); // Changed to unsignedBigInteger
-            $table->unsignedBigInteger('user_id'); // Changed to unsignedBigInteger
-            $table->string('user_state')->nullable();
+            $table->uuid('id')->primary();
+            $table->uuid('document_approval_id');
+            $table->unsignedBigInteger('user_id');
+            $table->string('user_state');
             $table->text('comment')->nullable();
             $table->softDeletes();
             $table->timestamps();

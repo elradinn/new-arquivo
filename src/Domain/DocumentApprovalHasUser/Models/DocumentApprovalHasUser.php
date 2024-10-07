@@ -3,7 +3,6 @@
 namespace Domain\DocumentApprovalHasUser\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Domain\User\Models\User;
 use Domain\DocumentApproval\Models\DocumentApproval;
 use Domain\DocumentApprovalHasUser\States\UserState;
@@ -11,7 +10,7 @@ use Spatie\ModelStates\HasStates;
 
 class DocumentApprovalHasUser extends Model
 {
-    use SoftDeletes, HasStates;
+    use HasStates;
 
     protected $fillable = [
         'document_approval_id',

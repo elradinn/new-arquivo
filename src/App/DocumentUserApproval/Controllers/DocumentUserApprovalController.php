@@ -10,14 +10,10 @@ use Domain\DocumentApprovalHasUser\States\UserApprovalAccepted;
 use Domain\DocumentApprovalHasUser\States\UserApprovalRejected;
 use Domain\DocumentApprovalHasUser\States\UserReviewalAccepted;
 use Domain\DocumentApprovalHasUser\States\UserReviewalRejected;
+use Illuminate\Support\Facades\Log;
 
 class DocumentUserApprovalController extends Controller
 {
-    public function show(DocumentApprovalHasUser $userApproval): JsonResponse
-    {
-        return response()->json(DocumentApprovalResourceData::fromModel($userApproval->documentApproval));
-    }
-
     public function acceptReviewal(DocumentApprovalHasUser $userApproval): JsonResponse
     {
         $userApproval->user_state->transitionTo(UserReviewalAccepted::class);

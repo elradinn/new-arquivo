@@ -9,11 +9,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('document_approvals', function (Blueprint $table) {
-            $table->bigIncrements('id'); // Changed to bigIncrements
-            $table->uuid('document_id'); // Changed to unsignedInteger
+            $table->uuid('id')->primary();
+            $table->uuid('document_item_id')->unique();
             $table->text('resolution')->nullable();
-            $table->string('overall_state')->nullable();
-            $table->uuid('destination')->nullable(); // Changed to unsignedBigInteger
+            $table->string('overall_state');
+            $table->uuid('destination')->nullable();
             $table->string('type');
             $table->softDeletes();
             $table->timestamps();

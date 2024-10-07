@@ -8,18 +8,18 @@ use Domain\User\Models\User;
 use Domain\DocumentApproval\States\DocumentState;
 use Domain\DocumentApprovalHasUser\Models\DocumentApprovalHasUser;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\ModelStates\HasStates;
 
 class DocumentApproval extends Model
 {
-    use SoftDeletes, HasStates;
+    use HasStates;
 
     protected $fillable = [
         'document_id',
         'resolution',
-        'overall_state',
         'destination',
+        'type',
+        'overall_state',
     ];
 
     protected $casts = [
