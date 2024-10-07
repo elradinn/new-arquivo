@@ -26,6 +26,7 @@ class Document extends Model
         'document_number',
         'status',
         'description',
+        'file_path',
     ];
 
     /**

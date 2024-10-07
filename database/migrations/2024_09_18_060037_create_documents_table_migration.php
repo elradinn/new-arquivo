@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('document_number')->nullable();
             $table->string('status')->nullable();
             $table->string('description')->nullable();
+            $table->string('file_path');
             $table->timestamps();
             $table->softDeletes();
 

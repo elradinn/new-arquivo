@@ -61,11 +61,11 @@ class DatabaseSeeder extends Seeder
             name: 'Test Folder'
         ));
 
-        // Create Document
-        $uploadDocumentAction = app(UploadDocumentAction::class);
-        $uploadDocumentAction->execute(new UploadDocumentData(
-            parent_id: $folder->item_id,
-            name: 'Test Document'
-        ));
+        // // Create Document
+        // $uploadDocumentAction = app(UploadDocumentAction::class);
+        // $uploadDocumentAction->execute(new UploadDocumentData(
+        //     parent_id: $folder->item_id,
+        //     name: 'Test Document'
+        // ));
     }
 }
