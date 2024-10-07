@@ -12,10 +12,9 @@ use Domain\DocumentApprovalHasUser\Models\DocumentApprovalHasUser;
 
 class DocumentApprovalController extends Controller
 {
-    public function index(): JsonResponse
+    public function show(DocumentApproval $documentApproval): JsonResponse
     {
-        $approvals = DocumentApproval::with('documentApprovalUsers')->get();
-        return response()->json($approvals);
+        return response()->json($documentApproval);
     }
 
     public function store(

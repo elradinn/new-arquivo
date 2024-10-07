@@ -5,9 +5,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
 
-    Route::prefix('documents/{document}/approval')->group(function () {
+    Route::prefix('document_approval')->group(function () {
 
-        Route::get('/', [DocumentApprovalController::class, 'index']);
+        Route::get('/{documentApproval}', [DocumentApprovalController::class, 'show']);
 
         Route::post('/', [DocumentApprovalController::class, 'store']);
     });
