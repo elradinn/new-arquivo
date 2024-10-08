@@ -22,6 +22,7 @@ class DocumentControllerTest extends TestCase
         Storage::fake('public');
 
         // Create a user and authenticate
+        /** @var User $user */
         $user = User::factory()->create();
         $this->actingAs($user);
 
