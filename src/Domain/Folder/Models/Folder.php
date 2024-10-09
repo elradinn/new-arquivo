@@ -4,11 +4,13 @@ namespace Domain\Folder\Models;
 
 use Domain\Item\Models\Item;
 use Domain\NumberingScheme\Models\NumberingScheme;
+use Domain\User\Models\User;
 use Domain\Workflow\Models\Workflow;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Folder extends Model
 {
@@ -34,5 +36,12 @@ class Folder extends Model
     public function numberingScheme(): HasOne
     {
         return $this->hasOne(NumberingScheme::class);
+    }
+
+    public function userAccess(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'user_folder_access')
+            ->withPivot('role')
+            ->withTimestamps();
     }
 }

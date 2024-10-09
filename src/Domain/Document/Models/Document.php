@@ -6,6 +6,7 @@ use Domain\DocumentApproval\Models\DocumentApproval;
 use Domain\Item\Models\Item;
 use Domain\Folder\Models\Folder;
 use Domain\Metadata\Models\Metadata;
+use Domain\User\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -70,6 +71,13 @@ class Document extends Model
     public function relatedToDocuments(): BelongsToMany
     {
         return $this->belongsToMany(Document::class, 'related_documents', 'related_document_id', 'document_id')
+            ->withTimestamps();
+    }
+
+    public function userAccess(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'user_document_access')
+            ->withPivot('role')
             ->withTimestamps();
     }
 }

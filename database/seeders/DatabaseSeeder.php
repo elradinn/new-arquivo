@@ -8,8 +8,6 @@ use Domain\Workspace\Actions\CreateWorkspaceAction;
 use Domain\Workspace\Data\CreateWorkspaceData;
 use Domain\Folder\Actions\CreateFolderAction;
 use Domain\Folder\Data\CreateFolderData;
-use Domain\Document\Actions\UploadDocumentAction;
-use Domain\Document\Data\UploadDocumentData;
 use Domain\Metadata\Models\Metadata;
 
 class DatabaseSeeder extends Seeder
@@ -19,12 +17,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call([
+            RolePermissionSeeder::class,
+        ]);
+
         // Create Users
-        User::create([
+        $testUser = User::create([
             'name' => 'Test User',
             'email' => 'test@example.com',
             'password' => '12345678',
         ]);
+
+        $testUser->assignRole('admin');
 
         User::create([
             'name' => 'Test Approval',
@@ -56,7 +60,7 @@ class DatabaseSeeder extends Seeder
 
         // Create Folder
         $createFolderAction = app(CreateFolderAction::class);
-        $folder = $createFolderAction->execute(new CreateFolderData(
+        $createFolderAction->execute(new CreateFolderData(
             parent_id: $workspace->item_id,
             name: 'Test Folder'
         ));
@@ -67,5 +71,7 @@ class DatabaseSeeder extends Seeder
         //     parent_id: $folder->item_id,
         //     name: 'Test Document'
         // ));
+
+
     }
 }
