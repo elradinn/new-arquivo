@@ -8,60 +8,63 @@ use Illuminate\Auth\Access\AuthorizationException;
 
 class WorkspaceAuthorization
 {
-    public function before(User $user): ?bool
+    private function authorize(User $user, callable $callback)
     {
-        if ($user->hasRole('v')) {
+        if ($this->before($user)) {
+            return true;
+        }
+
+        return $callback();
+    }
+
+    private function before(User $user): ?bool
+    {
+        if ($user->hasRole('admin')) {
             return true;
         }
 
         return null;
     }
 
-    public function canView(User $user, Workspace $workspace): void
+    public function isAdmin(User $user)
     {
-        if ($this->before($user, 'view') !== null) {
-            if ($this->before($user, 'view')) {
-                return;
-            }
-            throw new AuthorizationException('Unauthorized');
+        if ($user->hasRole('admin')) {
+            return true;
         }
 
-        if (!$workspace->users()->where('user_id', $user->id)->exists()) {
-            throw new AuthorizationException('Unauthorized');
-        }
+        throw new AuthorizationException('Unauthorized');
     }
 
-    public function canEdit(User $user, Workspace $workspace): void
+    public function canView(User $user, Workspace $workspace)
     {
-        if ($this->before($user, 'edit') !== null) {
-            if ($this->before($user, 'edit')) {
-                return;
+        return $this->authorize($user, function () use ($workspace, $user) {
+            if (!$workspace->users()->where('user_id', $user->id)->exists()) {
+                throw new AuthorizationException('You don`t have permission to view this workspace');
             }
-            throw new AuthorizationException('Unauthorized');
-        }
-
-        if (!$workspace->users()
-            ->where('user_id', $user->id)
-            ->wherePivot('role', 'editor')
-            ->exists()) {
-            throw new AuthorizationException('Unauthorized');
-        }
+        });
     }
 
-    public function canShare(User $user, Workspace $workspace): void
+    public function canEdit(User $user, Workspace $workspace)
     {
-        if ($this->before($user, 'share') !== null) {
-            if ($this->before($user, 'share')) {
-                return;
+        return $this->authorize($user, function () use ($workspace, $user) {
+            if (!$workspace->users()
+                ->where('user_id', $user->id)
+                ->wherePivot('role', 'editor')
+                ->exists()) {
+                throw new AuthorizationException('You don`t have permission to edit this workspace');
             }
-            throw new AuthorizationException('Unauthorized');
-        }
+        });
+    }
 
-        if (!$workspace->users()
-            ->where('user_id', $user->id)
-            ->wherePivot('role', 'editor')
-            ->exists()) {
-            throw new AuthorizationException('Unauthorized');
-        }
+    public function canShare(User $user, Workspace $workspace)
+    {
+        $this->authorize($user, function () use ($workspace, $user) {
+            if (!$workspace->users()
+                ->where('user_id', $user->id)
+                ->wherePivot('role', 'editor')
+                ->exists()) {
+                throw new AuthorizationException('You don`t have permission to share this workspace');
+            }
+        });
     }
 }
