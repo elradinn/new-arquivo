@@ -43,7 +43,7 @@ class DocumentControllerTest extends TestCase
         $file = UploadedFile::fake()->create('document.pdf', 100, 'application/pdf');
 
         // Send a POST request with the file
-        $response = $this->post('/documents', [
+        $response = $this->post('/document', [
             'parent_id' => $folder->item_id,
             'name' => 'Test Document',
             'file' => $file,
