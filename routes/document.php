@@ -1,6 +1,6 @@
 <?php
 
-use App\Document\Controllers\DocumentController;
+use Modules\Document\Controllers\DocumentController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {

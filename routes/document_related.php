@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Document\Controllers\RelatedDocumentController;
+use Modules\Document\Controllers\RelatedDocumentController;
 
 Route::middleware('auth')->group(function () {
 

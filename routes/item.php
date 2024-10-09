@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Item\Controllers\ItemController;
+use Modules\Item\Controllers\ItemController;
 
 Route::middleware('auth')->group(function () {
 

@@ -1,6 +1,6 @@
 <?php
 
-use App\Workspace\Controllers\WorkspaceController;
+use Modules\Workspace\Controllers\WorkspaceController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {

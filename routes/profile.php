@@ -1,6 +1,6 @@
 <?php
 
-use App\Profile\Controllers\ProfileController;
+use Modules\Profile\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {

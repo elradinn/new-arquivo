@@ -1,6 +1,6 @@
 <?php
 
-use App\User\Controllers\UserController;
+use Modules\User\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {

@@ -1,6 +1,6 @@
 <?php
 
-use App\Application;
+use Modules\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
@@ -12,7 +12,7 @@ return Application::configure(basePath: $_ENV['APP_BASE_PATH'] ?? dirname(__DIR_
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->web(append: [
-            \App\Common\Middlewares\HandleInertiaRequests::class,
+            \Modules\Common\Middlewares\HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
         ]);
 

@@ -1,6 +1,6 @@
 <?php
 
-use App\Folder\Controllers\FolderController;
+use Modules\Folder\Controllers\FolderController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {

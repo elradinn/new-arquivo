@@ -1,6 +1,6 @@
 <?php
 
-use App\Workflow\Controllers\WorkflowController;
+use Modules\Workflow\Controllers\WorkflowController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {

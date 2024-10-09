@@ -1,6 +1,6 @@
 <?php
 
-use App\Metadata\Controllers\MetadataController;
+use Modules\Metadata\Controllers\MetadataController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {

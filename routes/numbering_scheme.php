@@ -1,6 +1,6 @@
 <?php
 
-use App\NumberingScheme\Controllers\NumberingSchemeController;
+use Modules\NumberingScheme\Controllers\NumberingSchemeController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {

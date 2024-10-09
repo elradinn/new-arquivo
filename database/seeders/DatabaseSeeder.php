@@ -2,13 +2,13 @@
 
 namespace Database\Seeders;
 
-use Domain\User\Models\User;
+use Modules\User\Models\User;
 use Illuminate\Database\Seeder;
-use Domain\Workspace\Actions\CreateWorkspaceAction;
-use Domain\Workspace\Data\CreateWorkspaceData;
-use Domain\Folder\Actions\CreateFolderAction;
-use Domain\Folder\Data\CreateFolderData;
-use Domain\Metadata\Models\Metadata;
+use Modules\Workspace\Actions\CreateWorkspaceAction;
+use Modules\Workspace\Data\CreateWorkspaceData;
+use Modules\Folder\Actions\CreateFolderAction;
+use Modules\Folder\Data\CreateFolderData;
+use Modules\Metadata\Models\Metadata;
 
 class DatabaseSeeder extends Seeder
 {
