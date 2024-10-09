@@ -40,7 +40,7 @@ class Folder extends Model
 
     public function userAccess(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'user_folder_access')
+        return $this->belongsToMany(User::class, 'user_folder_access', 'folder_id', 'user_id')
             ->withPivot('role')
             ->withTimestamps();
     }

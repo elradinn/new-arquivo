@@ -16,5 +16,9 @@ Route::middleware('auth')->group(function () {
         Route::put('/{folder}', [FolderController::class, 'update']);
 
         Route::delete('/{folder}', [FolderController::class, 'destroy']);
+
+        Route::post('/{folder}/share', [FolderController::class, 'share']);
+
+        Route::delete('/{folder}/share', [FolderController::class, 'removeShare']);
     });
 });

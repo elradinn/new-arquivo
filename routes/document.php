@@ -10,5 +10,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/{document}', [DocumentController::class, 'show']);
 
         Route::post('/', [DocumentController::class, 'store']);
+
+        Route::post('/{document}/share', [DocumentController::class, 'share']);
+
+        Route::delete('/{document}/share', [DocumentController::class, 'removeShare']);
     });
 });

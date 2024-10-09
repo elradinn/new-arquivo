@@ -30,7 +30,7 @@ class Workspace extends Model
         return $this->belongsTo(Item::class);
     }
 
-    public function users(): BelongsToMany
+    public function userAccess(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'user_workspace_access', 'workspace_id', 'user_id')
             ->withPivot('role')

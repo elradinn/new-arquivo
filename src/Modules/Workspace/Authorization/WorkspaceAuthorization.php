@@ -38,7 +38,7 @@ class WorkspaceAuthorization
     public function canView(User $user, Workspace $workspace)
     {
         return $this->authorize($user, function () use ($workspace, $user) {
-            if (!$workspace->users()->where('user_id', $user->id)->exists()) {
+            if (!$workspace->userAccess()->where('user_id', $user->id)->exists()) {
                 throw new AuthorizationException('You don`t have permission to view this workspace');
             }
         });
@@ -47,7 +47,7 @@ class WorkspaceAuthorization
     public function canEdit(User $user, Workspace $workspace)
     {
         return $this->authorize($user, function () use ($workspace, $user) {
-            if (!$workspace->users()
+            if (!$workspace->userAccess()
                 ->where('user_id', $user->id)
                 ->wherePivot('role', 'editor')
                 ->exists()) {
@@ -59,7 +59,7 @@ class WorkspaceAuthorization
     public function canShare(User $user, Workspace $workspace)
     {
         $this->authorize($user, function () use ($workspace, $user) {
-            if (!$workspace->users()
+            if (!$workspace->userAccess()
                 ->where('user_id', $user->id)
                 ->wherePivot('role', 'editor')
                 ->exists()) {

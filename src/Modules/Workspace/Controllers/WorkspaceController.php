@@ -50,7 +50,7 @@ class WorkspaceController extends Controller
 
         $user = User::where('email', $data->email)->firstOrFail();
 
-        $workspace->users()->attach($user->id, ['role' => $data->role]);
+        $workspace->userAccess()->attach($user->id, ['role' => $data->role]);
 
         return response()->json(['message' => 'Workspace shared successfully.'], 200);
     }
@@ -61,7 +61,7 @@ class WorkspaceController extends Controller
 
         $user = User::where('email', $data->email)->firstOrFail();
 
-        $workspace->users()->detach($user->id);
+        $workspace->userAccess()->detach($user->id);
 
         return response()->json(['message' => 'Workspace unshared successfully.'], 200);
     }
