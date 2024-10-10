@@ -1,6 +1,6 @@
 <?php
 
 return [
-    Support\Providers\AppServiceProvider::class,
+    Modules\Common\Providers\AppServiceProvider::class,
     Franzose\ClosureTable\ClosureTableServiceProvider::class
 ];
