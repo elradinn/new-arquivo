@@ -1,9 +1,9 @@
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import AuthenticatedLayout from "@/Modules/Common/Layouts/AuthenticatedLayout/Authenticated";
 import DeleteUserForm from "./Partials/DeleteUserForm";
 import UpdatePasswordForm from "./Partials/UpdatePasswordForm";
 import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm";
 import { Head } from "@inertiajs/react";
-import { PageProps } from "@/types";
+import { PageProps } from "@/Modules/Common/Types";
 import { Paper, Text } from "@mantine/core";
 import classes from "./Edit.module.css";
 

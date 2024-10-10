@@ -1,4 +1,4 @@
-import GuestLayout from "@/Layouts/GuestLayout";
+import GuestLayout from "@/Modules/Common/Layouts/GuestLayout/Guest";
 import { Head, Link, useForm } from "@inertiajs/react";
 import { FormEventHandler } from "react";
 import { Anchor, Button, Flex, Text } from "@mantine/core";

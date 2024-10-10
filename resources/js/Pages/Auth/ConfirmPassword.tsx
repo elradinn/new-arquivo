@@ -1,6 +1,6 @@
 import { Text } from "@mantine/core";
 import { Head } from "@inertiajs/react";
-import GuestLayout from "@/Layouts/GuestLayout";
+import GuestLayout from "@/Modules/Common/Layouts/GuestLayout/Guest";
 import ConfirmPasswordForm from "@/Modules/Auth/Forms/ConfirmPasswordForm";
 
 export default function ConfirmPassword() {

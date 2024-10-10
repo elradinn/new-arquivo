@@ -2,7 +2,7 @@ import { PropsWithChildren } from "react";
 import { Link } from "@inertiajs/react";
 import { Flex, Paper } from "@mantine/core";
 import classes from "./GuestLayout.module.css";
-import OfficeLogo from "@/Components/OfficeLogo";
+import OfficeLogo from "@/Modules/Common/Components/OfficeLogo/OfficeLogo";
 
 export default function Guest({ children }: PropsWithChildren) {
     return (

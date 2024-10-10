@@ -1,5 +1,5 @@
 import { useEffect, FormEventHandler } from "react";
-import GuestLayout from "@/Layouts/GuestLayout";
+import GuestLayout from "@/Modules/Common/Layouts/GuestLayout/Guest";
 import { Button, Flex, Stack, TextInput } from "@mantine/core";
 import { Head, useForm } from "@inertiajs/react";
 

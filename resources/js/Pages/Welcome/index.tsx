@@ -1,5 +1,5 @@
 import { Link, Head } from "@inertiajs/react";
-import { PageProps } from "@/types";
+import { PageProps } from "@/Modules/Common/Types";
 import {
     Anchor,
     Box,
@@ -12,7 +12,7 @@ import {
     Text,
     Title,
 } from "@mantine/core";
-import ApplicationLogo from "@/Components/ApplicationLogo";
+import OfficeLogo from "@/Modules/Common/Components/OfficeLogo/OfficeLogo";
 import classes from "./Welcome.module.css";
 
 export default function Welcome({
@@ -41,7 +41,7 @@ export default function Welcome({
                     <Grid align="center" gutter={8} py={40}>
                         <Grid.Col span={{ base: 6, lg: 4 }} offset={{ lg: 4 }}>
                             <Flex justify={{ lg: "center" }}>
-                                <ApplicationLogo className={classes.logo} />
+                                <OfficeLogo />
                             </Flex>
                         </Grid.Col>
                         <Grid.Col span={{ base: 6, lg: 4 }}>

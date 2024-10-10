@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { Head, Link, router, useForm, usePage } from "@inertiajs/react";
-import { FileData, PageProps } from "@/types";
+import { FileData, PageProps } from "@/Types";
 import { Anchor, Breadcrumbs, Group, rem, Stack, Text } from "@mantine/core";
 import { AdminLayout } from "@/Layouts/AdminLayout/AdminLayout";
 import { DataTable } from "mantine-datatable";
@@ -8,8 +8,8 @@ import { IconChevronRight, IconUpload } from "@tabler/icons-react";
 import { Dropzone, FileWithPath } from "@mantine/dropzone";
 import { useRef, useState } from "react";
 import { notifications } from "@mantine/notifications";
-import FileIcon from "@/Components/FileIcon";
-import Toolbar from "@/Components/Toolbar/Toolbar";
+import FileIcon from "@/Modules/Common/Components/FileIcon";
+import Toolbar from "@/Modules/Common/Components/Toolbar/Toolbar";
 
 interface FormData {
     files: FileWithPath[];
@@ -17,7 +17,7 @@ interface FormData {
     parent_id?: number;
 }
 
-export default function FileIndex({ auth, files, ancestors, fileData }: PageProps) {
+export default function ItemPage({ auth, files, ancestors, fileData }: PageProps) {
     const page = usePage<PageProps>();
 
     const openRef = useRef<() => void>(null);

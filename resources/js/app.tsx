@@ -1,4 +1,4 @@
-import "./bootstrap";
+import "./Modules/Common/Http/bootstrap";
 
 import { createRoot } from "react-dom/client";
 import { createInertiaApp } from "@inertiajs/react";
@@ -9,7 +9,7 @@ import "@mantine/notifications/styles.css";
 import "mantine-datatable/styles.css";
 import "@mantine/dropzone/styles.css";
 
-import { theme } from "./theme";
+import { theme } from "./Modules/Common/Themes/theme";
 
 import { MantineProvider } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
@@ -38,6 +38,4 @@ createInertiaApp({
     progress: {
         color: "#4B5563",
     },
-}).then(() => {
-    document?.getElementById("app")?.removeAttribute("data-page");
 });

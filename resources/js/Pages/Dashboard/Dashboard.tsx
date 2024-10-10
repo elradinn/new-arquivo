@@ -1,10 +1,7 @@
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import AuthenticatedLayout from "@/Modules/Common/Layouts/AuthenticatedLayout/Authenticated";
 import { Head } from "@inertiajs/react";
-import { PageProps } from "@/types";
+import { PageProps } from "@/Modules/Common/Types";
 import { Box, Container, Paper, Stack, Text } from "@mantine/core";
-import WorkspaceForm from "@/Modules/Workspace/Forms/WorkspaceForm";
-import FolderForm from "@/Modules/Folder/Forms/FolderForm";
-import DocumentForm from "@/Modules/Document/Forms/DocumentForm";
 import ApiTester from "./ApiTester";
 
 export default function Dashboard({ auth }: PageProps) {

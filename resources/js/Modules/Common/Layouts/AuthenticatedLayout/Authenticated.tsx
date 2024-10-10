@@ -1,9 +1,9 @@
 import { PropsWithChildren } from "react";
-import ApplicationLogo from "@/Components/ApplicationLogo";
-import NavLink from "@/Components/NavLink";
-import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
+import OfficeLogo from "@/Modules/Common/Components/OfficeLogo/OfficeLogo";
+import NavLink from "@/Modules/Common/Components/NavLink";
+import ResponsiveNavLink from "@/Modules/Common/Components/ResponsiveNavLink";
 import { Link } from "@inertiajs/react";
-import { User } from "@/types";
+import { User } from "@/Modules/Common/Types";
 import {
     Box,
     Burger,
@@ -35,7 +35,7 @@ export default function Authenticated({
                         <Flex>
                             <Flex align="center">
                                 <Link href="/">
-                                    <ApplicationLogo height={36} width={36} />
+                                    <OfficeLogo h={36} w={36} />
                                 </Link>
                             </Flex>
 
