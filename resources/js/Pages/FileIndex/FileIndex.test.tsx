@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Head, Link, router, useForm, usePage } from "@inertiajs/react";
 import { FileData, PageProps } from "@/types";
 import { Anchor, Breadcrumbs, Group, rem, Stack, Text } from "@mantine/core";
