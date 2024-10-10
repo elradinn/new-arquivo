@@ -1,8 +1,8 @@
 import { PropsWithChildren } from "react";
-import ApplicationLogo from "@/Components/ApplicationLogo";
 import { Link } from "@inertiajs/react";
 import { Flex, Paper } from "@mantine/core";
 import classes from "./GuestLayout.module.css";
+import OfficeLogo from "@/Components/OfficeLogo";
 
 export default function Guest({ children }: PropsWithChildren) {
     return (
@@ -19,11 +19,7 @@ export default function Guest({ children }: PropsWithChildren) {
         >
             <div>
                 <Link href="/">
-                    <ApplicationLogo
-                        height={80}
-                        width={80}
-                        className={classes.logo}
-                    />
+                    <OfficeLogo h={96} w={96} />
                 </Link>
             </div>
 

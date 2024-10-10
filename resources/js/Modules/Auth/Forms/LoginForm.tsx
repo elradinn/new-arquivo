@@ -1,36 +1,51 @@
-import { Anchor, Button, Checkbox, Flex, Stack, TextInput } from "@mantine/core";
-import { Link } from "@inertiajs/react";
+import { IconLock, IconUser } from "@tabler/icons-react";
+import { Button, Checkbox, Flex, Stack, Text, TextInput } from "@mantine/core";
 import { useLoginForm } from "../Hooks/use-login-form";
 
-export default function LoginForm({ canResetPassword }: { canResetPassword: boolean }) {
+export default function LoginForm() {
     const { data, setData, submit, processing, errors } = useLoginForm();
 
     return (
         <form onSubmit={submit}>
-            <Stack gap={16}>
-                <TextInput
-                    id="email"
-                    type="email"
-                    name="email"
-                    value={data.email}
-                    autoComplete="username"
-                    leftSectionPointerEvents="none"
-                    label="Email"
-                    onChange={(e) => setData("email", e.target.value)}
-                    error={errors.email}
-                />
+            <Stack gap={32}>
+                <div>
+                    <Text fw={700} fz={24} ta="center">
+                        Login to
+                    </Text>
+                    <Text fw={500} fz={16} ta="center" c="gray.6">
+                        BU International Relations Office
+                    </Text>
+                </div>
 
-                <TextInput
-                    id="password"
-                    type="password"
-                    name="password"
-                    value={data.password}
-                    autoComplete="current-password"
-                    leftSectionPointerEvents="none"
-                    label="Password"
-                    onChange={(e) => setData("password", e.target.value)}
-                    error={errors.password}
-                />
+                <Stack gap={24}>
+                    <TextInput
+                        id="email"
+                        type="email"
+                        name="email"
+                        value={data.email}
+                        autoComplete="username"
+                        leftSectionPointerEvents="none"
+                        placeholder="Email address"
+                        leftSection={<IconUser size={20} />}
+                        size="md"
+                        onChange={(e) => setData("email", e.target.value)}
+                        error={errors.email}
+                    />
+
+                    <TextInput
+                        id="password"
+                        type="password"
+                        name="password"
+                        value={data.password}
+                        autoComplete="current-password"
+                        leftSectionPointerEvents="none"
+                        placeholder="Password"
+                        leftSection={<IconLock size={20} />}
+                        size="md"
+                        onChange={(e) => setData("password", e.target.value)}
+                        error={errors.password}
+                    />
+                </Stack>
 
                 <Flex align="center">
                     <Checkbox
@@ -38,17 +53,13 @@ export default function LoginForm({ canResetPassword }: { canResetPassword: bool
                         checked={data.remember}
                         onChange={(e) => setData("remember", e.target.checked)}
                         label="Remember me"
+                        size="md"
                     />
                 </Flex>
 
                 <Flex align="center" justify="end">
-                    {canResetPassword && (
-                        <Anchor component={Link} href={route("password.request")} size="sm">
-                            Forgot your password?
-                        </Anchor>
-                    )}
-                    <Button ml={16} type="submit" loading={processing}>
-                        Log in
+                    <Button type="submit" loading={processing} size="md" radius="md" fullWidth>
+                        Sign in
                     </Button>
                 </Flex>
             </Stack>
