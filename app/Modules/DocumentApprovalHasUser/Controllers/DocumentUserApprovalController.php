@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\DocumentUserApproval\Controllers;
+namespace Modules\DocumentApprovalHasUser\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Modules\Common\Controllers\Controller;

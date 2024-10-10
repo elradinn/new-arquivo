@@ -1,6 +1,6 @@
 <?php
 
-use Modules\Application;
+use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
@@ -22,6 +22,4 @@ return Application::configure(basePath: $_ENV['APP_BASE_PATH'] ?? dirname(__DIR_
         //
     })
 
-    ->create()
-
-    ->useAppPath('src/App');
+    ->create();
