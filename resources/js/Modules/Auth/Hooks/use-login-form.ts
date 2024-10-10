@@ -1,9 +1,9 @@
 import { useEffect, FormEventHandler } from "react";
 import { useForm } from "@inertiajs/react";
-import { LoginFormData } from "../Types/LoginFormData";
+import { LoginData } from "../Types/LoginData";
 
 export function useLoginForm() {
-    const { data, setData, post, processing, errors, reset } = useForm<LoginFormData>({
+    const { data, setData, post, processing, errors, reset } = useForm<LoginData>({
         email: "",
         password: "",
         remember: false,

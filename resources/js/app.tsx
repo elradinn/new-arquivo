@@ -5,8 +5,14 @@ import { createInertiaApp } from "@inertiajs/react";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 
 import "@mantine/core/styles.css";
-import { MantineProvider } from "@mantine/core";
+import "@mantine/notifications/styles.css";
+import "mantine-datatable/styles.css";
+import "@mantine/dropzone/styles.css";
+
 import { theme } from "./theme";
+
+import { MantineProvider } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
 
 const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
@@ -22,11 +28,16 @@ createInertiaApp({
 
         root.render(
             <MantineProvider theme={theme}>
+                <Notifications />
                 <App {...props} />
             </MantineProvider>
         );
+
+        delete el.dataset.page;
     },
     progress: {
         color: "#4B5563",
     },
+}).then(() => {
+    document?.getElementById("app")?.removeAttribute("data-page");
 });

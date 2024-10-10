@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\Folder\Data;
+namespace Modules\Item\Data;
 
 use Spatie\LaravelData\Resource;
 
-class FolderContentsResourceData extends Resource
+class ItemContentsResourceData extends Resource
 {
     public function __construct() {}
 }

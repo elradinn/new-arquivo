@@ -1,4 +1,4 @@
-export type LoginFormData = {
+export type LoginData = {
     email: string;
     password: string;
     remember: boolean;
