@@ -20,7 +20,7 @@ export default function Login({
                 </Text>
             )}
 
-            <LoginForm canResetPassword={canResetPassword} />
+            <LoginForm />
         </GuestLayout>
     );
 }

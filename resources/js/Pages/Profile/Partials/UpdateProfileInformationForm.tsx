@@ -1,6 +1,6 @@
 import { Link, useForm, usePage } from "@inertiajs/react";
 import { FormEventHandler } from "react";
-import { PageProps } from "@/Types";
+import { PageProps } from "@/Modules/Common/Types";
 import {
     Anchor,
     Box,
