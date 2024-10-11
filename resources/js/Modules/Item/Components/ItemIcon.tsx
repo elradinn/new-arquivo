@@ -24,7 +24,7 @@ import { Indicator } from "@mantine/core";
 
 interface ItemIconProps {
     mime: string;
-    isFolder: number;
+    isFolder: boolean;
     approvalStatus?: string | null;
 }
 

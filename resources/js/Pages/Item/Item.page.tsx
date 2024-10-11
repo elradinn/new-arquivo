@@ -32,7 +32,7 @@ export default function ItemPage({ itemAncestors, itemContents }: ItemPageProps)
                     <Stack px={8} gap={24} py={8} style={{ pointerEvents: "all" }}>
                         <ItemBreadcrumbs ancestors={itemAncestors} />
                         <ItemTable
-                            files={itemContents}
+                            itemContents={itemContents}
                             openFolder={openFolder}
                             selectedRecord={selectedRecord}
                             setSelectedRecord={setSelectedRecord}

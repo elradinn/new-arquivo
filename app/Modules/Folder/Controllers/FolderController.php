@@ -44,12 +44,7 @@ class FolderController extends Controller
 
         $itemContents = $items->getChildren()->load('folder', 'document');
 
-        $itemAncestors = $items->getAncestors()->load('workspace', 'folder');
-
-        // return response()->json([
-        //     'itemAncestors' => ItemAncestorsResourceData::collect($itemAncestors, DataCollection::class),
-        //     'itemContents' => ItemContentsResourceData::collect($itemContents, DataCollection::class)
-        // ]);
+        $itemAncestors = $items->ancestorsWithSelf()->get()->load('workspace', 'folder');
 
         return Inertia::render('Item/Item.page', [
             'itemAncestors' => ItemAncestorsResourceData::collect($itemAncestors, DataCollection::class),
