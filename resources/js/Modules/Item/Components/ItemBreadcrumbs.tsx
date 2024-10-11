@@ -1,16 +1,16 @@
 import { Link } from "@inertiajs/react";
 import { Anchor, Breadcrumbs } from "@mantine/core";
 import { IconChevronRight } from "@tabler/icons-react";
+import { ItemAncestorsResourceData } from "@/Modules/Item/Types/ItemAncestorsResourceData";
 
 interface BreadcrumbProps {
-    ancestors: { id: string; name: string }[];
+    ancestors: ItemAncestorsResourceData[];
 }
 
 export default function ItemBreadcrumbs({ ancestors }: BreadcrumbProps) {
     const breadcrumbItems = ancestors
-        .slice(1)
         .map((ans) => (
-            <Anchor component={Link} href={`/folder/index/${ans.id}`} key={ans.id}>
+            <Anchor component={Link} href={ans.url} key={ans.url}>
                 {ans.name}
             </Anchor>
         ));

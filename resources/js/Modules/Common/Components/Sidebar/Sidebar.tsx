@@ -1,4 +1,4 @@
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import {
     Group,
     Box,
@@ -15,6 +15,7 @@ import {
 } from "@tabler/icons-react";
 import classes from "./Sidebar.module.css";
 import OfficeLogo from "../OfficeLogo/OfficeLogo";
+import { WorkspaceLinksData } from "@/Modules/Workspace/Types/WorkspaceLinksData";
 
 const NAV_LINKS = [
     {
@@ -29,22 +30,9 @@ const NAV_LINKS = [
     },
 ];
 
-const workspaces = [
-    {
-        id: 1,
-        name: "Workspace 1",
-    },
-    {
-        id: 2,
-        name: "Workspace 2",
-    },
-    {
-        id: 3,
-        name: "Workspace 3",
-    },
-];
-
 const Sidebar: React.FC = () => {
+
+    const { workspaces } = usePage<{ workspaces: WorkspaceLinksData[] }>().props;
 
     const renderNavLinks = NAV_LINKS.map(({ label, icon: Icon, href }) => (
         <Link
@@ -61,10 +49,10 @@ const Sidebar: React.FC = () => {
     const renderWorkspaceLinks = workspaces.map((workspace) => (
         <div
             className={classes.workspaceLinkWrapper}
-            key={workspace.id}
-            data-active={route().current("index", workspace.id) || undefined}
+            key={workspace.item_id}
+            data-active={route().current("index", workspace.item_id) || undefined}
         >
-            <Link className={classes.workspaceLinkDesign} href={`/folder/index/${workspace.id}`}>
+            <Link className={classes.workspaceLinkDesign} href={workspace.url}>
                 <div className={classes.workspaceLinkContent}>
                     <IconFolderFilled className={classes.linkIcon} stroke={1.5} />
                     <span>{workspace.name}</span>

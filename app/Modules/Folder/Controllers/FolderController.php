@@ -4,6 +4,8 @@ namespace Modules\Folder\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
+use Inertia\Inertia;
+use Inertia\Response;
 use Modules\Common\Controllers\Controller;
 use Modules\Folder\Models\Folder;
 use Modules\Folder\Data\CreateFolderData;
@@ -34,7 +36,7 @@ class FolderController extends Controller
      * Show contents of folder
      * @return \Spatie\LaravelData\DataCollection<ItemContentsResourceData>
      */
-    public function show(Folder $folder): JsonResponse
+    public function show(Folder $folder)
     {
         $this->folderAuthorization->canView(Auth::user(), $folder);
 
@@ -44,7 +46,12 @@ class FolderController extends Controller
 
         $itemAncestors = $items->getAncestors()->load('workspace', 'folder');
 
-        return response()->json([
+        // return response()->json([
+        //     'itemAncestors' => ItemAncestorsResourceData::collect($itemAncestors, DataCollection::class),
+        //     'itemContents' => ItemContentsResourceData::collect($itemContents, DataCollection::class)
+        // ]);
+
+        return Inertia::render('Item/Item.page', [
             'itemAncestors' => ItemAncestorsResourceData::collect($itemAncestors, DataCollection::class),
             'itemContents' => ItemContentsResourceData::collect($itemContents, DataCollection::class)
         ]);

@@ -1,9 +1,10 @@
 import { DataTable } from "mantine-datatable";
 import { Group, Text } from "@mantine/core";
 import ItemIcon from "./ItemIcon";
+import { ItemContentsResourceData } from "../Types/ItemContentsResourceData";
 
 interface ItemTableProps {
-    files: { data: any[] };
+    files: ItemContentsResourceData[];
     openFolder: (is_folder: number, id: string) => void;
     selectedRecord: any[];
     setSelectedRecord: (records: any[]) => void;
@@ -16,7 +17,7 @@ export default function ItemTable({
     setSelectedRecord,
 }: ItemTableProps) {
 
-    if (!files.data.length) {
+    if (!files.length) {
         return (
             <Text size="lg" c="gray.5">
                 This folder is empty
@@ -48,7 +49,7 @@ export default function ItemTable({
                 },
                 { accessor: "size" },
             ]}
-            records={files.data}
+            records={files}
             customRowAttributes={({ is_folder, id }) => ({
                 onDoubleClick: (e: MouseEvent) => {
                     if (e.button === 0) {

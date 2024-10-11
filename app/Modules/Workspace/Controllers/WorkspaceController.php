@@ -9,6 +9,8 @@ use Modules\User\Models\User;
 use Illuminate\Http\JsonResponse;
 use Modules\Workspace\Data\CreateWorkspaceData;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
+use Inertia\Response;
 use Modules\Item\Data\ItemAncestorsResourceData;
 use Modules\Item\Data\ItemContentsResourceData;
 use Modules\Workspace\Actions\CreateWorkspaceAction;
@@ -37,7 +39,7 @@ class WorkspaceController extends Controller
      * Show contents of workspace
      * @return \Spatie\LaravelData\DataCollection<ItemContentsResourceData>
      */
-    public function show(Workspace $workspace): JsonResponse
+    public function show(Workspace $workspace): Response
     {
         $this->workspaceAuthorization->canView(Auth::user(), $workspace);
 
@@ -47,7 +49,12 @@ class WorkspaceController extends Controller
 
         $itemAncestors = $items->getAncestors()->load('workspace', 'folder');
 
-        return response()->json([
+        // return response()->json([
+        //     'itemAncestors' => ItemAncestorsResourceData::collect($itemAncestors, DataCollection::class),
+        //     'itemContents' => ItemContentsResourceData::collect($itemContents, DataCollection::class)
+        // ]);
+
+        return Inertia::render('Item/Item.page', [
             'itemAncestors' => ItemAncestorsResourceData::collect($itemAncestors, DataCollection::class),
             'itemContents' => ItemContentsResourceData::collect($itemContents, DataCollection::class)
         ]);

@@ -22,15 +22,13 @@ import {
 } from "../Helpers/file-helper";
 import { Indicator } from "@mantine/core";
 
-const ItemIcon = ({
-    mime,
-    isFolder,
-    approvalStatus,
-}: {
+interface ItemIconProps {
     mime: string;
     isFolder: number;
     approvalStatus?: string | null;
-}) => {
+}
+
+const ItemIcon = ({ mime, isFolder, approvalStatus }: ItemIconProps) => {
     const renderIcon = () => {
         if (isFolder) {
             return <IconFolder size={20} fill="orange" color="orange" />;

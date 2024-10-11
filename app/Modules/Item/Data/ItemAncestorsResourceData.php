@@ -15,7 +15,7 @@ class ItemAncestorsResourceData extends Data
     public static function fromModel(Item $item): self
     {
         $type = $item->workspace ? 'workspace' : 'folder';
-        $url = sprintf('%s/%s', $type, $item->id);
+        $url = sprintf('/%s/%s', $type, $item->id);
 
         return new self(
             name: $item->workspace->name ?? $item->folder->name ?? null,
