@@ -19,6 +19,9 @@ class UploadDocumentData extends Data
         public string $name,
 
         #[Required, File, Mimes('pdf', 'docx', 'doc', 'txt', 'png', 'jpg', 'jpeg')]
-        public UploadedFile $file
+        public UploadedFile $file,
+
+        #[Uuid()]
+        public ?string $owned_by = null
     ) {}
 }

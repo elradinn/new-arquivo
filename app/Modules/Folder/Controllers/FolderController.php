@@ -15,8 +15,11 @@ use Modules\Folder\Data\FolderResourceData;
 use Modules\Folder\Data\ShareFolderData;
 use Modules\Folder\Data\RemoveShareFolderData;
 use Modules\Folder\Authorization\FolderAuthorization;
+use Modules\Item\Data\ItemAncestorsResourceData;
+use Modules\Item\Data\ItemContentsResourceData;
 use Modules\Item\Models\Item;
 use Modules\User\Models\User;
+use Spatie\LaravelData\DataCollection;
 
 class FolderController extends Controller
 {
@@ -27,11 +30,24 @@ class FolderController extends Controller
         private FolderAuthorization $folderAuthorization
     ) {}
 
+    /**
+     * Show contents of folder
+     * @return \Spatie\LaravelData\DataCollection<ItemContentsResourceData>
+     */
     public function show(Folder $folder): JsonResponse
     {
         $this->folderAuthorization->canView(Auth::user(), $folder);
 
-        return response()->json(Item::find($folder->item->id)->getChildren()->load('folder', 'document'));
+        $items = Item::find($folder->item->id);
+
+        $itemContents = $items->getChildren()->load('folder', 'document');
+
+        $itemAncestors = $items->getAncestors()->load('workspace', 'folder');
+
+        return response()->json([
+            'itemAncestors' => ItemAncestorsResourceData::collect($itemAncestors, DataCollection::class),
+            'itemContents' => ItemContentsResourceData::collect($itemContents, DataCollection::class)
+        ]);
     }
 
     public function store(CreateFolderData $data): JsonResponse

@@ -24,7 +24,7 @@ class CreateFolderAction
 
         return $item->folder()->create([
             'name' => $data->name,
-            'owned_by' => Auth::id(),
+            'owned_by' => $data->owned_by ?? Auth::id(),
         ]);
     }
 }

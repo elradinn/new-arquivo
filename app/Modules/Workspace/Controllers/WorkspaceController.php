@@ -9,10 +9,13 @@ use Modules\User\Models\User;
 use Illuminate\Http\JsonResponse;
 use Modules\Workspace\Data\CreateWorkspaceData;
 use Illuminate\Support\Facades\Auth;
+use Modules\Item\Data\ItemAncestorsResourceData;
+use Modules\Item\Data\ItemContentsResourceData;
 use Modules\Workspace\Actions\CreateWorkspaceAction;
 use Modules\Workspace\Authorization\WorkspaceAuthorization;
 use Modules\Workspace\Data\RemoveShareWorkspaceData;
 use Modules\Workspace\Data\ShareWorkspaceData;
+use Spatie\LaravelData\DataCollection;
 
 class WorkspaceController extends Controller
 {
@@ -30,11 +33,24 @@ class WorkspaceController extends Controller
         return response()->json($workspaces);
     }
 
+    /**
+     * Show contents of workspace
+     * @return \Spatie\LaravelData\DataCollection<ItemContentsResourceData>
+     */
     public function show(Workspace $workspace): JsonResponse
     {
         $this->workspaceAuthorization->canView(Auth::user(), $workspace);
 
-        return response()->json(Item::find($workspace->item->id)->getChildren()->load('folder', 'document'));
+        $items = Item::find($workspace->item->id);
+
+        $itemContents = $items->getChildren()->load('folder', 'document');
+
+        $itemAncestors = $items->getAncestors()->load('workspace', 'folder');
+
+        return response()->json([
+            'itemAncestors' => ItemAncestorsResourceData::collect($itemAncestors, DataCollection::class),
+            'itemContents' => ItemContentsResourceData::collect($itemContents, DataCollection::class)
+        ]);
     }
 
     public function store(CreateWorkspaceData $data): JsonResponse

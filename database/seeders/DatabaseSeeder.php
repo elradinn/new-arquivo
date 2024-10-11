@@ -22,15 +22,15 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Create Users
-        $testUser = User::create([
+        $testUser1 = User::create([
             'name' => 'Test User',
             'email' => 'test@example.com',
             'password' => '12345678',
         ]);
 
-        $testUser->assignRole('admin');
+        $testUser1->assignRole('admin');
 
-        User::create([
+        $testUser2 = User::create([
             'name' => 'Test Approval',
             'email' => 'testapproval@example.com',
             'password' => '12345678',
@@ -55,23 +55,16 @@ class DatabaseSeeder extends Seeder
         // Create Workspace
         $createWorkspaceAction = app(CreateWorkspaceAction::class);
         $workspace = $createWorkspaceAction->execute(new CreateWorkspaceData(
-            name: 'Test Workspace'
+            name: 'Test Workspace',
+            owned_by: $testUser1->id
         ));
 
         // Create Folder
         $createFolderAction = app(CreateFolderAction::class);
         $createFolderAction->execute(new CreateFolderData(
             parent_id: $workspace->item_id,
-            name: 'Test Folder'
+            name: 'Test Folder',
+            owned_by: $testUser1->id
         ));
-
-        // // Create Document
-        // $uploadDocumentAction = app(UploadDocumentAction::class);
-        // $uploadDocumentAction->execute(new UploadDocumentData(
-        //     parent_id: $folder->item_id,
-        //     name: 'Test Document'
-        // ));
-
-
     }
 }

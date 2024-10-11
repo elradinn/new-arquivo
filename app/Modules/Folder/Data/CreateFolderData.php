@@ -11,6 +11,9 @@ class CreateFolderData extends Data
         #[Uuid()]
         public string $parent_id,
 
-        public string $name
+        public string $name,
+
+        #[Uuid()]
+        public ?string $owned_by = null
     ) {}
 }

@@ -33,7 +33,7 @@ class UploadDocumentAction
         // Create the Document
         $document = $item->document()->create([
             'name' => $data->name,
-            'owned_by' => Auth::id(),
+            'owned_by' => $data->owned_by ?? Auth::id(),
             'file_path' => $filePath, // Save the file path
         ]);
 
