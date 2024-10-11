@@ -1,188 +1,150 @@
-import { PropsWithChildren } from "react";
-import OfficeLogo from "@/Modules/Common/Components/OfficeLogo/OfficeLogo";
-import NavLink from "@/Modules/Common/Components/NavLink";
-import ResponsiveNavLink from "@/Modules/Common/Components/ResponsiveNavLink";
-import { Link } from "@inertiajs/react";
-import { User } from "@/Modules/Common/Types";
+import Sidebar from "@/Modules/Common/Components/Sidebar/Sidebar";
+import { Link, usePage } from "@inertiajs/react";
 import {
-    Box,
+    ActionIcon,
+    AppShell,
+    Avatar,
     Burger,
-    Container,
+    Button,
+    Center,
+    Divider,
     Flex,
     Group,
+    Indicator,
     Menu,
     rem,
     Stack,
     Text,
-    UnstyledButton,
+    TextInput,
 } from "@mantine/core";
-import { IconChevronDown, IconLogout, IconUser } from "@tabler/icons-react";
-import classes from "./AuthenticatedLayout.module.css";
 import { useDisclosure } from "@mantine/hooks";
+import {
+    IconBell,
+    IconInbox,
+    IconLayoutGrid,
+    IconLogout,
+    IconSearch,
+    IconUser,
+} from "@tabler/icons-react";
+import { PageProps } from "../../Types";
 
-export default function Authenticated({
-    user,
-    header,
-    children,
-}: PropsWithChildren<{ user: User; header?: string }>) {
+interface IProps {
+    children: React.ReactNode;
+}
+
+export function Authenticated({ children }: IProps) {
     const [opened, { toggle }] = useDisclosure();
 
+    const user = usePage<PageProps>().props.auth.user;
+
     return (
-        <div className={classes.screen}>
-            <nav className={classes.header}>
-                <Container className={classes.headerContainer}>
-                    <Flex justify="space-between" h={64}>
-                        <Flex>
-                            <Flex align="center">
-                                <Link href="/">
-                                    <OfficeLogo h={36} w={36} />
-                                </Link>
-                            </Flex>
+        <AppShell
+            layout="alt"
+            header={{ height: 60 }}
+            navbar={{
+                width: 250,
+                breakpoint: "sm",
+                collapsed: { mobile: !opened },
+            }}
+            padding="md"
+        >
+            <AppShell.Header>
+                <Flex h="100%" px="md" justify="space-between" align="center">
+                    <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
 
-                            <div className={classes.navLink}>
-                                <NavLink
-                                    href={route("dashboard")}
-                                    active={route().current("dashboard")}
-                                >
-                                    Dashboard
-                                </NavLink>
-                            </div>
-                        </Flex>
+                    <TextInput
+                        leftSection={<IconSearch size={16} />}
+                        placeholder="Search for documents or folders"
+                        w={{ base: 300, lg: 550 }}
+                        visibleFrom="sm"
+                        variant="filled"
+                    />
 
-                        <div className={classes.flexContainer}>
-                            <div className={classes.relativeContainer}>
-                                <Menu
-                                    width={200}
-                                    transitionProps={{
-                                        transition: "pop-top-right",
-                                    }}
-                                    position="bottom-end"
-                                >
-                                    <Menu.Target>
-                                        <UnstyledButton>
-                                            <Group gap={7}>
-                                                <Text size="sm" lh={1} mr={3}>
-                                                    {user.name}
-                                                </Text>
-                                                <IconChevronDown
-                                                    style={{
-                                                        width: rem(18),
-                                                        height: rem(18),
-                                                    }}
-                                                    stroke={1.5}
-                                                />
-                                            </Group>
-                                        </UnstyledButton>
-                                    </Menu.Target>
-                                    <Menu.Dropdown>
-                                        <Menu.Item
-                                            component={Link}
-                                            leftSection={
-                                                <IconUser
-                                                    style={{
-                                                        width: rem(14),
-                                                        height: rem(14),
-                                                    }}
-                                                />
-                                            }
-                                            href={route("profile.edit")}
-                                        >
-                                            Profile
-                                        </Menu.Item>
-                                        <Menu.Item
-                                            component={Link}
-                                            leftSection={
-                                                <IconLogout
-                                                    style={{
-                                                        width: rem(14),
-                                                        height: rem(14),
-                                                    }}
-                                                />
-                                            }
-                                            href={route("logout")}
-                                            as="button"
-                                            method="post"
-                                        >
-                                            Logout
-                                        </Menu.Item>
-                                    </Menu.Dropdown>
-                                </Menu>
-                            </div>
-                        </div>
-
-                        <Flex
-                            align="center"
-                            hiddenFrom="sm"
-                            style={{ marginInlineEnd: "0.5rem" }}
+                    <Group align="center" gap={8}>
+                        <Button
+                            component={Link}
+                            href="#"
+                            leftSection={<IconLayoutGrid stroke={1.5} />}
+                            radius="md"
+                            variant="light"
                         >
-                            <Burger
-                                opened={opened}
-                                onClick={toggle}
-                                hiddenFrom="sm"
-                                color="gray"
-                            />
-                        </Flex>
-                    </Flex>
-                </Container>
-
-                <Box
-                    style={opened ? { display: "block" } : { display: "none" }}
-                    hiddenFrom="sm"
-                >
-                    <Stack pt={8} pb={16} gap={4}>
-                        <ResponsiveNavLink
-                            href={route("dashboard")}
-                            active={route().current("dashboard")}
+                            Admin Tools
+                        </Button>
+                        <Menu
+                            width={200}
+                            transitionProps={{
+                                transition: "pop-top-right",
+                            }}
+                            position="bottom-end"
                         >
-                            Dashboard
-                        </ResponsiveNavLink>
-                    </Stack>
-
-                    <Box
-                        pt={16}
-                        style={{
-                            borderTopWidth: 1,
-                            borderColor: "var(--mantine-color-gray-2)",
-                        }}
-                    >
-                        <Box px={16}>
-                            <Text fw={500}>{user.name}</Text>
-
-                            <Text
-                                size="sm"
-                                style={{ color: "var(--mantine-color-gray-7" }}
-                            >
-                                {user.email}
-                            </Text>
-                        </Box>
-
-                        <Stack mt={16} gap={4}>
-                            <ResponsiveNavLink href={route("profile.edit")}>
-                                Profile
-                            </ResponsiveNavLink>
-                            <ResponsiveNavLink
-                                method="post"
-                                href={route("logout")}
-                                as="button"
-                            >
-                                Log Out
-                            </ResponsiveNavLink>
-                        </Stack>
-                    </Box>
-                </Box>
-            </nav>
-
-            {header && (
-                <header className={classes.subheader}>
-                    <div className={classes.subheaderContainer}>
-                        <Text size="xl" fw={500}>
-                            {header}
-                        </Text>
-                    </div>
-                </header>
-            )}
-
-            <main>{children}</main>
-        </div>
+                            <Menu.Target>
+                                <ActionIcon variant="subtle" color="gray" size="xl">
+                                    <Indicator disabled>
+                                        <IconBell size={24} />
+                                    </Indicator>
+                                </ActionIcon>
+                            </Menu.Target>
+                            <Menu.Dropdown>
+                                <Center h={200}>
+                                    <Stack align="center" c="dimmed">
+                                        <IconInbox />
+                                        <Text c="dimmed">No notifications</Text>
+                                    </Stack>
+                                </Center>
+                            </Menu.Dropdown>
+                        </Menu>
+                        <Menu
+                            width={200}
+                            transitionProps={{
+                                transition: "pop-top-right",
+                            }}
+                            position="bottom-end"
+                        >
+                            <Menu.Target>
+                                <ActionIcon variant="subtle" color="gray" size="xl" radius="xl">
+                                    <Avatar name={user.name} color="blue" size="md" />
+                                </ActionIcon>
+                            </Menu.Target>
+                            <Menu.Dropdown>
+                                <Menu.Item
+                                    component={Link}
+                                    leftSection={
+                                        <IconUser
+                                            style={{
+                                                width: rem(14),
+                                                height: rem(14),
+                                            }}
+                                        />
+                                    }
+                                    href={route("profile.edit")}
+                                >
+                                    Profile
+                                </Menu.Item>
+                                <Menu.Item
+                                    component={Link}
+                                    leftSection={
+                                        <IconLogout
+                                            style={{
+                                                width: rem(14),
+                                                height: rem(14),
+                                            }}
+                                        />
+                                    }
+                                    href={route("logout")}
+                                    as="button"
+                                    method="post"
+                                >
+                                    Logout
+                                </Menu.Item>
+                            </Menu.Dropdown>
+                        </Menu>
+                    </Group>
+                </Flex>
+            </AppShell.Header>
+            <AppShell.Navbar>
+                <Sidebar />
+            </AppShell.Navbar>
+            <AppShell.Main>{children}</AppShell.Main>
+        </AppShell>
     );
 }

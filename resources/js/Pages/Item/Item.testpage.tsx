@@ -1,15 +1,14 @@
 // @ts-nocheck
 import { Head, Link, router, useForm, usePage } from "@inertiajs/react";
 import { FileData, PageProps } from "@/Types";
-import { Anchor, Breadcrumbs, Group, rem, Stack, Text } from "@mantine/core";
-import { AdminLayout } from "@/Layouts/AdminLayout/AdminLayout";
-import { DataTable } from "mantine-datatable";
-import { IconChevronRight, IconUpload } from "@tabler/icons-react";
+import { rem, Stack } from "@mantine/core";
+import { IconUpload } from "@tabler/icons-react";
 import { Dropzone, FileWithPath } from "@mantine/dropzone";
 import { useRef, useState } from "react";
 import { notifications } from "@mantine/notifications";
-import FileIcon from "@/Modules/Common/Components/FileIcon";
-import Toolbar from "@/Modules/Common/Components/Toolbar/Toolbar";
+import ItemBreadcrumbs from "@/Modules/Item/Components/ItemBreadcrumbs";
+import ItemTable from "@/Modules/Item/Components/ItemTable";
+import { Authenticated } from "@/Modules/Common/Layouts/AuthenticatedLayout/Authenticated";
 
 interface FormData {
     files: FileWithPath[];
@@ -78,31 +77,10 @@ export default function ItemPage({ auth, files, ancestors, fileData }: PageProps
         });
     };
 
-    const breadcrumbItems = ancestors.data
-        .slice(1) // Skip the first item
-        .map((ans) => (
-            <Anchor component={Link} href={`/folder/index/${ans.id}`} key={ans.id}>
-                {ans.name}
-            </Anchor>
-        ));
-
     return (
         <>
             <Head title="My Files" />
-            <AdminLayout
-                user={auth.user}
-                toolbar={
-                    <Toolbar
-                        fileSelected={selectedRecord.length > 0}
-                        selectedIds={ids}
-                        uploadFileRef={openRef}
-                        page="my-files"
-                        folderId={page.props.folder?.id}
-                        approvalActive={fileData.has_active_workflow}
-                        trackingActive={fileData.has_active_numbering}
-                    />
-                }
-            >
+            <Authenticated>
                 <Dropzone
                     openRef={openRef}
                     onDrop={(files) => uploadFiles(files)}
@@ -131,56 +109,17 @@ export default function ItemPage({ auth, files, ancestors, fileData }: PageProps
                         />
                     </Dropzone.Accept>
                     <Stack px={8} gap={24} py={8} style={{ pointerEvents: "all" }}>
-                        <Breadcrumbs separator={<IconChevronRight size={16} />}>
-                            {breadcrumbItems}
-                        </Breadcrumbs>
+                        <ItemBreadcrumbs ancestors={ancestors.data} />
 
-                        {!files.data.length ? (
-                            <Text size="lg" c="gray.5">
-                                This folder is empty
-                            </Text>
-                        ) : (
-                            <DataTable
-                                textSelectionDisabled
-                                columns={[
-                                    {
-                                        accessor: "name",
-                                        render: ({ mime, is_folder, name, approval_status }) => (
-                                            <Group align="center" gap={12}>
-                                                <FileIcon
-                                                    mime={mime}
-                                                    isFolder={is_folder}
-                                                    approvalStatus={approval_status}
-                                                />
-                                                <span>{name}</span>
-                                            </Group>
-                                        ),
-                                    },
-                                    { accessor: "owner" },
-                                    {
-                                        accessor: "updated_at",
-                                        title: "Last Modified",
-                                    },
-                                    { accessor: "size" },
-                                ]}
-                                records={files.data}
-                                customRowAttributes={({ is_folder, id }) => ({
-                                    onDoubleClick: (e: MouseEvent) => {
-                                        if (e.button === 0) {
-                                            openFolder(is_folder, id);
-                                        }
-                                    },
-                                })}
-                                highlightOnHover
-                                verticalSpacing="lg"
-                                horizontalSpacing="xl"
-                                selectedRecords={selectedRecord}
-                                onSelectedRecordsChange={setSelectedRecord}
-                            />
-                        )}
+                        <ItemTable
+                            files={files}
+                            openFolder={openFolder}
+                            selectedRecord={selectedRecord}
+                            setSelectedRecord={setSelectedRecord}
+                        />
                     </Stack>
                 </Dropzone>
-            </AdminLayout>
+            </Authenticated>
         </>
     );
 }

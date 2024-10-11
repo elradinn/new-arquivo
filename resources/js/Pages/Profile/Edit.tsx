@@ -1,4 +1,4 @@
-import AuthenticatedLayout from "@/Modules/Common/Layouts/AuthenticatedLayout/Authenticated";
+import { Authenticated } from "@/Modules/Common/Layouts/AuthenticatedLayout/Authenticated";
 import DeleteUserForm from "./Partials/DeleteUserForm";
 import UpdatePasswordForm from "./Partials/UpdatePasswordForm";
 import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm";
@@ -13,7 +13,7 @@ export default function Edit({
     status,
 }: PageProps<{ mustVerifyEmail: boolean; status?: string }>) {
     return (
-        <AuthenticatedLayout user={auth.user} header="Profile">
+        <Authenticated>
             <Head title="Profile" />
 
             <div className={classes.container}>
@@ -31,6 +31,6 @@ export default function Edit({
                     <DeleteUserForm />
                 </Paper>
             </div>
-        </AuthenticatedLayout>
+        </Authenticated>
     );
 }
