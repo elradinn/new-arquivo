@@ -10,6 +10,7 @@ use Modules\Metadata\Actions\CreateMetadataAction;
 use Modules\Metadata\Actions\UpdateMetadataAction;
 use Modules\Metadata\Actions\DeleteMetadataAction;
 use Illuminate\Http\JsonResponse;
+use Inertia\Inertia;
 
 class MetadataController extends Controller
 {
@@ -22,10 +23,14 @@ class MetadataController extends Controller
     /**
      * Display a listing of the metadata.
      */
-    public function index(): JsonResponse
+    public function index()
     {
-        $metadata = Metadata::all();
-        return response()->json($metadata, 200);
+        // $metadata = Metadata::all();
+        // return response()->json($metadata, 200);
+
+        return Inertia::render('Metadata/Metadata.page', [
+            'metadata' => Metadata::all(),
+        ]);
     }
 
     /**
