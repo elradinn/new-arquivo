@@ -3,6 +3,8 @@
 namespace Modules\DocumentApproval\Controllers;
 
 use Illuminate\Http\JsonResponse;
+use Inertia\Inertia;
+use Inertia\Response;
 use Modules\Common\Controllers\Controller;
 use Modules\DocumentApproval\Actions\CreateDocumentApprovalAction;
 use Modules\DocumentApproval\Data\CreateDocumentApprovalData;
@@ -11,9 +13,13 @@ use Modules\DocumentApproval\Models\DocumentApproval;
 
 class DocumentApprovalController extends Controller
 {
-    public function show(DocumentApproval $documentApproval): JsonResponse
+    public function show(DocumentApproval $documentApproval): Response
     {
-        return response()->json(DocumentApprovalResourceData::fromModel($documentApproval));
+        // return response()->json(DocumentApprovalResourceData::fromModel($documentApproval));
+
+        return Inertia::render('ApproveDocument/ApproveDocument.page', [
+            'documentApproval' => DocumentApprovalResourceData::fromModel($documentApproval),
+        ]);
     }
 
     public function store(

@@ -1,4 +1,3 @@
-import Header from "@/Components/Header/Header";
 import { PageProps } from "@/types";
 import ApproveIcon from "./ApproveIcon";
 import { Avatar, Button, Card, Flex, Group, Stack, Text, Textarea } from "@mantine/core";
@@ -7,47 +6,46 @@ import { IconDownload, IconFileTypePdf, IconFolder } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
 
 const ApproveDocumentPage: React.FC<PageProps> = ({ auth, notification }) => {
-    const { data, post, processing } = useForm({
-        file_id: "",
-        destination_id: "",
-        notification_id: "",
-        action: "",
-    });
+    // const { data, post, processing } = useForm({
+    //     file_id: "",
+    //     destination_id: "",
+    //     notification_id: "",
+    //     action: "",
+    // });
 
-    const handleDocumentAction = (action: "approved" | "rejected") => {
-        data.notification_id = notification.id;
-        data.file_id = notification.data.file_id;
-        data.destination_id = notification.data.move_to;
-        data.action = action;
+    // const handleDocumentAction = (action: "approved" | "rejected") => {
+    //     data.notification_id = notification.id;
+    //     data.file_id = notification.data.file_id;
+    //     data.destination_id = notification.data.move_to;
+    //     data.action = action;
 
-        post(route("approval.result"), {
-            data: { ...data, action },
-            onSuccess: () => {
-                notifications.show({
-                    message: `Document ${action} successfully`,
-                    color: action === "approved" ? "green" : "red",
-                });
-            },
-            onError: () => {
-                notifications.show({
-                    message: "Something went wrong",
-                    color: "red",
-                });
-            },
-        });
-    };
+    //     post(route("approval.result"), {
+    //         data: { ...data, action },
+    //         onSuccess: () => {
+    //             notifications.show({
+    //                 message: `Document ${action} successfully`,
+    //                 color: action === "approved" ? "green" : "red",
+    //             });
+    //         },
+    //         onError: () => {
+    //             notifications.show({
+    //                 message: "Something went wrong",
+    //                 color: "red",
+    //             });
+    //         },
+    //     });
+    // };
 
     return (
         <>
             <Head title="Approve Document" />
-            <Header user={auth.user} />
             <Flex mih={100} justify="center" mb={48}>
                 <div>
                     <Stack gap={16} align="center" mb={16}>
                         <ApproveIcon />
 
                         <Text fw={500} size="xl">
-                            {notification.data.message}
+                            "Hello testing"
                         </Text>
                     </Stack>
 
@@ -100,8 +98,8 @@ const ApproveDocumentPage: React.FC<PageProps> = ({ auth, notification }) => {
                         <Flex align="center" justify="end">
                             <Button
                                 color="red"
-                                onClick={() => handleDocumentAction("rejected")}
-                                loading={processing}
+                            // onClick={() => handleDocumentAction("rejected")}
+                            // loading={processing}
                             >
                                 Reject
                             </Button>
@@ -109,8 +107,8 @@ const ApproveDocumentPage: React.FC<PageProps> = ({ auth, notification }) => {
                             <Button
                                 ml={12}
                                 color="green"
-                                onClick={() => handleDocumentAction("approved")}
-                                loading={processing}
+                            // onClick={() => handleDocumentAction("approved")}
+                            // loading={processing}
                             >
                                 Approve
                             </Button>
