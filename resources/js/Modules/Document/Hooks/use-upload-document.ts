@@ -10,13 +10,12 @@ export function useUploadDocument(itemParent: ItemParentResourceData) {
         files: [],
     });
 
-    
     const uploadFiles = (files: FileWithPath[]) => {
         data.parent_id = itemParent.item_id;
-        data.files = files;
+        data.files = files.map(file => ({ file })); // Wrap each file in an object
         
         console.log(data);
-
+        
         post(route("document.store"), {
             onSuccess: () => {
                 notifications.show({

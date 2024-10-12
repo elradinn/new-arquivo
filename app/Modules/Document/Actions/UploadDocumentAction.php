@@ -21,6 +21,8 @@ class UploadDocumentAction
 
     public function execute(UploadDocumentData $data): array
     {
+        // dd($data);
+
         $documents = [];
 
         Log::info($data->files);
@@ -35,14 +37,14 @@ class UploadDocumentAction
             );
 
             // Store the uploaded file
-            $filePath = $file->store('documents', 'public');
+            $filePath = $file->file->store('documents', 'public');
 
             // Create the Document
             $document = $item->document()->create([
-                'name' => $file->getClientOriginalName(),
+                'name' => $file->file->getClientOriginalName(),
                 'owned_by' => $data->owned_by ?? Auth::id(),
-                'mime' => $file->getMimeType(),
-                'size' => $file->getSize(),
+                'mime' => $file->file->getMimeType(),
+                'size' => $file->file->getSize(),
                 'file_path' => $filePath,
             ]);
 
