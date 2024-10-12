@@ -11,6 +11,7 @@ use Modules\NumberingScheme\Data\NumberingSchemeResourceData;
 use Modules\NumberingScheme\Data\UpdateNumberingSchemeData;
 use Modules\NumberingScheme\Models\NumberingScheme;
 use Illuminate\Http\JsonResponse;
+use Inertia\Inertia;
 
 class NumberingSchemeController extends Controller
 {
@@ -20,14 +21,16 @@ class NumberingSchemeController extends Controller
         protected DeleteNumberingSchemeAction $deleteNumberingSchemeAction,
     ) {}
 
-    /**
-     * @return \Spatie\LaravelData\DataCollection<NumberingSchemeResourceData>
-     */
+    // /**
+    //  * @return \Spatie\LaravelData\DataCollection<NumberingSchemeResourceData>
+    //  */
     public function index()
     {
-        $numberingSchemes = NumberingScheme::with('folder')->get();
+        // $numberingSchemes = NumberingScheme::with('folder')->get();
 
-        return NumberingSchemeResourceData::collect($numberingSchemes);
+        // return NumberingSchemeResourceData::collect($numberingSchemes);
+
+        return Inertia::render('NumberingScheme/NumberingScheme.page');
     }
 
     public function store(CreateNumberingSchemeData $data): JsonResponse

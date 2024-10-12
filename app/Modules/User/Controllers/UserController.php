@@ -12,28 +12,23 @@ use Modules\User\Actions\UpdateUserAction;
 use Modules\User\Data\RegisterUserData;
 use Modules\User\Data\UpdateUserData;
 use Illuminate\Support\Facades\Log;
+use Inertia\Inertia;
 
 class UserController extends Controller
 {
-    // protected RegisterUserAction $registerUserAction;
-    // protected UpdateUserAction $updateUserAction;
-    // protected DeleteUserAction $deleteUserAction;
-
     public function __construct(
         protected RegisterUserAction $registerUserAction,
         protected UpdateUserAction $updateUserAction,
         protected DeleteUserAction $deleteUserAction
-    ) {
-        // $this->registerUserAction = $registerUserAction;
-        // $this->updateUserAction = $updateUserAction;
-        // $this->deleteUserAction = $deleteUserAction;
-    }
+    ) {}
 
-    public function index(): JsonResponse
+    public function index()
     {
-        $users = User::all();
+        // $users = User::all();
 
-        return response()->json($users, Response::HTTP_OK);
+        // return response()->json($users, Response::HTTP_OK);
+
+        return Inertia::render('User/User.page');
     }
 
     public function register(RegisterUserData $registerUserData): JsonResponse

@@ -5,7 +5,7 @@ import { ActionIcon, Box, Button, Flex, Group, rem, Stack, Text, TextInput } fro
 import { DataTable } from "mantine-datatable";
 import { useDisclosure } from "@mantine/hooks";
 import { User, UserPageProps } from "@/types";
-import { AdminLayout } from "@/Layouts/AdminLayout/AdminLayout";
+import { Authenticated } from "@/Modules/Common/Layouts/AuthenticatedLayout/Authenticated";
 import AddUserForm from "./AddUserForm";
 import EditUserForm from "./EditUserForm";
 import DeleteUserForm from "./DeleteUser";
@@ -14,47 +14,47 @@ export default function UserPage({ auth, user, filters }: UserPageProps) {
     const [selectedRecord, setSelectedRecord] = useState<User[]>([]);
     const [currentUser, setCurrentUser] = useState<User | undefined>();
 
-    const [page, setPage] = useState(user.current_page);
-    const [search, setSearch] = useState(filters.search || "");
+    // const [page, setPage] = useState(user.current_page);
+    // const [search, setSearch] = useState(filters.search || "");
 
-    const handleSearch = (search: string) => {
-        router.get("/user", { search }, { preserveState: true, replace: true });
-    };
+    // const handleSearch = (search: string) => {
+    //     router.get("/user", { search }, { preserveState: true, replace: true });
+    // };
 
-    const handleonPageChange = (page: number) => {
-        const newUrl = user.links.find(
-            (link: { label: string; url: string }) => link.label === page.toString(),
-        )?.url;
-        if (newUrl) {
-            router.visit(newUrl);
-        }
-    };
+    // const handleonPageChange = (page: number) => {
+    //     const newUrl = user.links.find(
+    //         (link: { label: string; url: string }) => link.label === page.toString(),
+    //     )?.url;
+    //     if (newUrl) {
+    //         router.visit(newUrl);
+    //     }
+    // };
 
-    const [addUserOpened, { open: openAddUser, close: closeAddUser }] = useDisclosure(false);
+    // const [addUserOpened, { open: openAddUser, close: closeAddUser }] = useDisclosure(false);
 
-    const [editUserOpened, { open: openEditUser, close: closeEditUser }] = useDisclosure(false);
+    // const [editUserOpened, { open: openEditUser, close: closeEditUser }] = useDisclosure(false);
 
-    const [deleteUserOpened, { open: openDeleteUser, close: closeDeleteUser }] =
-        useDisclosure(false);
+    // const [deleteUserOpened, { open: openDeleteUser, close: closeDeleteUser }] =
+    //     useDisclosure(false);
 
-    const handleEditUser = (user: User) => {
-        setCurrentUser(user);
-        openEditUser();
-    };
+    // const handleEditUser = (user: User) => {
+    //     setCurrentUser(user);
+    //     openEditUser();
+    // };
 
-    const handleDeleteUser = (user: User) => {
-        setCurrentUser(user);
-        openDeleteUser();
-    };
+    // const handleDeleteUser = (user: User) => {
+    //     setCurrentUser(user);
+    //     openDeleteUser();
+    // };
 
     return (
-        <AdminLayout user={auth.user}>
+        <Authenticated>
             <Head title="User" />
             <Stack px={8} gap={24} py={8}>
                 <Text component="h2" size="xl" fw={600} c="gray.8">
                     User
                 </Text>
-                <Flex
+                {/* <Flex
                     justify="space-between"
                     direction={{ base: "column", md: "row" }}
                     gap={{ base: 12, md: 0 }}
@@ -126,10 +126,10 @@ export default function UserPage({ auth, user, filters }: UserPageProps) {
                     records={user.data}
                     selectedRecords={selectedRecord}
                     onSelectedRecordsChange={setSelectedRecord}
-                />
+                /> */}
             </Stack>
 
-            <AddUserForm isOpened={addUserOpened} close={closeAddUser} />
+            {/* <AddUserForm isOpened={addUserOpened} close={closeAddUser} />
 
             <EditUserForm isOpened={editUserOpened} close={closeEditUser} user={currentUser} />
 
@@ -137,7 +137,7 @@ export default function UserPage({ auth, user, filters }: UserPageProps) {
                 isOpened={deleteUserOpened}
                 close={closeDeleteUser}
                 user={currentUser}
-            />
-        </AdminLayout>
+            /> */}
+        </Authenticated>
     );
 }

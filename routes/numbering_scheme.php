@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
 
-    Route::prefix('numbering-schemes')->group(function () {
+    Route::prefix('numbering-scheme')->group(function () {
 
         Route::get('/', [NumberingSchemeController::class, 'index']);
 

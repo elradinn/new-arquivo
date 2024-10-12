@@ -32,7 +32,7 @@ const adminTools = [
         title: "Manage Users",
         description: "Add, edit, and remove users",
         icon: <IconReportAnalytics />,
-        href: "/user",
+        href: "/users",
     },
     {
         title: "Activity Log",

@@ -4,7 +4,7 @@ import { IconSearch } from "@tabler/icons-react";
 import { Flex, rem, Stack, Text, TextInput } from "@mantine/core";
 import { DataTable } from "mantine-datatable";
 import { NumberingScheme, NumberingSchemePageProps } from "@/types";
-import { AdminLayout } from "@/Layouts/AdminLayout/AdminLayout";
+import { Authenticated } from "@/Modules/Common/Layouts/AuthenticatedLayout/Authenticated";
 
 export default function NumberingSchemePage({
     auth,
@@ -13,31 +13,31 @@ export default function NumberingSchemePage({
 }: NumberingSchemePageProps) {
     const [selectedRecord, setSelectedRecord] = useState<NumberingScheme[]>([]);
 
-    const [page, setPage] = useState(numberingScheme.current_page);
-    const [search, setSearch] = useState(filters.search || "");
+    // const [page, setPage] = useState(numberingScheme.current_page);
+    // const [search, setSearch] = useState(filters.search || "");
 
-    const handleSearch = (search: string) => {
-        router.get("/activity-log", { search }, { preserveState: true, replace: true });
-    };
+    // const handleSearch = (search: string) => {
+    //     router.get("/numbering-schemes", { search }, { preserveState: true, replace: true });
+    // };
 
-    const handleonPageChange = (page: number) => {
-        const newUrl = numberingScheme.links.find(
-            (link: { label: string; url: string }) => link.label === page.toString(),
-        )?.url;
-        if (newUrl) {
-            router.visit(newUrl);
-        }
-    };
+    // const handleonPageChange = (page: number) => {
+    //     const newUrl = numberingScheme.links.find(
+    //         (link: { label: string; url: string }) => link.label === page.toString(),
+    //     )?.url;
+    //     if (newUrl) {
+    //         router.visit(newUrl);
+    //     }
+    // };
 
     return (
-        <AdminLayout user={auth.user}>
-            <Head title="Activity Log" />
+        <Authenticated>
+            <Head title="Numbering Scheme" />
             <Stack px={8} gap={24} py={8}>
                 <Text component="h2" size="xl" fw={600} c="gray.8">
                     Numbering Scheme
                 </Text>
 
-                <Flex
+                {/* <Flex
                     justify="space-between"
                     direction={{ base: "column", md: "row" }}
                     gap={{ base: 12, md: 0 }}
@@ -79,8 +79,8 @@ export default function NumberingSchemePage({
                     records={numberingScheme.data}
                     selectedRecords={selectedRecord}
                     onSelectedRecordsChange={setSelectedRecord}
-                />
+                /> */}
             </Stack>
-        </AdminLayout>
+        </Authenticated>
     );
 }
