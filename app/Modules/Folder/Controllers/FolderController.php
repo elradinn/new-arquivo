@@ -56,11 +56,13 @@ class FolderController extends Controller
         return response()->json(['message' => 'Folder created successfully'], 201);
     }
 
-    public function edit(Folder $folder): FolderResourceData
+    public function edit(Folder $folder): Response
     {
         $this->folderAuthorization->canView(Auth::user(), $folder);
 
-        return FolderResourceData::from($folder);
+        return Inertia::render('FolderProperties/FolderProperties.page', [
+            'folder' => FolderResourceData::from($folder),
+        ]);
     }
 
     public function update(Folder $folder, UpdateFolderData $data): JsonResponse

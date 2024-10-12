@@ -38,7 +38,7 @@ export default function ApiTester() {
     };
 
     return (
-        <Box>
+        <Box p={56}>
             <Select
                 label="HTTP Method"
                 value={method}

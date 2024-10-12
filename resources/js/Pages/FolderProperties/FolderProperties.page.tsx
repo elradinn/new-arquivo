@@ -12,7 +12,7 @@ import {
     Textarea,
     TextInput,
 } from "@mantine/core";
-import { AdminLayout } from "@/Layouts/AdminLayout/AdminLayout";
+import { Authenticated } from "@/Modules/Common/Layouts/AuthenticatedLayout/Authenticated";
 import {
     IconChevronRight,
     IconEdit,
@@ -21,7 +21,7 @@ import {
     IconPlus,
     IconTrash,
 } from "@tabler/icons-react";
-import Toolbar from "@/Components/Toolbar/Toolbar";
+import Toolbar from "@/Modules/Common/Components/Toolbar/Toolbar";
 
 interface FolderPropertiesProps extends PageProps {
     data: {
@@ -30,30 +30,30 @@ interface FolderPropertiesProps extends PageProps {
     };
 }
 
-export default function FolderPropertiesPage({ auth, data, ancestors }: FolderPropertiesProps) {
-    const breadcrumbItems = ancestors.data.map((ans) =>
-        !ans.parent_id ? (
-            <Anchor component={Link} href={route("index")} key={ans.id}>
-                Home
-            </Anchor>
-        ) : (
-            <Anchor component={Link} href={`/folder/index/${ans.id}`} key={ans.id}>
-                {ans.name}
-            </Anchor>
-        ),
-    );
+export default function FolderPropertiesPage({ auth, data, ancestors }: any) {
+    // const breadcrumbItems = ancestors.data.map((ans) =>
+    //     !ans.parent_id ? (
+    //         <Anchor component={Link} href={route("index")} key={ans.id}>
+    //             Home
+    //         </Anchor>
+    //     ) : (
+    //         <Anchor component={Link} href={`/folder/index/${ans.id}`} key={ans.id}>
+    //             {ans.name}
+    //         </Anchor>
+    //     ),
+    // );
 
     return (
-        <AdminLayout user={auth.user} toolbar={<Toolbar fileSelected={false} page="my-files" />}>
-            <Head title={data.name} />
+        <Authenticated toolbar={<Toolbar page="trash" />}>
+            <Head title={"folder name"} />
             <Stack px={8} py={8} gap={24} w={550} mb={72}>
-                <Breadcrumbs separator={<IconChevronRight size={16} />}>
+                {/* <Breadcrumbs separator={<IconChevronRight size={16} />}>
                     {breadcrumbItems}
-                </Breadcrumbs>
+                </Breadcrumbs> */}
 
                 <Group mt={24}>
                     <IconFolder size={56} fill="orange" stroke="none" color="none" />
-                    <Text fw={500}>{data.name}</Text>
+                    <Text fw={500}>{"folder name"}</Text>
                     <ActionIcon variant="subtle" color="gray">
                         <IconEdit size={24} />
                     </ActionIcon>
@@ -63,7 +63,7 @@ export default function FolderPropertiesPage({ auth, data, ancestors }: FolderPr
 
                 <TextInput id="tags" type="text" name="tags" label="Tags" />
 
-                <Textarea label="Notes" autosize minRows={4} maxRows={6} defaultValue={data.path} />
+                {/* <Textarea label="Notes" autosize minRows={4} maxRows={6} defaultValue={data.path} /> */}
 
                 <Stack gap={12}>
                     <Text size="sm" fw={500}>
@@ -175,6 +175,6 @@ export default function FolderPropertiesPage({ auth, data, ancestors }: FolderPr
                     </Button>
                 </Flex>
             </Stack>
-        </AdminLayout>
+        </Authenticated>
     );
 }
