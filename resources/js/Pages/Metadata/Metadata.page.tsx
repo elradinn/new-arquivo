@@ -11,17 +11,19 @@ import MetadataTable from "@/Modules/Metadata/Components/MetadataTable";
 import { useMetadataSearch } from "@/Modules/Metadata/Hooks/use-search-metadata";
 import { useMetadataPagination } from "@/Modules/Metadata/Hooks/use-paginate-metadata";
 import { MetadataResourceData } from "@/Modules/Metadata/Types/MetadataResourceData";
+import { PaginationData, Filters } from "@/Modules/Metadata/Types/MetadataPageTypes";
 
 interface IProps {
-    metadata: MetadataResourceData[];
+    metadata: PaginationData;
+    filters: Filters;
 }
 
-export default function MetadataPage({ metadata }: IProps) {
+export default function MetadataPage({ metadata, filters }: IProps) {
     const [selectedRecord, setSelectedRecord] = useState<MetadataResourceData[]>([]);
     const [currentMetadata, setCurrentMetadata] = useState<MetadataResourceData>();
 
-    // const { search, setSearch, handleSearch } = useMetadataSearch(filters.search || "");
-    // const { page, setPage, handlePageChange } = useMetadataPagination(metadata.current_page);
+    const { search, setSearch, handleSearch } = useMetadataSearch(filters.search || "");
+    const { page, setPage, handlePageChange } = useMetadataPagination(metadata.current_page);
 
     const [addMetadataOpened, { open: openAddMetadata, close: closeAddMetadata }] = useDisclosure(false);
     const [editMetadataOpened, { open: openEditMetadata, close: closeEditMetadata }] = useDisclosure(false);
@@ -49,25 +51,25 @@ export default function MetadataPage({ metadata }: IProps) {
                         w={{ md: 400 }}
                         placeholder="Search"
                         leftSection={<IconSearch style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
-                    // value={search}
-                    // onChange={(e) => {
-                    //     setSearch(e.target.value);
-                    //     handleSearch(e.target.value);
-                    // }}
+                        value={search}
+                        onChange={(e) => {
+                            setSearch(e.target.value);
+                            handleSearch(e.target.value);
+                        }}
                     />
                     <Button leftSection={<IconPlus size={14} />} onClick={openAddMetadata}>
                         Add New Metadata
                     </Button>
                 </Flex>
                 <MetadataTable
-                    metadata={metadata}
-                    // total={metadata.total}
-                    // perPage={metadata.per_page}
-                    // page={page}
-                    // onPageChange={(p) => {
-                    //     setPage(p);
-                    //     handlePageChange(p, metadata.links);
-                    // }}
+                    metadata={metadata.data}
+                    total={metadata.total}
+                    perPage={metadata.per_page}
+                    page={page}
+                    onPageChange={(p) => {
+                        setPage(p);
+                        handlePageChange(p, metadata.links);
+                    }}
                     onEdit={handleEditMetadata}
                     onDelete={handleDeleteMetadata}
                     selectedRecords={selectedRecord}

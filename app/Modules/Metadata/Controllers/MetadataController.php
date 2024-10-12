@@ -11,6 +11,7 @@ use Modules\Metadata\Actions\CreateMetadataAction;
 use Modules\Metadata\Actions\UpdateMetadataAction;
 use Modules\Metadata\Actions\DeleteMetadataAction;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class MetadataController extends Controller
@@ -24,13 +25,32 @@ class MetadataController extends Controller
     /**
      * Display a listing of the metadata.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // $metadata = Metadata::all();
-        // return response()->json($metadata, 200);
+        $search = $request->input('search');
+
+        $metadata = Metadata::query()
+            ->when($search, function ($query, $search) {
+                $searchableColumns = ['name', 'type'];
+
+                $query->where(function ($query) use ($search, $searchableColumns) {
+                    foreach ($searchableColumns as $column) {
+                        $query->orWhere($column, 'like', "%{$search}%");
+                    }
+                });
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(10)
+            ->withQueryString();
+
+        // return response()->json([
+        //     'metadata' => MetadataResourceData::collect($metadata),
+        //     'filters' => $request->only(['search']),
+        // ]);
 
         return Inertia::render('Metadata/Metadata.page', [
-            'metadata' => MetadataResourceData::collect(Metadata::all()),
+            'metadata' => MetadataResourceData::collect($metadata),
+            'filters' => $request->only(['search']),
         ]);
     }
 

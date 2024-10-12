@@ -6,10 +6,10 @@ import { MetadataResourceData } from "../Types/MetadataResourceData";
 
 interface MetadataTableProps {
     metadata: MetadataResourceData[];
-    // total: number;
-    // perPage: number;
-    // page: number;
-    // onPageChange: (page: number) => void;
+    total: number;
+    perPage: number;
+    page: number;
+    onPageChange: (page: number) => void;
     onEdit: (metadata: MetadataResourceData) => void;
     onDelete: (metadata: MetadataResourceData) => void;
     selectedRecords: MetadataResourceData[];
@@ -18,10 +18,10 @@ interface MetadataTableProps {
 
 const MetadataTable: React.FC<MetadataTableProps> = ({
     metadata,
-    // total,
-    // perPage,
-    // page,
-    // onPageChange,
+    total,
+    perPage,
+    page,
+    onPageChange,
     onEdit,
     onDelete,
     selectedRecords,
@@ -36,10 +36,10 @@ const MetadataTable: React.FC<MetadataTableProps> = ({
             withRowBorders={false}
             highlightOnHover
             verticalSpacing="md"
-            // totalRecords={total}
-            // recordsPerPage={perPage}
-            // page={page}
-            // onPageChange={onPageChange}
+            totalRecords={total}
+            recordsPerPage={perPage}
+            page={page}
+            onPageChange={onPageChange}
             columns={[
                 { accessor: "name", noWrap: true },
                 { accessor: "description", noWrap: true },
