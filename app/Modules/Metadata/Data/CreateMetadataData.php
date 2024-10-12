@@ -14,7 +14,7 @@ class CreateMetadataData extends Data
         #[Required, StringType, Unique('metadata', 'name')]
         public string $name,
 
-        #[Required, StringType, In(['string', 'integer', 'float', 'boolean', 'date', 'datetime'])]
+        #[Required, StringType, In(['String', 'Integer', 'Float', 'Boolean', 'Date', 'DateTime'])]
         public string $type
     ) {}
 }

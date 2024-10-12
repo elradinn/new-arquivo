@@ -2,6 +2,7 @@
 
 namespace Modules\Metadata\Controllers;
 
+use App\Modules\Metadata\Data\MetadataResourceData;
 use Modules\Common\Controllers\Controller;
 use Modules\Metadata\Models\Metadata;
 use Modules\Metadata\Data\CreateMetadataData;
@@ -29,7 +30,7 @@ class MetadataController extends Controller
         // return response()->json($metadata, 200);
 
         return Inertia::render('Metadata/Metadata.page', [
-            'metadata' => Metadata::all(),
+            'metadata' => MetadataResourceData::collect(Metadata::all()),
         ]);
     }
 
