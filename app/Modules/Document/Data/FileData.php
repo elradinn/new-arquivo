@@ -13,4 +13,9 @@ class FileData extends Data
         #[Required, Mimes('pdf', 'txt', 'docx', 'doc', 'png', 'jpg', 'jpeg')]
         public UploadedFile $file
     ) {}
+
+    public function getUploadedFile(): UploadedFile
+    {
+        return $this->file;
+    }
 }

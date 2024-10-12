@@ -21,37 +21,29 @@ class UploadDocumentAction
 
     public function execute(UploadDocumentData $data): array
     {
-        // dd($data);
-
         $documents = [];
 
-        Log::info($data->files);
-
         foreach ($data->files as $file) {
+            $uploadedFile = $file->getUploadedFile();
 
-            // Create the Item
             $item = $this->createItemAction->execute(
                 CreateItemData::from([
                     'parent_id' => $data->parent_id,
                 ])
             );
 
-            // Store the uploaded file
-            $filePath = $file->file->store('documents', 'public');
+            $filePath = $uploadedFile->store('documents', 'public');
 
-            // Create the Document
             $document = $item->document()->create([
-                'name' => $file->file->getClientOriginalName(),
+                'name' => $uploadedFile->getClientOriginalName(),
                 'owned_by' => $data->owned_by ?? Auth::id(),
-                'mime' => $file->file->getMimeType(),
-                'size' => $file->file->getSize(),
+                'mime' => $uploadedFile->getMimeType(),
+                'size' => $uploadedFile->getSize(),
                 'file_path' => $filePath,
             ]);
 
-            // Apply Document Number
             $this->applyDocumentNumberAction->execute($document);
 
-            // Create Document Approval from Workflow
             $this->createDocumentApprovalFromWorkflowAction->execute($document);
 
             $documents[] = $document;
