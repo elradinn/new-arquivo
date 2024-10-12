@@ -29,3 +29,5 @@ require __DIR__ . '/metadata.php';
 require __DIR__ . '/numbering_scheme.php';
 
 require __DIR__ . '/user.php';
+
+require __DIR__ . '/trash.php';
