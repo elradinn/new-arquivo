@@ -32,4 +32,6 @@ require __DIR__ . '/user.php';
 
 require __DIR__ . '/admin_tools.php';
 
+require __DIR__ . '/activity_log.php';
+
 require __DIR__ . '/trash.php';
