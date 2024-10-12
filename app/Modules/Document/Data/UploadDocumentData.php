@@ -18,7 +18,7 @@ class UploadDocumentData extends Data
         #[Uuid()]
         public string $parent_id,
 
-        #[Required, File, Mimes('pdf', 'docx', 'doc', 'txt', 'png', 'jpg', 'jpeg')]
+        #[Required]
         public array $files,
 
         #[Uuid()]

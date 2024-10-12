@@ -6,15 +6,16 @@ import { ItemParentResourceData } from "@/Modules/Item/Types/ItemParentResourceD
 
 export function useUploadDocument(itemParent: ItemParentResourceData) {
     const { data, post, reset, clearErrors } = useForm<UploadDocumentData>({
-        files: [],
         parent_id: "",
+        files: [],
     });
 
-    console.log(data);
-
+    
     const uploadFiles = (files: FileWithPath[]) => {
         data.parent_id = itemParent.item_id;
         data.files = files;
+        
+        console.log(data);
 
         post(route("document.store"), {
             onSuccess: () => {

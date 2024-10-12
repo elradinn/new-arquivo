@@ -13,11 +13,11 @@ class GetItemDataAction
     public function execute(Item $item): array
     {
         $itemContents = $item->getChildren()->load('folder', 'document');
-        $itemAncestors = $item->ancestorsWithSelf()->get()->load('workspace', 'folder');
+        $itemAncestors = collect($item->ancestorsWithSelf()->get()->load('workspace', 'folder'))->sortBy('depth', SORT_DESC);
 
         return [
             'itemParent' => ItemParentResourceData::fromModel($item),
-            'itemAncestors' => collect(ItemAncestorsResourceData::collect($itemAncestors, DataCollection::class))->sortBy('depth', SORT_DESC),
+            'itemAncestors' => ItemAncestorsResourceData::collect($itemAncestors, DataCollection::class),
             'itemContents' => ItemContentsResourceData::collect($itemContents, DataCollection::class),
         ];
     }

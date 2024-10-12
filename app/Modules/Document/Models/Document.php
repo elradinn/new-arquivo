@@ -27,6 +27,8 @@ class Document extends Model
         'document_number',
         'status',
         'description',
+        'mime',
+        'size',
         'file_path',
     ];
 

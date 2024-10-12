@@ -9,6 +9,7 @@ use Modules\Item\Actions\CreateItemAction;
 use Modules\Item\Data\CreateItemData;
 use Modules\NumberingScheme\Actions\ApplyDocumentNumberAction;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class UploadDocumentAction
 {
@@ -22,7 +23,10 @@ class UploadDocumentAction
     {
         $documents = [];
 
+        Log::info($data->files);
+
         foreach ($data->files as $file) {
+
             // Create the Item
             $item = $this->createItemAction->execute(
                 CreateItemData::from([
@@ -35,10 +39,11 @@ class UploadDocumentAction
 
             // Create the Document
             $document = $item->document()->create([
-                'name' => $file->getClientOriginalName(), // Use the file's original name
+                'name' => $file->getClientOriginalName(),
                 'owned_by' => $data->owned_by ?? Auth::id(),
-                'mime' => $file->getClientMimeType(),
-                'file_path' => $filePath, // Save the file path
+                'mime' => $file->getMimeType(),
+                'size' => $file->getSize(),
+                'file_path' => $filePath,
             ]);
 
             // Apply Document Number
