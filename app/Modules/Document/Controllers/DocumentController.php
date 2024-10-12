@@ -8,6 +8,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Modules\Document\Data\UploadDocumentData;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
+use Inertia\Response;
 use Modules\Document\Actions\UploadDocumentAction;
 use Modules\Document\Authorization\DocumentAuthorization;
 use Modules\Document\Data\ShareDocumentData;
@@ -28,11 +30,13 @@ class DocumentController extends Controller
         return redirect()->back();
     }
 
-    public function show(Document $document): JsonResponse
+    public function show(Document $document): Response
     {
         $this->documentAuthorization->canView(Auth::user(), $document);
 
-        return response()->json($document);
+        return Inertia::render('DocumentProperties/DocumentProperties.page', [
+            'document' => $document,
+        ]);
     }
 
     public function share(ShareDocumentData $data, Document $document): JsonResponse

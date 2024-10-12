@@ -1,7 +1,7 @@
 import { Head, Link } from "@inertiajs/react";
 import { PageProps } from "@/types";
 import { Anchor, Box, Breadcrumbs, Button, Grid, Group, Paper, Stack, Text } from "@mantine/core";
-import { AdminLayout } from "@/Layouts/AdminLayout/AdminLayout";
+import { Authenticated } from "@/Modules/Common/Layouts/AuthenticatedLayout/Authenticated";
 import {
     IconChevronRight,
     IconFile,
@@ -9,7 +9,7 @@ import {
     IconLock,
     IconUpload,
 } from "@tabler/icons-react";
-import Toolbar from "@/Components/Toolbar/Toolbar";
+import Toolbar from "@/Modules/Common/Components/Toolbar/Toolbar";
 import { DataTable } from "mantine-datatable";
 
 const mockAuditLog = [
@@ -65,7 +65,7 @@ const mockAuditLog = [
 
 export default function DocumentPropertiesPage({ auth }: PageProps) {
     return (
-        <AdminLayout user={auth.user} toolbar={<Toolbar fileSelected={false} page="my-files" />}>
+        <Authenticated toolbar={<Toolbar page="item" />}>
             <Head title="Customization" />
             <Box px={8} py={8} mb={48}>
                 <Breadcrumbs separator={<IconChevronRight size={16} />}>
@@ -169,6 +169,6 @@ export default function DocumentPropertiesPage({ auth }: PageProps) {
                     </Paper>
                 </Grid.Col>
             </Grid>
-        </AdminLayout>
+        </Authenticated>
     );
 }
