@@ -11,7 +11,7 @@ import { useSelectItems } from "@/Modules/Item/Hooks/use-select-items";
 import { ItemAncestorsResourceData } from "@/Modules/Item/Types/ItemAncestorsResourceData";
 import { ItemContentsResourceData } from "@/Modules/Item/Types/ItemContentsResourceData";
 import { ItemParentResourceData } from "@/Modules/Item/Types/ItemParentResourceData";
-
+import Toolbar from "@/Modules/Common/Components/Toolbar/Toolbar";
 interface ItemPageProps {
     itemParent: ItemParentResourceData;
     itemAncestors: ItemAncestorsResourceData[];
@@ -28,7 +28,7 @@ export default function ItemPage({ itemParent, itemAncestors, itemContents }: It
         <>
             <Head title="My Files" />
 
-            <Authenticated>
+            <Authenticated toolbar={<Toolbar page="item" />}>
                 <ItemDropzone onDrop={uploadFiles} openRef={openRef}>
                     <Stack px={8} gap={24} py={8} style={{ pointerEvents: "all" }}>
                         <ItemBreadcrumbs ancestors={itemAncestors} />

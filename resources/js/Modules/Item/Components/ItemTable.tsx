@@ -57,6 +57,7 @@ const ItemTable: React.FC<ItemTableProps> = ({
                 // },
             })}
             highlightOnHover
+            verticalSpacing="md"
             horizontalSpacing="xl"
             selectedRecords={selectedRecord}
             onSelectedRecordsChange={setSelectedRecord}
@@ -65,65 +66,3 @@ const ItemTable: React.FC<ItemTableProps> = ({
 }
 
 export default ItemTable;
-
-// import { Link } from "@inertiajs/react";
-// import { Anchor, Breadcrumbs, Group } from "@mantine/core";
-// import { IconChevronRight } from "@tabler/icons-react";
-// import { ItemAncestorsResourceData } from "@/Modules/Item/Types/ItemAncestorsResourceData";
-// import { ItemContentsResourceData } from "../Types/ItemContentsResourceData";
-// import { DataTable } from "mantine-datatable";
-
-// interface ItemTableProps {
-//     itemContents: ItemContentsResourceData[];
-//     openFolder: (is_folder: number, id: string) => void;
-//     selectedRecord: any[];
-//     setSelectedRecord: (records: any[]) => void;
-// }
-
-// export default function ItemTable({ itemContents }: BreadcrumbProps) {
-
-//     const table = (
-//         <DataTable
-//         textSelectionDisabled
-//         columns={[
-//             {
-//                 accessor: "name",
-//                 render: ({ mime, is_folder, name, approval_status }) => (
-//                     <Group align="center" gap={12}>
-//                         <ItemIcon
-//                             mime={mime}
-//                             isFolder={is_folder}
-//                             approvalStatus={approval_status}
-//                         />
-//                         <span>{name}</span>
-//                     </Group>
-//                 ),
-//             },
-//             { accessor: "owner" },
-//             {
-//                 accessor: "updated_at",
-//                 title: "Last Modified",
-//             },
-//             { accessor: "size" },
-//         ]}
-//         records={itemContents}
-//         customRowAttributes={({ is_folder, id }) => ({
-//             onDoubleClick: (e: MouseEvent) => {
-//                 if (e.button === 0) {
-//                     openFolder(is_folder, id);
-//                 }
-//             },
-//         })}
-//         highlightOnHover
-//         horizontalSpacing="xl"
-//         selectedRecords={selectedRecord}
-//         onSelectedRecordsChange={setSelectedRecord}
-//     />
-//     )
-
-//     return (
-//         <Breadcrumbs separator={<IconChevronRight size={16} />}>
-//             {breadcrumbItems}
-//         </Breadcrumbs>
-//     );
-// }

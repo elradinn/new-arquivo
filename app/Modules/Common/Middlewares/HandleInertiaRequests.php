@@ -38,6 +38,7 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'workspaces' => WorkspaceLinksData::collect(Workspace::all(), DataCollection::class),
+            'csrf_token' => csrf_token(),
         ];
     }
 }

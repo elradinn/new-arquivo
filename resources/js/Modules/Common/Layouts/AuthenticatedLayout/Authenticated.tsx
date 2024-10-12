@@ -30,9 +30,10 @@ import { PageProps } from "../../Types";
 
 interface IProps {
     children: React.ReactNode;
+    toolbar?: React.ReactNode;
 }
 
-export function Authenticated({ children }: IProps) {
+export function Authenticated({ children, toolbar }: IProps) {
     const [opened, { toggle }] = useDisclosure();
 
     const user = usePage<PageProps>().props.auth.user;
@@ -40,7 +41,7 @@ export function Authenticated({ children }: IProps) {
     return (
         <AppShell
             layout="alt"
-            header={{ height: 60 }}
+            header={{ height: toolbar ? 120 : 60 }}
             navbar={{
                 width: 250,
                 breakpoint: "sm",
@@ -49,7 +50,7 @@ export function Authenticated({ children }: IProps) {
             padding="md"
         >
             <AppShell.Header>
-                <Flex h="100%" px="md" justify="space-between" align="center">
+                <Flex h={toolbar ? "50%" : "100%"} px="md" justify="space-between" align="center">
                     <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
 
                     <TextInput
@@ -140,7 +141,13 @@ export function Authenticated({ children }: IProps) {
                         </Menu>
                     </Group>
                 </Flex>
+
+                <Divider />
+
+                {toolbar}
             </AppShell.Header>
+
+
             <AppShell.Navbar>
                 <Sidebar />
             </AppShell.Navbar>
