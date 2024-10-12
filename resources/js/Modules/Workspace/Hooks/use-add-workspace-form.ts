@@ -10,9 +10,6 @@ export function useAddWorkspace() {
         e.preventDefault();
         post("/workspaces", {
             onSuccess: () => reset(),
-            onError: () => {
-                console.log(errors);
-            }
         });
         
     };

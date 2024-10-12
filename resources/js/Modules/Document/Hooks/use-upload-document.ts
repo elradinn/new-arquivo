@@ -10,6 +10,8 @@ export function useUploadDocument(itemParent: ItemParentResourceData) {
         parent_id: "",
     });
 
+    console.log(data);
+
     const uploadFiles = (files: FileWithPath[]) => {
         data.parent_id = itemParent.item_id;
         data.files = files;

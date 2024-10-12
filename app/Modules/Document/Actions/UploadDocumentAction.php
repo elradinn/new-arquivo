@@ -37,6 +37,7 @@ class UploadDocumentAction
             $document = $item->document()->create([
                 'name' => $file->getClientOriginalName(), // Use the file's original name
                 'owned_by' => $data->owned_by ?? Auth::id(),
+                'mime' => $file->getClientMimeType(),
                 'file_path' => $filePath, // Save the file path
             ]);
 

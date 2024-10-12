@@ -5,6 +5,7 @@ namespace Modules\Document\Controllers;
 use Modules\Common\Controllers\Controller;
 use Modules\Document\Models\Document;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Modules\Document\Data\UploadDocumentData;
 use Illuminate\Support\Facades\Auth;
 use Modules\Document\Actions\UploadDocumentAction;
@@ -20,11 +21,11 @@ class DocumentController extends Controller
         protected DocumentAuthorization $documentAuthorization
     ) {}
 
-    public function store(UploadDocumentData $data): JsonResponse
+    public function store(UploadDocumentData $data): RedirectResponse
     {
-        $document = $this->uploadDocumentAction->execute($data);
+        $this->uploadDocumentAction->execute($data);
 
-        return response()->json($document, 201);
+        return redirect()->back();
     }
 
     public function show(Document $document): JsonResponse
