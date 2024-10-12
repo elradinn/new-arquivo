@@ -13,17 +13,20 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Modules\Item\Data\ItemAncestorsResourceData;
 use Modules\Item\Data\ItemContentsResourceData;
+use Modules\Item\Data\ItemParentResourceData;
 use Modules\Workspace\Actions\CreateWorkspaceAction;
 use Modules\Workspace\Authorization\WorkspaceAuthorization;
 use Modules\Workspace\Data\RemoveShareWorkspaceData;
 use Modules\Workspace\Data\ShareWorkspaceData;
 use Spatie\LaravelData\DataCollection;
+use Modules\Item\Actions\GetItemDataAction;
 
 class WorkspaceController extends Controller
 {
     public function __construct(
         protected CreateWorkspaceAction $createWorkspaceAction,
-        protected WorkspaceAuthorization $workspaceAuthorization
+        protected WorkspaceAuthorization $workspaceAuthorization,
+        protected GetItemDataAction $getItemDataAction
     ) {}
 
     public function index(): JsonResponse
@@ -39,20 +42,15 @@ class WorkspaceController extends Controller
      * Show contents of workspace
      * @return \Spatie\LaravelData\DataCollection<ItemContentsResourceData>
      */
-    public function show(Workspace $workspace): Response
+    public function show(Workspace $workspace)
     {
         $this->workspaceAuthorization->canView(Auth::user(), $workspace);
 
-        $items = Item::find($workspace->item->id);
+        $item = Item::find($workspace->item->id);
 
-        $itemContents = $items->getChildren()->load('folder', 'document');
+        $data = $this->getItemDataAction->execute($item);
 
-        $itemAncestors = $items->ancestorsWithSelf()->get()->load('workspace', 'folder');
-
-        return Inertia::render('Item/Item.page', [
-            'itemAncestors' => ItemAncestorsResourceData::collect($itemAncestors, DataCollection::class),
-            'itemContents' => ItemContentsResourceData::collect($itemContents, DataCollection::class)
-        ]);
+        return Inertia::render('Item/Item.page', $data);
     }
 
     public function store(CreateWorkspaceData $data): JsonResponse

@@ -11,15 +11,15 @@ use Spatie\LaravelData\Attributes\Validation\Uuid;
 
 class UploadDocumentData extends Data
 {
+    /**
+     * @param UploadedFile[] $files
+     */
     public function __construct(
         #[Uuid()]
         public string $parent_id,
 
-        #[Required]
-        public string $name,
-
         #[Required, File, Mimes('pdf', 'docx', 'doc', 'txt', 'png', 'jpg', 'jpeg')]
-        public UploadedFile $file,
+        public array $files,
 
         #[Uuid()]
         public ?string $owned_by = null

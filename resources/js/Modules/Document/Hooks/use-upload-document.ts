@@ -1,29 +1,23 @@
 import { useForm } from "@inertiajs/react";
 import { notifications } from "@mantine/notifications";
 import { FileWithPath } from "@mantine/dropzone";
+import { UploadDocumentData } from "../Types/UploadDocumentData";
+import { ItemParentResourceData } from "@/Modules/Item/Types/ItemParentResourceData";
 
-interface FormData {
-    files: FileWithPath[];
-    relative_path: string[];
-    parent_id?: number;
-}
-
-export function useUploadDocument(page: any) {
-    const { data, post, reset, clearErrors } = useForm<FormData>({
+export function useUploadDocument(itemParent: ItemParentResourceData) {
+    const { data, post, reset, clearErrors } = useForm<UploadDocumentData>({
         files: [],
-        relative_path: [],
-        parent_id: 0,
+        parent_id: "",
     });
 
     const uploadFiles = (files: FileWithPath[]) => {
-        data.parent_id = page.props.folder?.id;
+        data.parent_id = itemParent.item_id;
         data.files = files;
-        data.relative_path = [...files].map((f) => f.webkitRelativePath);
 
-        post(route("file.store"), {
+        post(route("document.store"), {
             onSuccess: () => {
                 notifications.show({
-                    message: "File uploaded",
+                    message: "Document uploaded",
                     color: "green",
                 });
             },

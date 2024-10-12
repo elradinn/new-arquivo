@@ -18,31 +18,37 @@ class UploadDocumentAction
         protected ApplyDocumentNumberAction $applyDocumentNumberAction,
     ) {}
 
-    public function execute(UploadDocumentData $data): Document
+    public function execute(UploadDocumentData $data): array
     {
-        // Create the Item
-        $item = $this->createItemAction->execute(
-            CreateItemData::from([
-                'parent_id' => $data->parent_id,
-            ])
-        );
+        $documents = [];
 
-        // Store the uploaded file
-        $filePath = $data->file->store('documents', 'public');
+        foreach ($data->files as $file) {
+            // Create the Item
+            $item = $this->createItemAction->execute(
+                CreateItemData::from([
+                    'parent_id' => $data->parent_id,
+                ])
+            );
 
-        // Create the Document
-        $document = $item->document()->create([
-            'name' => $data->name,
-            'owned_by' => $data->owned_by ?? Auth::id(),
-            'file_path' => $filePath, // Save the file path
-        ]);
+            // Store the uploaded file
+            $filePath = $file->store('documents', 'public');
 
-        // Apply Document Number
-        $this->applyDocumentNumberAction->execute($document);
+            // Create the Document
+            $document = $item->document()->create([
+                'name' => $file->getClientOriginalName(), // Use the file's original name
+                'owned_by' => $data->owned_by ?? Auth::id(),
+                'file_path' => $filePath, // Save the file path
+            ]);
 
-        // Create Document Approval from Workflow
-        $this->createDocumentApprovalFromWorkflowAction->execute($document);
+            // Apply Document Number
+            $this->applyDocumentNumberAction->execute($document);
 
-        return $document;
+            // Create Document Approval from Workflow
+            $this->createDocumentApprovalFromWorkflowAction->execute($document);
+
+            $documents[] = $document;
+        }
+
+        return $documents;
     }
 }

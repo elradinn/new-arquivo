@@ -22,6 +22,7 @@ use Modules\Item\Data\ItemContentsResourceData;
 use Modules\Item\Models\Item;
 use Modules\User\Models\User;
 use Spatie\LaravelData\DataCollection;
+use Modules\Item\Actions\GetItemDataAction;
 
 class FolderController extends Controller
 {
@@ -29,7 +30,8 @@ class FolderController extends Controller
         private CreateFolderAction $createFolderAction,
         private UpdateFolderAction $updateFolderAction,
         private DeleteFolderAction $deleteFolderAction,
-        private FolderAuthorization $folderAuthorization
+        private FolderAuthorization $folderAuthorization,
+        private GetItemDataAction $getItemDataAction
     ) {}
 
     /**
@@ -42,14 +44,9 @@ class FolderController extends Controller
 
         $items = Item::find($folder->item->id);
 
-        $itemContents = $items->getChildren()->load('folder', 'document');
+        $data = $this->getItemDataAction->execute($items);
 
-        $itemAncestors = $items->ancestorsWithSelf()->get()->load('workspace', 'folder');
-
-        return Inertia::render('Item/Item.page', [
-            'itemAncestors' => ItemAncestorsResourceData::collect($itemAncestors, DataCollection::class),
-            'itemContents' => ItemContentsResourceData::collect($itemContents, DataCollection::class)
-        ]);
+        return Inertia::render('Item/Item.page', $data);
     }
 
     public function store(CreateFolderData $data): JsonResponse
