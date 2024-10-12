@@ -30,4 +30,6 @@ require __DIR__ . '/numbering_scheme.php';
 
 require __DIR__ . '/user.php';
 
+require __DIR__ . '/admin_tools.php';
+
 require __DIR__ . '/trash.php';

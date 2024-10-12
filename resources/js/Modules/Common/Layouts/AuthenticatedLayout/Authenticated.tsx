@@ -64,7 +64,7 @@ export function Authenticated({ children, toolbar }: IProps) {
                     <Group align="center" gap={8}>
                         <Button
                             component={Link}
-                            href="#"
+                            href={route('admin.tools')}
                             leftSection={<IconLayoutGrid stroke={1.5} />}
                             radius="md"
                             variant="light"
