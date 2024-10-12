@@ -15,7 +15,7 @@ class UpdateMetadataData extends Data
         #[Sometimes, Required, StringType, Unique('metadata', 'name')]
         public ?string $name = null,
 
-        #[Sometimes, Required, StringType, In(['string', 'integer', 'float', 'boolean', 'date', 'datetime'])]
+        #[Sometimes, Required, StringType, In(['String', 'Integer', 'Float', 'Boolean', 'Date', 'DateTime'])]
         public ?string $type = null
     ) {}
 }

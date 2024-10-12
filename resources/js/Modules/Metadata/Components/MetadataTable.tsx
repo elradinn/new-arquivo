@@ -42,7 +42,6 @@ const MetadataTable: React.FC<MetadataTableProps> = ({
             onPageChange={onPageChange}
             columns={[
                 { accessor: "name", noWrap: true },
-                { accessor: "description", noWrap: true },
                 { accessor: "type", noWrap: true },
                 {
                     accessor: "actions",

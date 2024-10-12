@@ -11,6 +11,7 @@ use Modules\Metadata\Actions\CreateMetadataAction;
 use Modules\Metadata\Actions\UpdateMetadataAction;
 use Modules\Metadata\Actions\DeleteMetadataAction;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -52,27 +53,28 @@ class MetadataController extends Controller
     /**
      * Store a newly created metadata in storage.
      */
-    public function store(CreateMetadataData $data): JsonResponse
+    public function store(CreateMetadataData $data): RedirectResponse
     {
-        $metadata = $this->createMetadataAction->execute($data);
-        return response()->json($metadata, 201);
+        $this->createMetadataAction->execute($data);
+
+        return redirect()->back();
     }
 
     /**
      * Update the specified metadata in storage.
      */
-    public function update(UpdateMetadataData $data, Metadata $metadata): JsonResponse
+    public function update(UpdateMetadataData $data, Metadata $metadata): RedirectResponse
     {
-        $metadata = $this->updateMetadataAction->execute($metadata, $data);
-        return response()->json($metadata, 200);
+        $this->updateMetadataAction->execute($metadata, $data);
+        return redirect()->back();
     }
 
     /**
      * Remove the specified metadata from storage.
      */
-    public function destroy(Metadata $metadata): JsonResponse
+    public function destroy(Metadata $metadata): RedirectResponse
     {
         $this->deleteMetadataAction->execute($metadata);
-        return response()->json(['message' => 'Metadata deleted successfully.'], 200);
+        return redirect()->back();
     }
 }
