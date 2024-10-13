@@ -1,51 +1,45 @@
 import { useState } from "react";
-import { Head, router } from "@inertiajs/react";
-import { IconEdit, IconPlus, IconSearch, IconTrash } from "@tabler/icons-react";
-import { ActionIcon, Box, Button, Flex, Group, rem, Stack, Text, TextInput } from "@mantine/core";
-import { DataTable } from "mantine-datatable";
+import { Head } from "@inertiajs/react";
+import { IconPlus, IconSearch } from "@tabler/icons-react";
+import { Button, Flex, Group, rem, Stack, Text, TextInput } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { User, UserPageProps } from "@/types";
 import { Authenticated } from "@/Modules/Common/Layouts/AuthenticatedLayout/Authenticated";
-import AddUserForm from "./AddUserForm";
-import EditUserForm from "./EditUserForm";
-import DeleteUserForm from "./DeleteUser";
+import AddUserForm from "@/Modules/User/Forms/AddUserForm";
+import UpdateUserForm from "@/Modules/User/Forms/UpdateUserForm";
+import DeleteUserForm from "@/Modules/User/Forms/DeleteUserForm";
+import UserTable from "@/Modules/User/Components/UserTable";
+import { useAddUser } from "@/Modules/User/Hooks/use-add-user";
+import { useUpdateUser } from "@/Modules/User/Hooks/use-update-user";
+import { useDeleteUser } from "@/Modules/User/Hooks/use-delete-user";
+import { useSearchDataTable } from "@/Modules/Common/Hooks/use-search-datatable";
+import { usePaginateDataTable } from "@/Modules/Common/Hooks/use-paginate-datatable";
+import { UserResourceData } from "@/Modules/User/Types/UserResourceData";
+import { PaginationData, Filters } from "@/Modules/User/Types/UserPageTypes";
+interface IProps {
+    users: PaginationData;
+    filters: Filters;
+}
 
-export default function UserPage({ auth, user, filters }: UserPageProps) {
-    const [selectedRecord, setSelectedRecord] = useState<User[]>([]);
-    const [currentUser, setCurrentUser] = useState<User | undefined>();
+export default function UserPage({ users, filters }: IProps) {
+    const [selectedRecord, setSelectedRecord] = useState<UserResourceData[]>([]);
+    const [currentUser, setCurrentUser] = useState<UserResourceData>();
 
-    // const [page, setPage] = useState(user.current_page);
-    // const [search, setSearch] = useState(filters.search || "");
+    const { search, setSearch, handleSearch } = useSearchDataTable(filters.search || "", "/user");
+    const { page, setPage, handlePageChange } = usePaginateDataTable(users.current_page);
 
-    // const handleSearch = (search: string) => {
-    //     router.get("/user", { search }, { preserveState: true, replace: true });
-    // };
+    const [addUserOpened, { open: openAddUser, close: closeAddUser }] = useDisclosure(false);
+    const [editUserOpened, { open: openEditUser, close: closeEditUser }] = useDisclosure(false);
+    const [deleteUserOpened, { open: openDeleteUser, close: closeDeleteUser }] = useDisclosure(false);
 
-    // const handleonPageChange = (page: number) => {
-    //     const newUrl = user.links.find(
-    //         (link: { label: string; url: string }) => link.label === page.toString(),
-    //     )?.url;
-    //     if (newUrl) {
-    //         router.visit(newUrl);
-    //     }
-    // };
+    const handleEditUser = (user: UserResourceData) => {
+        setCurrentUser(user);
+        openEditUser();
+    };
 
-    // const [addUserOpened, { open: openAddUser, close: closeAddUser }] = useDisclosure(false);
-
-    // const [editUserOpened, { open: openEditUser, close: closeEditUser }] = useDisclosure(false);
-
-    // const [deleteUserOpened, { open: openDeleteUser, close: closeDeleteUser }] =
-    //     useDisclosure(false);
-
-    // const handleEditUser = (user: User) => {
-    //     setCurrentUser(user);
-    //     openEditUser();
-    // };
-
-    // const handleDeleteUser = (user: User) => {
-    //     setCurrentUser(user);
-    //     openDeleteUser();
-    // };
+    const handleDeleteUser = (user: UserResourceData) => {
+        setCurrentUser(user);
+        openDeleteUser();
+    };
 
     return (
         <Authenticated>
@@ -54,7 +48,7 @@ export default function UserPage({ auth, user, filters }: UserPageProps) {
                 <Text component="h2" size="xl" fw={600} c="gray.8">
                     User
                 </Text>
-                {/* <Flex
+                <Flex
                     justify="space-between"
                     direction={{ base: "column", md: "row" }}
                     gap={{ base: 12, md: 0 }}
@@ -62,9 +56,7 @@ export default function UserPage({ auth, user, filters }: UserPageProps) {
                     <TextInput
                         w={{ md: 400 }}
                         placeholder="Search"
-                        leftSection={
-                            <IconSearch style={{ width: rem(16), height: rem(16) }} stroke={1.5} />
-                        }
+                        leftSection={<IconSearch style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
                         value={search}
                         onChange={(e) => {
                             setSearch(e.target.value);
@@ -75,69 +67,27 @@ export default function UserPage({ auth, user, filters }: UserPageProps) {
                         Add New User
                     </Button>
                 </Flex>
-                <DataTable
-                    pinLastColumn
-                    withTableBorder
-                    shadow="xs"
-                    borderRadius="sm"
-                    withRowBorders={false}
-                    highlightOnHover
-                    verticalSpacing="md"
-                    totalRecords={user.total}
-                    recordsPerPage={user.per_page}
+                <UserTable
+                    users={users.data}
+                    total={users.total}
+                    perPage={users.per_page}
                     page={page}
                     onPageChange={(p) => {
                         setPage(p);
-                        handleonPageChange(p);
+                        handlePageChange(p, users.links);
                     }}
-                    columns={[
-                        { accessor: "name", noWrap: true },
-                        { accessor: "email", noWrap: true },
-                        {
-                            accessor: "actions",
-                            title: <Box mr={6}>Actions</Box>,
-                            textAlign: "right",
-                            render: (user) => (
-                                <Group gap={8} justify="right" wrap="nowrap">
-                                    <ActionIcon
-                                        size="sm"
-                                        variant="subtle"
-                                        color="gray"
-                                        onClick={() => {
-                                            handleEditUser(user);
-                                        }}
-                                    >
-                                        <IconEdit size={48} />
-                                    </ActionIcon>
-                                    <ActionIcon
-                                        size="sm"
-                                        variant="subtle"
-                                        color="red"
-                                        onClick={() => {
-                                            handleDeleteUser(user);
-                                        }}
-                                    >
-                                        <IconTrash size={48} />
-                                    </ActionIcon>
-                                </Group>
-                            ),
-                        },
-                    ]}
-                    records={user.data}
+                    onEdit={handleEditUser}
+                    onDelete={handleDeleteUser}
                     selectedRecords={selectedRecord}
                     onSelectedRecordsChange={setSelectedRecord}
-                /> */}
+                />
             </Stack>
 
-            {/* <AddUserForm isOpened={addUserOpened} close={closeAddUser} />
+            <AddUserForm isOpened={addUserOpened} close={closeAddUser} />
 
-            <EditUserForm isOpened={editUserOpened} close={closeEditUser} user={currentUser} />
+            <UpdateUserForm isOpened={editUserOpened} close={closeEditUser} user={currentUser} />
 
-            <DeleteUserForm
-                isOpened={deleteUserOpened}
-                close={closeDeleteUser}
-                user={currentUser}
-            /> */}
+            <DeleteUserForm isOpened={deleteUserOpened} close={closeDeleteUser} user={currentUser} />
         </Authenticated>
     );
 }

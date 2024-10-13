@@ -2,6 +2,7 @@
 
 namespace Modules\User\Controllers;
 
+use App\Modules\User\Data\UserResourceData;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Modules\Common\Controllers\Controller;
@@ -24,11 +25,9 @@ class UserController extends Controller
 
     public function index()
     {
-        // $users = User::all();
-
-        // return response()->json($users, Response::HTTP_OK);
-
-        return Inertia::render('User/User.page');
+        return Inertia::render('User/User.page', [
+            'users' => UserResourceData::collect(User::all())
+        ]);
     }
 
     public function register(RegisterUserData $registerUserData): JsonResponse
