@@ -24,8 +24,6 @@ export default function ItemPage({ itemParent, itemAncestors, itemContents }: It
     const { openFolder } = useOpenFolder();
     const { selectedRecord, setSelectedRecord, ids } = useSelectItems();
 
-    console.log(itemAncestors);
-
     return (
         <>
             <Head title="My Files" />

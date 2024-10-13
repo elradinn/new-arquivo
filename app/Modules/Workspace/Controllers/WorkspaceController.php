@@ -7,6 +7,7 @@ use Modules\Workspace\Models\Workspace;
 use Modules\Item\Models\Item;
 use Modules\User\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Modules\Workspace\Data\CreateWorkspaceData;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -53,11 +54,11 @@ class WorkspaceController extends Controller
         return Inertia::render('Item/Item.page', $data);
     }
 
-    public function store(CreateWorkspaceData $data): JsonResponse
+    public function store(CreateWorkspaceData $data): RedirectResponse
     {
-        $workspace = $this->createWorkspaceAction->execute($data);
+        $this->createWorkspaceAction->execute($data);
 
-        return response()->json($workspace, 201);
+        return redirect()->back();
     }
 
     public function share(ShareWorkspaceData $data, Workspace $workspace): JsonResponse

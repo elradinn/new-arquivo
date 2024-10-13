@@ -6,16 +6,21 @@ import {
     Divider,
     ActionIcon,
     Menu,
+    rem,
+    Tooltip,
 } from "@mantine/core";
 import {
     IconTrash,
     IconFolderFilled,
     IconLayoutDashboard,
+    IconPlus,
     IconDotsVertical,
 } from "@tabler/icons-react";
 import classes from "./Sidebar.module.css";
 import OfficeLogo from "../OfficeLogo/OfficeLogo";
 import { WorkspaceLinksData } from "@/Modules/Workspace/Types/WorkspaceLinksData";
+import WorkspaceForm from "@/Modules/Workspace/Forms/WorkspaceForm";
+import useModalStore from "../../Hooks/use-modal-store";
 
 const NAV_LINKS = [
     {
@@ -31,8 +36,8 @@ const NAV_LINKS = [
 ];
 
 const Sidebar: React.FC = () => {
-
     const { workspaces } = usePage<{ workspaces: WorkspaceLinksData[] }>().props;
+    const { openModal } = useModalStore();
 
     const renderNavLinks = NAV_LINKS.map(({ label, icon: Icon, href }) => (
         <Link
@@ -83,10 +88,25 @@ const Sidebar: React.FC = () => {
                         <Text size="xs" fw={500} c="dimmed">
                             Workspaces
                         </Text>
+
+                        <Tooltip label="Create workspace" withArrow position="right">
+                            <ActionIcon variant="default" size={18} onClick={() => openModal("workspace")}>
+                                <IconPlus
+                                    style={{
+                                        width: rem(12),
+                                        height: rem(12),
+                                    }}
+                                    stroke={1.5}
+                                />
+                            </ActionIcon>
+                        </Tooltip>
+
                     </Group>
                     <div className={classes.workspaces}>{renderWorkspaceLinks}</div>
                 </div>
             </nav>
+
+            <WorkspaceForm />
         </>
     );
 };

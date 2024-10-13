@@ -7,14 +7,14 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('workspace')->group(function () {
 
-        Route::get('/', [WorkspaceController::class, 'index']);
+        Route::get('/', [WorkspaceController::class, 'index'])->name('workspace.index');
 
-        Route::get('/{workspace}', [WorkspaceController::class, 'show']);
+        Route::get('/{workspace}', [WorkspaceController::class, 'show'])->name('workspace.show');
 
-        Route::post('/', [WorkspaceController::class, 'store']);
+        Route::post('/', [WorkspaceController::class, 'store'])->name('workspace.store');
 
-        Route::post('/{workspace}/share', [WorkspaceController::class, 'share']);
+        Route::post('/{workspace}/share', [WorkspaceController::class, 'share'])->name('workspace.share');
 
-        Route::delete('/{workspace}/share', [WorkspaceController::class, 'removeShare']);
+        Route::delete('/{workspace}/share', [WorkspaceController::class, 'removeShare'])->name('workspace.removeShare');
     });
 });

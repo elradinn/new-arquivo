@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Head } from "@inertiajs/react";
 import { Button, Flex, rem, Stack, Text, TextInput } from "@mantine/core";
 import { IconPlus, IconSearch } from "@tabler/icons-react";
-import { useDisclosure } from "@mantine/hooks";
 import { Authenticated } from "@/Modules/Common/Layouts/AuthenticatedLayout/Authenticated";
 import CreateMetadataForm from "@/Modules/Metadata/Forms/CreateMetadataForm";
 import UpdateMetadataForm from "@/Modules/Metadata/Forms/UpdateMetadataForm";
@@ -12,6 +11,7 @@ import { useSearchDataTable } from "@/Modules/Common/Hooks/use-search-datatable"
 import { usePaginateDataTable } from "@/Modules/Common/Hooks/use-paginate-datatable";
 import { MetadataResourceData } from "@/Modules/Metadata/Types/MetadataResourceData";
 import { PaginationData, Filters } from "@/Modules/Metadata/Types/MetadataPageTypes";
+import useModalStore from "@/Modules/Common/Hooks/use-modal-store";
 
 interface IProps {
     metadata: PaginationData;
@@ -25,18 +25,16 @@ export default function MetadataPage({ metadata, filters }: IProps) {
     const { search, setSearch, handleSearch } = useSearchDataTable(filters.search || "", "/metadata");
     const { page, setPage, handlePageChange } = usePaginateDataTable(metadata.current_page);
 
-    const [addMetadataOpened, { open: openAddMetadata, close: closeAddMetadata }] = useDisclosure(false);
-    const [editMetadataOpened, { open: openEditMetadata, close: closeEditMetadata }] = useDisclosure(false);
-    const [deleteMetadataOpened, { open: openDeleteMetadata, close: closeDeleteMetadata }] = useDisclosure(false);
+    const { modals, openModal, closeModal } = useModalStore();
 
     const handleEditMetadata = (metadata: MetadataResourceData) => {
         setCurrentMetadata(metadata);
-        openEditMetadata();
+        openModal('editMetadata');
     };
 
     const handleDeleteMetadata = (metadata: MetadataResourceData) => {
         setCurrentMetadata(metadata);
-        openDeleteMetadata();
+        openModal('deleteMetadata');
     };
 
     return (
@@ -57,7 +55,7 @@ export default function MetadataPage({ metadata, filters }: IProps) {
                             handleSearch(e.target.value);
                         }}
                     />
-                    <Button leftSection={<IconPlus size={14} />} onClick={openAddMetadata}>
+                    <Button leftSection={<IconPlus size={14} />} onClick={() => openModal('addMetadata')}>
                         Add New Metadata
                     </Button>
                 </Flex>
@@ -77,9 +75,9 @@ export default function MetadataPage({ metadata, filters }: IProps) {
                 />
             </Stack>
 
-            <CreateMetadataForm isOpened={addMetadataOpened} close={closeAddMetadata} />
-            <UpdateMetadataForm isOpened={editMetadataOpened} close={closeEditMetadata} metadata={currentMetadata} />
-            <DeleteMetadataForm isOpened={deleteMetadataOpened} close={closeDeleteMetadata} metadata={currentMetadata} />
+            <CreateMetadataForm isOpened={modals['addMetadata']} close={() => closeModal('addMetadata')} />
+            <UpdateMetadataForm isOpened={modals['editMetadata']} close={() => closeModal('editMetadata')} metadata={currentMetadata} />
+            <DeleteMetadataForm isOpened={modals['deleteMetadata']} close={() => closeModal('deleteMetadata')} metadata={currentMetadata} />
         </Authenticated>
     );
 }
