@@ -15,7 +15,9 @@ class DocumentResourceData extends Resource
         public ?string $description,
         public ?string $file_path,
         public array $related_documents,
-        public array $metadata
+        public array $metadata,
+        public string $created_at,
+        public string $updated_at
     ) {}
 
     public static function fromModel(Document $document): self
@@ -34,7 +36,9 @@ class DocumentResourceData extends Resource
             metadata: $document->metadata->map(fn($metadata) => [
                 'name' => $metadata->name,
                 'value' => $metadata->pivot->value,
-            ])->toArray()
+            ])->toArray(),
+            created_at: $document->created_at,
+            updated_at: $document->updated_at
         );
     }
 }

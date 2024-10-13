@@ -3,6 +3,7 @@ import { Group, Text } from "@mantine/core";
 import ItemIcon from "./ItemIcon";
 import { ItemContentsResourceData } from "../Types/ItemContentsResourceData";
 import { useOpenFolder } from "../Hooks/use-open-folder";
+import { useDocumentProperties } from "../Hooks/use-document-properties";
 
 interface ItemTableProps {
     itemContents: ItemContentsResourceData[];
@@ -16,7 +17,7 @@ const ItemTable: React.FC<ItemTableProps> = ({
     setSelectedRecord,
 }) => {
     const { openFolder } = useOpenFolder();
-
+    const { openDocument } = useDocumentProperties();
 
     if (!itemContents.length) {
         return (
@@ -54,7 +55,12 @@ const ItemTable: React.FC<ItemTableProps> = ({
             customRowAttributes={({ type, id }) => ({
                 onDoubleClick: (e: MouseEvent) => {
                     if (e.button === 0) {
-                        openFolder(type, id);
+                        // TODO: Simplify this
+                        if (type === "folder") {
+                            openFolder(type, id);
+                        } else if (type === "document") {
+                            openDocument(type, id);
+                        }
                     }
                 },
             })}

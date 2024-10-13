@@ -12,15 +12,21 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Modules\Document\Actions\UploadDocumentAction;
 use Modules\Document\Authorization\DocumentAuthorization;
+use Modules\Document\Data\DocumentResourceData;
 use Modules\Document\Data\ShareDocumentData;
 use Modules\Document\Data\RemoveShareDocumentData;
+use Modules\Item\Actions\GetItemDataAction;
+use Modules\Item\Data\ItemAncestorsResourceData;
+use Modules\Item\Models\Item;
 use Modules\User\Models\User;
+use Spatie\LaravelData\DataCollection;
 
 class DocumentController extends Controller
 {
     public function __construct(
         protected UploadDocumentAction $uploadDocumentAction,
-        protected DocumentAuthorization $documentAuthorization
+        protected DocumentAuthorization $documentAuthorization,
+        protected GetItemDataAction $getItemDataAction
     ) {}
 
     public function store(UploadDocumentData $data): RedirectResponse
@@ -34,8 +40,22 @@ class DocumentController extends Controller
     {
         $this->documentAuthorization->canView(Auth::user(), $document);
 
-        return Inertia::render('DocumentProperties/DocumentProperties.page', [
-            'document' => $document,
+        $item = Item::find($document->item_id);
+
+        $itemAncestors = $item->ancestorsWithSelf()->get()->load('workspace', 'folder');
+
+        return Inertia::render('DocumentProperties/DocumentProperties.page', array_merge([
+            // 'itemAncestors' => ItemAncestorsResourceData::collect($itemAncestors, DataCollection::class),
+            'document' => DocumentResourceData::fromModel($document),
+        ]));
+    }
+
+    public function edit(Document $document): Response
+    {
+        $this->documentAuthorization->canEdit(Auth::user(), $document);
+
+        return Inertia::render('DocumentProperties/DocumentEdit.page', [
+            'document' => DocumentResourceData::fromModel($document),
         ]);
     }
 

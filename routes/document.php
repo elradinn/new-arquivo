@@ -9,6 +9,8 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/{document}', [DocumentController::class, 'show'])->name('document.show');
 
+        Route::get('/{document}/edit', [DocumentController::class, 'edit'])->name('document.edit');
+
         Route::post('/', [DocumentController::class, 'store'])->name('document.store');
 
         Route::post('/{document}/share', [DocumentController::class, 'share'])->name('document.share');

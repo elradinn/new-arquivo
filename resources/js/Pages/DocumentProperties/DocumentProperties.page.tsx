@@ -1,5 +1,4 @@
 import { Head, Link } from "@inertiajs/react";
-import { PageProps } from "@/types";
 import { Anchor, Box, Breadcrumbs, Button, Grid, Group, Paper, Stack, Text } from "@mantine/core";
 import { Authenticated } from "@/Modules/Common/Layouts/AuthenticatedLayout/Authenticated";
 import {
@@ -11,6 +10,9 @@ import {
 } from "@tabler/icons-react";
 import Toolbar from "@/Modules/Common/Components/Toolbar/Toolbar";
 import { DataTable } from "mantine-datatable";
+import { DocumentResourceData } from "@/Modules/Document/Types/DocumentResourceData";
+import { ItemAncestorsResourceData } from "@/Modules/Item/Types/ItemAncestorsResourceData";
+import ItemBreadcrumbs from "@/Modules/Item/Components/ItemBreadcrumbs";
 
 const mockAuditLog = [
     {
@@ -63,29 +65,24 @@ const mockAuditLog = [
     },
 ];
 
-export default function DocumentPropertiesPage({ auth }: PageProps) {
+interface IProps {
+    document: DocumentResourceData;
+    itemAncestors: ItemAncestorsResourceData[];
+}
+
+export default function DocumentPropertiesPage({ document }: IProps) {
     return (
-        <Authenticated toolbar={<Toolbar page="item" />}>
-            <Head title="Customization" />
-            <Box px={8} py={8} mb={48}>
-                <Breadcrumbs separator={<IconChevronRight size={16} />}>
-                    <Anchor component={Link} href="#">
-                        Home
-                    </Anchor>
-                    <Anchor component={Link} href="#">
-                        Administrative
-                    </Anchor>
-                    <Anchor component={Link} href="#">
-                        Sample Document.pdf
-                    </Anchor>
-                </Breadcrumbs>
-            </Box>
+        <Authenticated toolbar={<Toolbar page="folder" />}>
+            <Head title="Document Properties" />
+            {/* <Box px={8} py={8} mb={48}>
+                <ItemBreadcrumbs ancestors={itemAncestors} />
+            </Box> */}
             <Grid>
                 <Grid.Col span={8}>
                     <Stack px={8} py={8} gap={48} mb={48}>
                         <Group>
                             <IconFile size={56} stroke={1} color="gray" />
-                            <Text fw={500}>Sample Document.pdf</Text>
+                            <Text fw={500}>{document.name}</Text>
                         </Group>
 
                         <Group justify="space-between" w={700}>
@@ -93,19 +90,19 @@ export default function DocumentPropertiesPage({ auth }: PageProps) {
                                 <Text size="sm" fw="bold">
                                     Document ID
                                 </Text>
-                                <Text size="sm">OoXnr08TUw</Text>
+                                <Text size="sm">{document.item_id}</Text>
                             </div>
                             <div>
                                 <Text size="sm" fw="bold">
                                     Date
                                 </Text>
-                                <Text size="sm">16 Jun 2024</Text>
+                                <Text size="sm">{document.created_at}</Text>
                             </div>
                             <div>
                                 <Text size="sm" fw="bold">
                                     Document Number
                                 </Text>
-                                <Text size="sm">SE151672414166</Text>
+                                <Text size="sm">{document.document_number}</Text>
                             </div>
                         </Group>
 
