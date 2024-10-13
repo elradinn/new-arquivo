@@ -54,6 +54,8 @@ class DownloadItemsAction
         $zipPath = 'zip/' . Str::random() . '.zip';
         $publicPath = "public/$zipPath";
 
+        Log::info("publicPath: $publicPath");
+
         if (!Storage::exists('zip')) {
             Storage::makeDirectory('zip');
         }

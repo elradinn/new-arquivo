@@ -55,7 +55,7 @@ class DatabaseSeeder extends Seeder
         // Create Workspace
         $createWorkspaceAction = app(CreateWorkspaceAction::class);
         $workspace = $createWorkspaceAction->execute(new CreateWorkspaceData(
-            name: 'Test Workspace',
+            name: 'Administrative',
             owned_by: $testUser1->id
         ));
 
@@ -63,7 +63,7 @@ class DatabaseSeeder extends Seeder
         $createFolderAction = app(CreateFolderAction::class);
         $createFolderAction->execute(new CreateFolderData(
             parent_id: $workspace->item_id,
-            name: 'Test Folder',
+            name: 'Meetings',
             owned_by: $testUser1->id
         ));
     }

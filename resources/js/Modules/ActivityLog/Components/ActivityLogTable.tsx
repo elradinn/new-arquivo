@@ -24,7 +24,7 @@ const ActivityLogTable: React.FC<ActivityLogTableProps> = ({
             borderRadius="sm"
             withRowBorders={false}
             highlightOnHover
-            verticalSpacing="md"
+            verticalSpacing="lg"
             horizontalSpacing="xl"
             totalRecords={totalRecords}
             recordsPerPage={recordsPerPage}

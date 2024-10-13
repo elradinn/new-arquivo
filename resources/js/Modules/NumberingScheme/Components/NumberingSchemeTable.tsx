@@ -28,7 +28,7 @@ const NumberingSchemeTable: React.FC<NumberingSchemeTableProps> = ({
             borderRadius="sm"
             withRowBorders={false}
             highlightOnHover
-            verticalSpacing="md"
+            verticalSpacing="lg"
             totalRecords={totalRecords}
             recordsPerPage={recordsPerPage}
             page={page}

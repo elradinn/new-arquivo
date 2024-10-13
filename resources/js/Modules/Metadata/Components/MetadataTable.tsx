@@ -35,7 +35,7 @@ const MetadataTable: React.FC<MetadataTableProps> = ({
             borderRadius="sm"
             withRowBorders={false}
             highlightOnHover
-            verticalSpacing="md"
+            verticalSpacing="lg"
             totalRecords={total}
             recordsPerPage={perPage}
             page={page}

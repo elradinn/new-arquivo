@@ -59,7 +59,7 @@ const ItemTable: React.FC<ItemTableProps> = ({
                 },
             })}
             highlightOnHover
-            verticalSpacing="md"
+            verticalSpacing="lg"
             horizontalSpacing="xl"
             selectedRecords={selectedRecord}
             onSelectedRecordsChange={setSelectedRecord}

@@ -35,7 +35,7 @@ const UserTable: React.FC<UserTableProps> = ({
             borderRadius="sm"
             withRowBorders={false}
             highlightOnHover
-            verticalSpacing="md"
+            verticalSpacing="lg"
             totalRecords={total}
             recordsPerPage={perPage}
             page={page}
