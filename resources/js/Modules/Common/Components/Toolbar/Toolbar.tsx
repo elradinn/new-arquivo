@@ -14,10 +14,11 @@ import EmptyBinButton from "./EmptyBin";
 import PermanentDeleteButton from "./PermanentDelete";
 import RestoreFilesButton from "./RestoreFiles";
 import ApprovalButton from "./Approval";
+import MoveButton from "./Move";
 import { ItemParentResourceData } from "@/Modules/Item/Types/ItemParentResourceData";
 
 interface IProps {
-    page: "item" | "trash";
+    page: "item" | "trash" | "folder";
     uploadFileRef?: React.RefObject<() => void>;
     fileSelected?: boolean;
     selectedIds?: string[];
@@ -27,16 +28,66 @@ interface IProps {
     itemParent?: ItemParentResourceData;
 }
 
-const Toolbar: React.FC<IProps> = ({
-    page,
-    uploadFileRef,
-    fileSelected,
-    selectedIds,
-    parentId,
-    approvalActive,
-    trackingActive,
-    itemParent,
-}) => {
+const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent, parentId, approvalActive, trackingActive }) => (
+    <>
+        <div>
+            <NewFilesButton uploadFileRef={uploadFileRef} itemParent={itemParent} />
+            <PropertiesButton parentId={parentId} />
+            <ApprovalButton approvalActive={approvalActive} />
+            <MetadataButton />
+            <ActivityButton />
+            <TrackingButton trackingActive={trackingActive} />
+            <ColumnButton />
+        </div>
+        <div>
+            <SortButton />
+            <ViewButton />
+        </div>
+    </>
+);
+
+const FolderToolbar: React.FC<IProps> = ({ selectedIds, parentId }) => (
+    <Group>
+        <MoveButton ids={selectedIds} />
+        <DeleteFilesButton all={false} ids={selectedIds} />
+        <DownloadFilesButton all={false} ids={selectedIds} parentId={parentId} />
+    </Group>
+);
+
+const TrashToolbar: React.FC = () => <EmptyBinButton />;
+
+const SelectedItemToolbar: React.FC<IProps> = ({ selectedIds, parentId }) => (
+    <>
+        <DeleteFilesButton all={false} ids={selectedIds} />
+        <DownloadFilesButton all={false} ids={selectedIds} parentId={parentId} />
+    </>
+);
+
+const SelectedTrashToolbar: React.FC<IProps> = ({ selectedIds }) => (
+    <>
+        <PermanentDeleteButton all={false} ids={selectedIds} />
+        <RestoreFilesButton all={false} ids={selectedIds} />
+    </>
+);
+
+const Toolbar: React.FC<IProps> = ({ page, fileSelected, ...props }) => {
+    let toolbarContent;
+
+    if (!fileSelected) {
+        if (page === "item") {
+            toolbarContent = <ItemToolbar page={page} {...props} />;
+        } else if (page === "trash") {
+            toolbarContent = <TrashToolbar />;
+        } else if (page === "folder") {
+            toolbarContent = <FolderToolbar page={page} {...props} />;
+        }
+    } else {
+        if (page === "item") {
+            toolbarContent = <SelectedItemToolbar page={page} {...props} />;
+        } else if (page === "trash") {
+            toolbarContent = <SelectedTrashToolbar page={page} {...props} />;
+        }
+    }
 
     return (
         <Group
@@ -45,48 +96,7 @@ const Toolbar: React.FC<IProps> = ({
             align="center"
             justify={!fileSelected ? "space-between" : "flex-start"}
         >
-            {!fileSelected ? (
-                page === "item" ? (
-                    <>
-                        <div>
-                            <NewFilesButton uploadFileRef={uploadFileRef} itemParent={itemParent} />
-
-                            <PropertiesButton parentId={parentId} />
-
-                            <ApprovalButton approvalActive={approvalActive} />
-
-                            <MetadataButton />
-
-                            <ActivityButton />
-
-                            <TrackingButton trackingActive={trackingActive} />
-
-                            <ColumnButton />
-                        </div>
-
-                        <div>
-                            <SortButton />
-
-                            <ViewButton />
-                        </div>
-                    </>
-                ) : (
-                    <EmptyBinButton />
-                )
-            ) : page === "item" ? (
-                <>
-
-                    <DeleteFilesButton all={false} ids={selectedIds} />
-
-                    <DownloadFilesButton all={false} ids={selectedIds} parentId={parentId} />
-                </>
-            ) : (
-                <>
-                    <PermanentDeleteButton all={false} ids={selectedIds} />
-
-                    <RestoreFilesButton all={false} ids={selectedIds} />
-                </>
-            )}
+            {toolbarContent}
         </Group>
     );
 };

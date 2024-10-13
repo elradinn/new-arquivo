@@ -1,4 +1,4 @@
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
 import { Button } from "@mantine/core";
 import { IconAdjustments } from "@tabler/icons-react";
 import React from "react";
@@ -13,7 +13,7 @@ const PropertiesButton: React.FC<IProps> = ({ parentId }) => {
             <Button
                 variant="subtle"
                 component={Link}
-                href={`/folder/edit/${parentId}`}
+                href={route("folder.edit", { id: parentId })}
                 color="dark.3"
                 leftSection={<IconAdjustments size={18} />}
             >

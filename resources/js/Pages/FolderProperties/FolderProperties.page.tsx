@@ -1,9 +1,6 @@
-import { Head, Link } from "@inertiajs/react";
-import { PageProps } from "@/types";
+import { Head } from "@inertiajs/react";
 import {
     ActionIcon,
-    Anchor,
-    Breadcrumbs,
     Button,
     Flex,
     Group,
@@ -14,7 +11,6 @@ import {
 } from "@mantine/core";
 import { Authenticated } from "@/Modules/Common/Layouts/AuthenticatedLayout/Authenticated";
 import {
-    IconChevronRight,
     IconEdit,
     IconFile,
     IconFolder,
@@ -22,50 +18,33 @@ import {
     IconTrash,
 } from "@tabler/icons-react";
 import Toolbar from "@/Modules/Common/Components/Toolbar/Toolbar";
+import { FolderResourceData } from "@/Modules/Folder/Types/FolderResourceData";
+import { ItemAncestorsResourceData } from "@/Modules/Item/Types/ItemAncestorsResourceData";
+import ItemBreadcrumbs from "@/Modules/Item/Components/ItemBreadcrumbs";
 
-interface FolderPropertiesProps extends PageProps {
-    data: {
-        name: string;
-        path: string;
-    };
+interface IProps {
+    folder: FolderResourceData;
+    itemAncestors: ItemAncestorsResourceData[];
 }
 
-export default function FolderPropertiesPage({ auth, data, ancestors }: any) {
-    // const breadcrumbItems = ancestors.data.map((ans) =>
-    //     !ans.parent_id ? (
-    //         <Anchor component={Link} href={route("index")} key={ans.id}>
-    //             Home
-    //         </Anchor>
-    //     ) : (
-    //         <Anchor component={Link} href={`/folder/index/${ans.id}`} key={ans.id}>
-    //             {ans.name}
-    //         </Anchor>
-    //     ),
-    // );
-
+export default function FolderPropertiesPage({ folder, itemAncestors }: IProps) {
     return (
-        <Authenticated toolbar={<Toolbar page="trash" />}>
-            <Head title={"folder name"} />
+        <Authenticated toolbar={<Toolbar page="folder" />}>
+            <Head title={folder.name} />
             <Stack px={8} py={8} gap={24} w={550} mb={72}>
-                {/* <Breadcrumbs separator={<IconChevronRight size={16} />}>
-                    {breadcrumbItems}
-                </Breadcrumbs> */}
+                <ItemBreadcrumbs ancestors={itemAncestors} />
 
                 <Group mt={24}>
                     <IconFolder size={56} fill="orange" stroke="none" color="none" />
-                    <Text fw={500}>{"folder name"}</Text>
+                    <Text fw={500}>{folder.name}</Text>
                     <ActionIcon variant="subtle" color="gray">
                         <IconEdit size={24} />
                     </ActionIcon>
                 </Group>
 
-                <TextInput id="name" type="text" name="document_number" label="Document Number" />
+                <Textarea label="Notes" autosize minRows={4} maxRows={6} defaultValue={"This is a note, todo make field for notes"} />
 
-                <TextInput id="tags" type="text" name="tags" label="Tags" />
-
-                {/* <Textarea label="Notes" autosize minRows={4} maxRows={6} defaultValue={data.path} /> */}
-
-                <Stack gap={12}>
+                {/* <Stack gap={12}>
                     <Text size="sm" fw={500}>
                         Custom Metadata Field
                     </Text>
@@ -121,9 +100,9 @@ export default function FolderPropertiesPage({ auth, data, ancestors }: any) {
                             Add Metadata
                         </Button>
                     </Flex>
-                </Stack>
+                </Stack> */}
 
-                <Stack gap={12}>
+                {/* <Stack gap={12}>
                     <Text size="sm" fw={500}>
                         Related Files
                     </Text>
@@ -163,7 +142,7 @@ export default function FolderPropertiesPage({ auth, data, ancestors }: any) {
                             Add Related File
                         </Button>
                     </Flex>
-                </Stack>
+                </Stack> */}
 
                 <Flex align="center" justify="end" mt={16}>
                     <Button variant="outline" onClick={close}>

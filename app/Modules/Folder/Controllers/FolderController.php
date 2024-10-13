@@ -61,9 +61,13 @@ class FolderController extends Controller
     {
         $this->folderAuthorization->canView(Auth::user(), $folder);
 
-        return Inertia::render('FolderProperties/FolderProperties.page', [
+        $item = Item::find($folder->item_id);
+
+        $data = $this->getItemDataAction->execute($item);
+
+        return Inertia::render('FolderProperties/FolderProperties.page', array_merge($data, [
             'folder' => FolderResourceData::from($folder),
-        ]);
+        ]));
     }
 
     public function update(Folder $folder, UpdateFolderData $data): JsonResponse
