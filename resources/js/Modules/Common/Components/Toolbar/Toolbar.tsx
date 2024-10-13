@@ -36,7 +36,7 @@ const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent, parentId, ap
             <ApprovalButton approvalActive={approvalActive} />
             <MetadataButton />
             <ActivityButton />
-            <TrackingButton trackingActive={trackingActive} />
+            <TrackingButton trackingActive={itemParent?.has_active_numbering_scheme} folderItemId={parentId} />
             <ColumnButton />
         </div>
         <div>

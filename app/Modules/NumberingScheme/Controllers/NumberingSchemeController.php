@@ -11,6 +11,7 @@ use Modules\NumberingScheme\Data\NumberingSchemeResourceData;
 use Modules\NumberingScheme\Data\UpdateNumberingSchemeData;
 use Modules\NumberingScheme\Models\NumberingScheme;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -49,11 +50,11 @@ class NumberingSchemeController extends Controller
         ]);
     }
 
-    public function store(CreateNumberingSchemeData $data): JsonResponse
+    public function store(CreateNumberingSchemeData $data): RedirectResponse
     {
-        $numberingScheme = $this->createNumberingSchemeAction->execute($data);
+        $this->createNumberingSchemeAction->execute($data);
 
-        return response()->json($numberingScheme, 201);
+        return redirect()->back();
     }
 
     public function update(UpdateNumberingSchemeData $data, NumberingScheme $numberingScheme): JsonResponse

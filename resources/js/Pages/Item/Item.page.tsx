@@ -22,6 +22,8 @@ export default function ItemPage({ itemParent, itemAncestors, itemContents }: It
     const { uploadFiles } = useUploadDocument(itemParent);
     const { selectedRecord, setSelectedRecord, ids } = useSelectItems();
 
+    console.log(itemParent);
+
     return (
         <>
             <Head title="My Files" />

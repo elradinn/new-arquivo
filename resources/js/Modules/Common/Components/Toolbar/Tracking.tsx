@@ -1,5 +1,5 @@
-import { PageProps } from "@/types";
-import { useForm, usePage } from "@inertiajs/react";
+import { CreateNumberingSchemeData } from "@/Modules/NumberingScheme/Types/CreateNumberingSchemeData";
+import { useForm } from "@inertiajs/react";
 import {
     Button,
     Flex,
@@ -19,27 +19,21 @@ import React, { FormEventHandler } from "react";
 interface IFormProps {
     isOpened: boolean;
     close: () => void;
+    folderItemId?: string;
 }
 
-interface FormData {
-    file_id?: string;
-    name: string;
-    scheme: string;
-}
-
-const ApprovalForm: React.FC<IFormProps> = ({ isOpened, close }) => {
-    const { data, setData, post, processing, errors, reset } = useForm<FormData>({
-        file_id: "",
+const ApprovalForm: React.FC<IFormProps> = ({ isOpened, close, folderItemId }) => {
+    const { data, setData, post, processing, errors, reset } = useForm<CreateNumberingSchemeData>({
+        folder_item_id: "",
         name: "",
-        scheme: "",
+        prefix: "",
     });
 
-    const parent_id = usePage<PageProps>().props.folder?.id;
 
     const createFolderSubmit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        data.file_id = parent_id.toString();
+        data.folder_item_id = folderItemId ?? "";
 
         post(route("numbering-scheme.store"), {
             preserveScroll: true,
@@ -95,13 +89,13 @@ const ApprovalForm: React.FC<IFormProps> = ({ isOpened, close }) => {
                     />
 
                     <Textarea
-                        label="Scheme"
+                        label="Prefix"
                         autosize
                         minRows={2}
                         maxRows={4}
-                        value={data.scheme}
-                        onChange={(e) => setData("scheme", e.target.value)}
-                        error={errors.scheme}
+                        value={data.prefix}
+                        onChange={(e) => setData("prefix", e.target.value)}
+                        error={errors.prefix}
                     />
 
                     <TextInput id="preview" type="text" name="preview" label="Preview" readOnly />
@@ -123,9 +117,10 @@ const ApprovalForm: React.FC<IFormProps> = ({ isOpened, close }) => {
 
 interface TrackingButtonProps {
     trackingActive?: boolean;
+    folderItemId?: string;
 }
 
-const TrackingButton: React.FC<TrackingButtonProps> = ({ trackingActive }) => {
+const TrackingButton: React.FC<TrackingButtonProps> = ({ trackingActive, folderItemId }) => {
     const [createApprovalOpened, { open: openCreateApproval, close: closeCreateApproval }] =
         useDisclosure(false);
 
@@ -140,7 +135,7 @@ const TrackingButton: React.FC<TrackingButtonProps> = ({ trackingActive }) => {
                 Tracking
             </Button>
 
-            <ApprovalForm isOpened={createApprovalOpened} close={closeCreateApproval} />
+            <ApprovalForm isOpened={createApprovalOpened} close={closeCreateApproval} folderItemId={folderItemId} />
         </>
     );
 };
