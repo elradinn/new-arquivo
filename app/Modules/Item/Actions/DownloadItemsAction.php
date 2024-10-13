@@ -20,6 +20,7 @@ class DownloadItemsAction
      */
     public function execute(DownloadItemsData $data): array
     {
+        Log::info('Data: ' . json_encode($data));
         // Fetch items based on the 'all' flag or specific IDs
         if ($data->all) {
             if (!$data->parent_id) {
@@ -44,6 +45,16 @@ class DownloadItemsAction
 
         if (empty($files)) {
             throw new \Exception('No files found to download.');
+        }
+
+        // If there's only one file, return its direct URL
+        if (count($files) === 1) {
+            $file = $files[0];
+            $fileUrl = Storage::disk('public')->url($file['path']);
+            return [
+                'url' => $fileUrl,
+                'filename' => $file['name'],
+            ];
         }
 
         // Create a unique ZIP file name
@@ -99,12 +110,12 @@ class DownloadItemsAction
             }
 
             if ($item->folder) {
+                Log::info('An empty folder?: ' . $item->folder);
                 $folderFiles = $this->getAllFilesInFolder($item->folder);
                 $files = array_merge($files, $folderFiles);
             }
         }
 
-        Log::info('Files: ' . json_encode($files));
 
         return $files;
     }
@@ -120,20 +131,22 @@ class DownloadItemsAction
         $files = [];
 
         // Get documents in the current folder
-        $documents = $folder->item->document()->get();
-        foreach ($documents as $document) {
-            $files[] = [
-                'path' => $document->file_path,
-                'name' => $document->name,
-            ];
+        $itemDocuments = $folder->item->getChildren()->load('document');
+        Log::info('Are there documents?: ' . json_encode($itemDocuments));
+        foreach ($itemDocuments as $item) {
+            if ($item->document) {
+                $files[] = [
+                    'path' => $item->document->file_path,
+                    'name' => $item->document->name,
+                ];
+            }
         }
 
         // Get subfolders and recursively get their files
-        $subfolders = $folder->item->getChildren()->load('folder', 'document');
+        $subfolders = $folder->item->getChildren()->load('folder');
         Log::info($subfolders);
         foreach ($subfolders as $subfolder) {
             if ($subfolder->folder) {
-                Log::info('subfolder: ' . $subfolder->folder);
                 $files = array_merge($files, $this->getAllFilesInFolder($subfolder->folder));
             }
         }
