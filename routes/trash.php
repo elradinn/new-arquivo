@@ -8,5 +8,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix('trash')->group(function () {
 
         Route::get('/', [TrashController::class, 'index'])->name('trash');
+
+        Route::delete('/', [TrashController::class, 'delete'])->name('trash.delete');
     });
 });

@@ -2,9 +2,9 @@ import React, { FormEventHandler } from "react";
 import { Button, Flex, Modal, Text } from "@mantine/core";
 import { useForm, usePage } from "@inertiajs/react";
 import { IconTrash } from "@tabler/icons-react";
-import { PageProps } from "@/types";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
+import { DeleteTrashedItemsData } from "@/Modules/Trash/Types/DeleteTrashedItemsData";
 
 interface RestoreFilesProps {
     all: boolean;
@@ -18,47 +18,46 @@ interface DeleteModalProps {
     deleteIds?: string[];
 }
 
-interface FormData {
-    all: boolean;
-    ids?: string[];
-    parent_id?: number;
-}
-
 const PermanentDeleteForm: React.FC<DeleteModalProps> = ({
     isOpened,
     close,
-    deleteAll,
     deleteIds,
 }) => {
     const {
         data,
         delete: destroy,
         processing,
-    } = useForm<FormData>({
-        all: false,
+    } = useForm<DeleteTrashedItemsData>({
         ids: [],
-        parent_id: 0,
     });
 
-    const parent_id = usePage<PageProps>().props.folder?.id;
 
     const deleteFilesSubmit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        data.parent_id = parent_id;
 
-        if (deleteAll) {
-            data.all = true;
-        } else {
-            data.ids = deleteIds;
-        }
+        data.ids = deleteIds || [];
 
-        destroy(route("file.deleteForever"), {
+        destroy(route("trash.delete"), {
             onSuccess: () => {
                 close();
                 notifications.show({
                     message: "Files deleted permanently",
                     color: "green",
+                });
+            },
+            onError: (errors) => {
+                let message = "";
+
+                if (Object.keys(errors).length > 0) {
+                    message = errors[Object.keys(errors)[0]];
+                } else {
+                    message = "Error during file deletion. Please try again later.";
+                }
+
+                notifications.show({
+                    message,
+                    color: "red",
                 });
             },
         });
@@ -70,7 +69,7 @@ const PermanentDeleteForm: React.FC<DeleteModalProps> = ({
             onClose={close}
             title={
                 <Text fw="bold" size="lg">
-                    Restore Files
+                    Delete Forever
                 </Text>
             }
             size={550}
