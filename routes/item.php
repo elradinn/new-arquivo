@@ -11,5 +11,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [ItemController::class, 'index']);
 
         Route::get('/download', [ItemController::class, 'download'])->name('item.download');
+
+        Route::delete('/', [ItemController::class, 'delete'])->name('item.delete');
     });
 });

@@ -1,10 +1,10 @@
 import React, { FormEventHandler } from "react";
 import { Button, Flex, Modal, Text } from "@mantine/core";
-import { useForm, usePage } from "@inertiajs/react";
+import { useForm } from "@inertiajs/react";
 import { IconTrash } from "@tabler/icons-react";
-import { PageProps } from "@/types";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
+import { DeleteItemsData } from "@/Modules/Item/Types/DeleteItemsData";
 
 interface DeleteButtonProps {
     all: boolean;
@@ -18,12 +18,6 @@ interface DeleteModalProps {
     deleteIds?: string[];
 }
 
-interface FormData {
-    all: boolean;
-    ids?: string[];
-    parent_id?: number;
-}
-
 const DeleteFilesForm: React.FC<DeleteModalProps> = ({
     isOpened,
     close,
@@ -34,31 +28,36 @@ const DeleteFilesForm: React.FC<DeleteModalProps> = ({
         data,
         delete: destroy,
         processing,
-    } = useForm<FormData>({
-        all: false,
+    } = useForm<DeleteItemsData>({
         ids: [],
-        parent_id: 0,
     });
 
-    const parent_id = usePage<PageProps>().props.folder?.id;
 
     const deleteFilesSubmit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        data.parent_id = parent_id;
+        data.ids = deleteIds ?? [];
 
-        if (deleteAll) {
-            data.all = true;
-        } else {
-            data.ids = deleteIds;
-        }
-
-        destroy(route("file.delete"), {
+        destroy(route("item.delete"), {
             onSuccess: () => {
                 close();
                 notifications.show({
                     message: "Files deleted",
                     color: "green",
+                });
+            },
+            onError: (errors) => {
+                let message = "";
+
+                if (Object.keys(errors).length > 0) {
+                    message = errors[Object.keys(errors)[0]];
+                } else {
+                    message = "Error during file deletion. Please try again later.";
+                }
+
+                notifications.show({
+                    message,
+                    color: "red",
                 });
             },
         });
@@ -97,8 +96,6 @@ const DeleteFilesForm: React.FC<DeleteModalProps> = ({
     );
 };
 
-// TODO: Maybe need for empty bin
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const DeleteFilesButton: React.FC<DeleteButtonProps> = ({ all, ids }) => {
     const [
         deleteFilesOpened,
