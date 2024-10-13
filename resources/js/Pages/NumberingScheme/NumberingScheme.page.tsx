@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Head } from "@inertiajs/react";
 import { Stack, Text, Button, Flex, TextInput, rem } from "@mantine/core";
 import { IconPlus, IconSearch } from "@tabler/icons-react";
@@ -8,25 +8,14 @@ import NumberingSchemeForm from "@/Modules/NumberingScheme/Forms/NumberingScheme
 import { NumberingSchemeResourceData } from "@/Modules/NumberingScheme/Types/NumberingSchemeResourceData";
 import { useSearchDataTable } from "@/Modules/Common/Hooks/use-search-datatable";
 import { usePaginateDataTable } from "@/Modules/Common/Hooks/use-paginate-datatable";
+import { Filters, PaginationData } from "@/Modules/NumberingScheme/Types/NumberingSchemePageTypes";
 
-interface NumberingSchemePageProps {
-    auth: any;
-    numberingScheme: {
-        data: NumberingSchemeResourceData[];
-        total: number;
-        per_page: number;
-        current_page: number;
-        links: { label: string; url: string | null }[];
-    };
-    filters: {
-        search: string;
-    };
+interface IProps {
+    numberingScheme: PaginationData;
+    filters: Filters;
 }
 
-const NumberingSchemePage: React.FC<NumberingSchemePageProps> = ({
-    numberingScheme,
-    filters,
-}) => {
+export default function NumberingSchemePage({ numberingScheme, filters }: IProps) {
     const [selectedRecord, setSelectedRecord] = useState<NumberingSchemeResourceData[]>([]);
     const [formOpened, setFormOpened] = useState(false);
     const [editingScheme, setEditingScheme] = useState<NumberingSchemeResourceData | null>(null);
@@ -98,5 +87,3 @@ const NumberingSchemePage: React.FC<NumberingSchemePageProps> = ({
         </Authenticated>
     );
 };
-
-export default NumberingSchemePage;
