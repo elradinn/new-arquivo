@@ -85,7 +85,7 @@ class DownloadItemsAction
                 $this->addItemsToZip($zip, $item->getChildren()->load('folder', 'document'), $ancestors . $item->folder->name . '/');
             } else {
                 $document = $item->document;
-                $localPath = Storage::disk('public')->path($document->file_path);
+                $publicPath = Storage::disk('public')->path($document->file_path);
 
                 Log::info('Document where na u?: ' . $document);
 
@@ -94,13 +94,13 @@ class DownloadItemsAction
                     $dest = pathinfo($document->file_path, PATHINFO_BASENAME);
                     $content = Storage::get($document->file_path);
                     Storage::disk('public')->put($dest, $content);
-                    $localPath = Storage::disk('public')->path($dest);
+                    $publicPath = Storage::disk('public')->path($dest);
                 }
 
-                if (file_exists($localPath)) {
-                    $zip->addFile($localPath, $ancestors . $document->name);
+                if (file_exists($publicPath)) {
+                    $zip->addFile($publicPath, $ancestors . $document->name);
                 } else {
-                    Log::warning("File not found: $localPath");
+                    Log::warning("File not found: $publicPath");
                 }
             }
         }
@@ -130,7 +130,7 @@ class DownloadItemsAction
                     if ($document->uploaded_on_cloud) {
                         $content = Storage::get($document->file_path);
                     } else {
-                        $content = Storage::disk('local')->get($document->file_path);
+                        $content = Storage::disk('public')->get($document->file_path);
                         Log::info('File content where na u?: ' . $content);
                     }
 
