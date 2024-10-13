@@ -9,9 +9,9 @@ export default function WorkspaceForm() {
     return (
         <Modal
             opened={modals["workspace"]}
-            onClose={close}
+            onClose={() => closeModal("workspace")}
             title={
-                <Text fw="bold" size="lg">
+                <Text fw={500} size="md">
                     Create New Workspace
                 </Text>
             }
