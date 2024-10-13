@@ -2,4 +2,10 @@
 
 namespace Modules\DocumentApprovalHasUser\States;
 
-class UserApprovalPending extends UserState {}
+class UserApprovalPending extends UserState
+{
+    public function label(): string
+    {
+        return 'Approval Pending';
+    }
+}

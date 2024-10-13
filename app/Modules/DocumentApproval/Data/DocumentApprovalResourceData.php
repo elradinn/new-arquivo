@@ -13,6 +13,8 @@ class DocumentApprovalResourceData extends Resource
 
         public string $document_id,
 
+        public string $document_name,
+
         public string $type,
 
         public ?string $destination,
@@ -33,14 +35,16 @@ class DocumentApprovalResourceData extends Resource
         return new self(
             id: $documentApproval->id,
             document_id: $documentApproval->document_id,
+            document_name: $documentApproval->document->name ?? 'No Name',
             type: $documentApproval->type,
             destination: $documentApproval->destination,
             resolution: $documentApproval->resolution,
-            overall_state: $documentApproval->overall_state,
+            overall_state: $documentApproval->overall_state->label(),
             document_user_approvals: $documentApproval->documentApprovalUsers->map(fn($documentUserApproval) => [
                 'id' => $documentUserApproval->id,
                 'user_id' => $documentUserApproval->user_id,
-                'user_state' => $documentUserApproval->user_state,
+                'user_name' => $documentUserApproval->users->name,
+                'user_state' => $documentUserApproval->user_state->label(),
                 'comment' => $documentUserApproval->comment,
                 'created_at' => $documentUserApproval->created_at,
                 'updated_at' => $documentUserApproval->updated_at,

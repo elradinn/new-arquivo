@@ -28,7 +28,7 @@ class DocumentApprovalRequestNotification extends Notification implements Should
     {
         return (new MailMessage)
             ->line('You have a new document approval request.')
-            ->action('View Document Approval', url('/document-approvals/' . $this->documentApproval->id))
+            ->action('View Document Approval', url('/document_approval/' . $this->documentApproval->id))
             ->line('Thank you for using our application!');
     }
 }

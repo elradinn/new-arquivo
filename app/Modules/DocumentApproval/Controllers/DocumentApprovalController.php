@@ -15,8 +15,6 @@ class DocumentApprovalController extends Controller
 {
     public function show(DocumentApproval $documentApproval): Response
     {
-        // return response()->json(DocumentApprovalResourceData::fromModel($documentApproval));
-
         return Inertia::render('ApproveDocument/ApproveDocument.page', [
             'documentApproval' => DocumentApprovalResourceData::fromModel($documentApproval),
         ]);

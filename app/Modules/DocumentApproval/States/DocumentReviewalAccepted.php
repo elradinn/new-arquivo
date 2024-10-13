@@ -2,4 +2,10 @@
 
 namespace Modules\DocumentApproval\States;
 
-class DocumentReviewalAccepted extends DocumentState {}
+class DocumentReviewalAccepted extends DocumentState
+{
+    public function label(): string
+    {
+        return 'Accepted';
+    }
+}

@@ -14,6 +14,7 @@ class Workflow extends Model
         'folder_item_id',
         'resolution',
         'destination',
+        'type',
     ];
 
     public function folder(): BelongsTo

@@ -1,11 +1,11 @@
-import { PageProps } from "@/types";
 import ApproveIcon from "./ApproveIcon";
 import { Avatar, Button, Card, Flex, Group, Stack, Text, Textarea } from "@mantine/core";
 import { Head, useForm } from "@inertiajs/react";
 import { IconDownload, IconFileTypePdf, IconFolder } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
+import { DocumentApprovalResourceData } from "@/Modules/DocumentApproval/Types/DocumentApprovalResourceData";
 
-const ApproveDocumentPage: React.FC<PageProps> = ({ auth, notification }) => {
+const ApproveDocumentPage: React.FC<{ documentApproval: DocumentApprovalResourceData }> = ({ documentApproval }) => {
     // const { data, post, processing } = useForm({
     //     file_id: "",
     //     destination_id: "",
@@ -34,8 +34,7 @@ const ApproveDocumentPage: React.FC<PageProps> = ({ auth, notification }) => {
     //             });
     //         },
     //     });
-    // };
-
+    // }
     return (
         <>
             <Head title="Approve Document" />
@@ -45,7 +44,7 @@ const ApproveDocumentPage: React.FC<PageProps> = ({ auth, notification }) => {
                         <ApproveIcon />
 
                         <Text fw={500} size="xl">
-                            "Hello testing"
+                            {documentApproval.type} Document
                         </Text>
                     </Stack>
 
@@ -53,7 +52,7 @@ const ApproveDocumentPage: React.FC<PageProps> = ({ auth, notification }) => {
                         <Group>
                             <IconFolder color="none" fill="gray" />
                             <Text fw={500} size="lg" c="gray">
-                                Administrative
+                                {documentApproval.destination || "No Destination"}
                             </Text>
                         </Group>
 
@@ -63,10 +62,10 @@ const ApproveDocumentPage: React.FC<PageProps> = ({ auth, notification }) => {
                                     <IconFileTypePdf />
                                     <div>
                                         <Text size="md" fw="bold">
-                                            Name of document.pdf
+                                            {documentApproval.document_name}
                                         </Text>
                                         <Text size="md" c="dimmed">
-                                            11 Sep, 2023 - 13 MB
+                                            {documentApproval.created_at} - {documentApproval.overall_state}
                                         </Text>
                                     </div>
                                 </Group>
@@ -78,18 +77,23 @@ const ApproveDocumentPage: React.FC<PageProps> = ({ auth, notification }) => {
                             Users in this approval process
                         </Text>
 
-                        <Group>
-                            <Avatar />
-                            <div>
-                                <Text size="md" fw={500}>
-                                    John Doe
-                                </Text>
-                            </div>
-                        </Group>
+                        {documentApproval.document_user_approvals.map(userApproval => (
+                            <Group key={userApproval.id}>
+                                <Avatar />
+                                <div>
+                                    <Text size="md" fw={500}>
+                                        {userApproval.user_name}
+                                    </Text>
+                                    <Text size="sm" c="dimmed">
+                                        State: {userApproval.user_state}
+                                    </Text>
+                                </div>
+                            </Group>
+                        ))}
 
                         <Textarea
                             label="Comment"
-                            placeholder="Add you comment on this document"
+                            placeholder="Add your comment on this document"
                             autosize
                             minRows={4}
                             maxRows={6}

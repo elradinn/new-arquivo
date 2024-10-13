@@ -13,6 +13,7 @@ class CreateWorkflowAction
         $workflow = Workflow::create([
             'folder_item_id' => $data->folder_item_id,
             'resolution' => $data->resolution,
+            'type' => $data->type,
             'destination' => $data->destination,
         ]);
 

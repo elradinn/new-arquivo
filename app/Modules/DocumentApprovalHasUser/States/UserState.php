@@ -7,6 +7,8 @@ use Spatie\ModelStates\StateConfig;
 
 abstract class UserState extends State
 {
+    abstract public function label(): string;
+
     public static function config(): StateConfig
     {
         return parent::config()
