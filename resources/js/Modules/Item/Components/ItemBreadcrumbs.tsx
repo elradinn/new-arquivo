@@ -9,6 +9,7 @@ interface BreadcrumbProps {
 
 export default function ItemBreadcrumbs({ ancestors }: BreadcrumbProps) {
     const breadcrumbItems = ancestors
+        .sort((a, b) => b.depth - a.depth)
         .map((ans) => (
             <Anchor component={Link} href={ans.url} key={ans.url}>
                 {ans.name}
