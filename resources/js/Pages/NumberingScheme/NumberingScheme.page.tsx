@@ -11,19 +11,17 @@ import { usePaginateDataTable } from "@/Modules/Common/Hooks/use-paginate-datata
 import { Filters, PaginationData } from "@/Modules/NumberingScheme/Types/NumberingSchemePageTypes";
 
 interface IProps {
-    numberingScheme: PaginationData;
+    numberingSchemes: PaginationData;
     filters: Filters;
 }
 
-export default function NumberingSchemePage({ numberingScheme, filters }: IProps) {
+export default function NumberingSchemePage({ numberingSchemes, filters }: IProps) {
     const [selectedRecord, setSelectedRecord] = useState<NumberingSchemeResourceData[]>([]);
     const [formOpened, setFormOpened] = useState(false);
     const [editingScheme, setEditingScheme] = useState<NumberingSchemeResourceData | null>(null);
 
-    const { search, setSearch, handleSearch } = useSearchDataTable(filters.search || "", "/numbering-schemes");
-    const { page, setPage, handlePageChange } = usePaginateDataTable(numberingScheme.current_page);
-
-    const openForm = () => setFormOpened(true);
+    const { search, setSearch, handleSearch } = useSearchDataTable(filters.search || "", "/numbering-scheme");
+    const { page, setPage, handlePageChange } = usePaginateDataTable(numberingSchemes.current_page);
 
     const closeForm = () => {
         setFormOpened(false);
@@ -60,19 +58,16 @@ export default function NumberingSchemePage({ numberingScheme, filters }: IProps
                             handleSearch(e.target.value);
                         }}
                     />
-                    <Button leftSection={<IconPlus size={14} />} onClick={openForm}>
-                        Add New Numbering Scheme
-                    </Button>
                 </Flex>
 
                 <NumberingSchemeTable
-                    records={numberingScheme.data}
-                    totalRecords={numberingScheme.total}
-                    recordsPerPage={numberingScheme.per_page}
+                    records={numberingSchemes.data}
+                    totalRecords={numberingSchemes.total}
+                    recordsPerPage={numberingSchemes.per_page}
                     page={page}
                     onPageChange={(p) => {
                         setPage(p);
-                        handlePageChange(p, numberingScheme.links);
+                        handlePageChange(p, numberingSchemes.links);
                     }}
                     selectedRecords={selectedRecord}
                     onSelectedRecordsChange={setSelectedRecord}

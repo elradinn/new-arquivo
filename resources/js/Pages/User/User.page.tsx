@@ -21,7 +21,7 @@ export default function UserPage({ users, filters }: IProps) {
     const [selectedRecord, setSelectedRecord] = useState<UserResourceData[]>([]);
     const [currentUser, setCurrentUser] = useState<UserResourceData>();
 
-    const { search, setSearch, handleSearch } = useSearchDataTable(filters.search || "", "/user");
+    const { search, setSearch, handleSearch } = useSearchDataTable(filters.search || "", "/users");
     const { page, setPage, handlePageChange } = usePaginateDataTable(users.current_page);
 
     const [addUserOpened, { open: openAddUser, close: closeAddUser }] = useDisclosure(false);
