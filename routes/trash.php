@@ -10,5 +10,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [TrashController::class, 'index'])->name('trash');
 
         Route::delete('/', [TrashController::class, 'delete'])->name('trash.delete');
+
+        Route::post('/restore', [TrashController::class, 'restore'])->name('trash.restore');
     });
 });

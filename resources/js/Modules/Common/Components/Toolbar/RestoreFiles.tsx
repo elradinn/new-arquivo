@@ -1,60 +1,61 @@
 import React, { FormEventHandler } from "react";
 import { Button, Flex, Modal, Text } from "@mantine/core";
-import { useForm, usePage } from "@inertiajs/react";
+import { useForm } from "@inertiajs/react";
 import { IconRestore } from "@tabler/icons-react";
-import { PageProps } from "@/types";
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
+import { RestoreTrashedItemsData } from "@/Modules/Trash/Types/RestoreTrashedItemsData";
 
 interface RestoreFilesProps {
     all: boolean;
     ids?: string[];
 }
 
-interface DeleteModalProps {
+interface RestoreModalProps {
     isOpened: boolean;
     close: () => void;
-    deleteAll?: boolean;
-    deleteIds?: string[];
+    restoreAll?: boolean;
+    restoreIds?: string[];
 }
 
-interface FormData {
-    all: boolean;
-    ids?: string[];
-    parent_id?: number;
-}
-
-const RestoreFilesForm: React.FC<DeleteModalProps> = ({
+const RestoreFilesForm: React.FC<RestoreModalProps> = ({
     isOpened,
     close,
-    deleteAll,
-    deleteIds,
+    restoreIds,
 }) => {
-    const { data, post, processing } = useForm<FormData>({
-        all: false,
+    const {
+        data,
+        post,
+        processing,
+    } = useForm<RestoreTrashedItemsData>({
         ids: [],
-        parent_id: 0,
     });
 
-    const parent_id = usePage<PageProps>().props.folder?.id;
-
-    const deleteFilesSubmit: FormEventHandler = (e) => {
+    const restoreFilesSubmit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        data.parent_id = parent_id;
+        data.ids = restoreIds || [];
 
-        if (deleteAll) {
-            data.all = true;
-        } else {
-            data.ids = deleteIds;
-        }
-
-        post(route("file.restore"), {
+        post(route("trash.restore"), {
             onSuccess: () => {
                 close();
                 notifications.show({
-                    message: "Files restored",
+                    message: "Files restored successfully",
                     color: "green",
+                });
+            },
+            onError: (errors) => {
+                let message = "";
+
+                if (Object.keys(errors).length > 0) {
+                    message = errors[Object.keys(errors)[0]];
+                } else {
+                    message = "Error during file restoration. Please try again later.";
+                }
+
+                notifications.show({
+                    message,
+                    color: "red",
                 });
             },
         });
@@ -71,7 +72,7 @@ const RestoreFilesForm: React.FC<DeleteModalProps> = ({
             }
             size={550}
         >
-            <form onSubmit={deleteFilesSubmit}>
+            <form onSubmit={restoreFilesSubmit}>
                 <Text c="dimmed">Restore selected files?</Text>
 
                 <Flex align="center" justify="end" mt={16}>
@@ -79,8 +80,13 @@ const RestoreFilesForm: React.FC<DeleteModalProps> = ({
                         Cancel
                     </Button>
 
-                    <Button ml={12} type="submit" loading={processing}>
-                        Restore
+                    <Button
+                        ml={12}
+                        type="submit"
+                        loading={processing}
+                        color="green"
+                    >
+                        Confirm Restore
                     </Button>
                 </Flex>
             </form>
@@ -88,30 +94,28 @@ const RestoreFilesForm: React.FC<DeleteModalProps> = ({
     );
 };
 
-// TODO: Maybe need for restore all files?
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const RestoreFilesButton: React.FC<RestoreFilesProps> = ({ all, ids }) => {
     const [
-        deleteFilesOpened,
-        { open: openDeleteFiles, close: closeDeleteFiles },
+        restoreFilesOpened,
+        { open: openRestoreFiles, close: closeRestoreFiles },
     ] = useDisclosure(false);
 
     return (
         <>
             <Button
                 variant="subtle"
-                color="dark.3"
+                color="green"
                 leftSection={<IconRestore size={18} />}
-                onClick={openDeleteFiles}
+                onClick={openRestoreFiles}
             >
                 Restore
             </Button>
 
             <RestoreFilesForm
-                isOpened={deleteFilesOpened}
-                close={closeDeleteFiles}
-                deleteAll={false}
-                deleteIds={ids}
+                isOpened={restoreFilesOpened}
+                close={closeRestoreFiles}
+                restoreAll={false}
+                restoreIds={ids}
             />
         </>
     );
