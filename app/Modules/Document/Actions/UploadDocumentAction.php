@@ -46,6 +46,11 @@ class UploadDocumentAction
 
             $this->createDocumentApprovalFromWorkflowAction->execute($document);
 
+            activity()
+                ->performedOn($document)
+                ->causedBy(Auth::id())
+                ->log("Document uploaded");
+
             $documents[] = $document;
         }
 
