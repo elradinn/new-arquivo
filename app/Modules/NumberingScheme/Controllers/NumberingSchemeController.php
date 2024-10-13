@@ -11,6 +11,7 @@ use Modules\NumberingScheme\Data\NumberingSchemeResourceData;
 use Modules\NumberingScheme\Data\UpdateNumberingSchemeData;
 use Modules\NumberingScheme\Models\NumberingScheme;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class NumberingSchemeController extends Controller
@@ -24,12 +25,27 @@ class NumberingSchemeController extends Controller
     /**
      * @return \Inertia\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $numberingSchemes = NumberingScheme::with('folder')->get();
+        $search = $request->input('search');
+
+        $numberingSchemes = NumberingScheme::query()
+            ->when($search, function ($query, $search) {
+                $searchableColumns = ['name'];
+
+                $query->where(function ($query) use ($search, $searchableColumns) {
+                    foreach ($searchableColumns as $column) {
+                        $query->orWhere($column, 'like', "%{$search}%");
+                    }
+                });
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(10)
+            ->withQueryString();
 
         return Inertia::render('NumberingScheme/NumberingScheme.page', [
             'numberingSchemes' => NumberingSchemeResourceData::collect($numberingSchemes),
+            'filters' => $request->only(['search']),
         ]);
     }
 

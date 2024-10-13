@@ -4,6 +4,7 @@ namespace Modules\User\Controllers;
 
 use App\Modules\User\Data\UserResourceData;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Modules\Common\Controllers\Controller;
 use Modules\User\Models\User;
@@ -23,10 +24,27 @@ class UserController extends Controller
         protected DeleteUserAction $deleteUserAction
     ) {}
 
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->input('search');
+
+        $users = User::query()
+            ->when($search, function ($query, $search) {
+                $searchableColumns = ['name', 'email'];
+
+                $query->where(function ($query) use ($search, $searchableColumns) {
+                    foreach ($searchableColumns as $column) {
+                        $query->orWhere($column, 'like', "%{$search}%");
+                    }
+                });
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(10)
+            ->withQueryString();
+
         return Inertia::render('User/User.page', [
-            'users' => UserResourceData::collect(User::all())
+            'users' => UserResourceData::collect($users),
+            'filters' => $request->only(['search']),
         ]);
     }
 
