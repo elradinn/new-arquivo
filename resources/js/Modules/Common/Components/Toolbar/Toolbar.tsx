@@ -14,6 +14,7 @@ import EmptyBinButton from "./EmptyBin";
 import PermanentDeleteButton from "./PermanentDelete";
 import RestoreFilesButton from "./RestoreFiles";
 import ApprovalButton from "./Approval";
+import { ItemParentResourceData } from "@/Modules/Item/Types/ItemParentResourceData";
 
 interface IProps {
     page: "item" | "trash";
@@ -23,6 +24,7 @@ interface IProps {
     folderId?: number;
     approvalActive?: boolean;
     trackingActive?: boolean;
+    itemParent?: ItemParentResourceData;
 }
 
 const Toolbar: React.FC<IProps> = ({
@@ -33,6 +35,7 @@ const Toolbar: React.FC<IProps> = ({
     folderId,
     approvalActive,
     trackingActive,
+    itemParent,
 }) => {
 
     return (
@@ -46,7 +49,7 @@ const Toolbar: React.FC<IProps> = ({
                 page === "item" ? (
                     <>
                         <div>
-                            <NewFilesButton uploadFileRef={uploadFileRef} />
+                            <NewFilesButton uploadFileRef={uploadFileRef} itemParent={itemParent} />
 
                             <PropertiesButton folderId={folderId} />
 

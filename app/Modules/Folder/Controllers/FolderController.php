@@ -4,6 +4,7 @@ namespace Modules\Folder\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 use Modules\Common\Controllers\Controller;
@@ -49,11 +50,11 @@ class FolderController extends Controller
         return Inertia::render('Item/Item.page', $data);
     }
 
-    public function store(CreateFolderData $data): JsonResponse
+    public function store(CreateFolderData $data): RedirectResponse
     {
-        $folder = $this->createFolderAction->execute($data);
+        $this->createFolderAction->execute($data);
 
-        return response()->json(['message' => 'Folder created successfully'], 201);
+        return redirect()->back();
     }
 
     public function edit(Folder $folder): Response

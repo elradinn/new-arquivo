@@ -30,7 +30,7 @@ export default function ItemPage({ itemParent, itemAncestors, itemContents }: It
         <>
             <Head title="My Files" />
 
-            <Authenticated toolbar={<Toolbar page="item" />}>
+            <Authenticated toolbar={<Toolbar page="item" itemParent={itemParent} />}>
                 <ItemDropzone onDrop={uploadFiles} openRef={openRef}>
                     <Stack px={8} gap={24} py={8} style={{ pointerEvents: "all" }}>
                         <ItemBreadcrumbs ancestors={itemAncestors} />

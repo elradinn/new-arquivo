@@ -1,28 +1,51 @@
-import { Box, Button, TextInput } from "@mantine/core";
+import { Button, Flex, Modal, Stack, Text, TextInput } from "@mantine/core";
 import { useAddFolder } from "../Hooks/use-add-folder-form";
-import { useDeleteAllFolders } from "../Hooks/use-delete-all-folder-form";
+import { ItemParentResourceData } from "@/Modules/Item/Types/ItemParentResourceData";
 
-export default function FolderForm() {
-    const { data, setData, submit, processing: addItemProcessing, errors } = useAddFolder();
-    const { deleteAll, processing: deleteAllProcessing } = useDeleteAllFolders();
-
-    return (
-        <Box component="form" onSubmit={submit}>
-            <TextInput
-                id="name"
-                name="name"
-                label="Folder Name"
-                value={data.name}
-                onChange={(e) => setData("name", e.target.value)}
-                error={errors.name}
-                required
-            />
-            <Button type="submit" loading={addItemProcessing}>
-                Add Folder
-            </Button>
-            <Button color="red" onClick={deleteAll} loading={deleteAllProcessing} mt={16}>
-                Delete All Folders
-            </Button>
-        </Box>
-    );
+interface IProps {
+    isOpened: boolean;
+    close: () => void;
+    itemParent?: ItemParentResourceData;
 }
+
+const CreateFolderForm: React.FC<IProps> = ({ isOpened, close, itemParent }) => {
+    const { data, setData, submit, processing, errors } = useAddFolder({ itemParent, close });
+    return (
+        <Modal
+            opened={isOpened}
+            onClose={close}
+            title={
+                <Text fw="bold" size="lg">
+                    Create Folder
+                </Text>
+            }
+            size={550}
+        >
+            <form onSubmit={submit}>
+                <Stack gap={16}>
+                    <TextInput
+                        id="name"
+                        type="text"
+                        name="name"
+                        value={data.name}
+                        placeholder="Folder Name"
+                        onChange={(e) => setData("name", e.target.value)}
+                        error={errors.name}
+                    />
+                </Stack>
+
+                <Flex align="center" justify="end" mt={16}>
+                    <Button variant="outline" onClick={close}>
+                        Cancel
+                    </Button>
+
+                    <Button ml={12} type="submit" loading={processing}>
+                        Create
+                    </Button>
+                </Flex>
+            </form>
+        </Modal>
+    );
+};
+
+export default CreateFolderForm;

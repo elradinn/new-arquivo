@@ -1,3 +1,5 @@
+import CreateFolderForm from "@/Modules/Folder/Forms/FolderForm";
+import { ItemParentResourceData } from "@/Modules/Item/Types/ItemParentResourceData";
 import { PageProps } from "@/types";
 import { useForm, usePage } from "@inertiajs/react";
 import { Button, Flex, Menu, Modal, rem, Stack, Text, TextInput } from "@mantine/core";
@@ -22,7 +24,7 @@ interface FormData {
     parent_id?: number;
 }
 
-const CreateFolderForm: React.FC<IFormProps> = ({ isOpened, close }) => {
+const CreateFolderFormOld: React.FC<IFormProps> = ({ isOpened, close }) => {
     const { data, setData, post, processing, errors, reset } = useForm<FormData>({
         name: "",
         parent_id: 0,
@@ -95,9 +97,10 @@ const CreateFolderForm: React.FC<IFormProps> = ({ isOpened, close }) => {
 
 interface IButtonProps {
     uploadFileRef?: React.RefObject<() => void>;
+    itemParent?: ItemParentResourceData;
 }
 
-const NewFilesButton: React.FC<IButtonProps> = ({ uploadFileRef }) => {
+const NewFilesButton: React.FC<IButtonProps> = ({ uploadFileRef, itemParent }) => {
     const [createFolderOpened, { open: openCreateFolder, close: closeCreateFolder }] =
         useDisclosure(false);
 
@@ -164,7 +167,11 @@ const NewFilesButton: React.FC<IButtonProps> = ({ uploadFileRef }) => {
                 </Menu.Dropdown>
             </Menu>
 
-            <CreateFolderForm isOpened={createFolderOpened} close={closeCreateFolder} />
+            <CreateFolderForm
+                isOpened={createFolderOpened}
+                close={closeCreateFolder}
+                itemParent={itemParent}
+            />
         </>
     );
 };
