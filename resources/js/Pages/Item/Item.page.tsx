@@ -6,7 +6,6 @@ import ItemTable from "@/Modules/Item/Components/ItemTable";
 import ItemDropzone from "@/Modules/Item/Components/ItemDropzone";
 import { Authenticated } from "@/Modules/Common/Layouts/AuthenticatedLayout/Authenticated";
 import { useUploadDocument } from "@/Modules/Document/Hooks/use-upload-document";
-import { useOpenFolder } from "@/Modules/Item/Hooks/use-open-folder";
 import { useSelectItems } from "@/Modules/Item/Hooks/use-select-items";
 import { ItemAncestorsResourceData } from "@/Modules/Item/Types/ItemAncestorsResourceData";
 import { ItemContentsResourceData } from "@/Modules/Item/Types/ItemContentsResourceData";
@@ -21,7 +20,6 @@ interface ItemPageProps {
 export default function ItemPage({ itemParent, itemAncestors, itemContents }: ItemPageProps) {
     const openRef = useRef<() => void>(null);
     const { uploadFiles } = useUploadDocument(itemParent);
-    const { openFolder } = useOpenFolder();
     const { selectedRecord, setSelectedRecord, ids } = useSelectItems();
 
     return (
@@ -34,7 +32,6 @@ export default function ItemPage({ itemParent, itemAncestors, itemContents }: It
                         <ItemBreadcrumbs ancestors={itemAncestors} />
                         <ItemTable
                             itemContents={itemContents}
-                            openFolder={openFolder}
                             selectedRecord={selectedRecord}
                             setSelectedRecord={setSelectedRecord}
                         />

@@ -2,20 +2,22 @@ import { DataTable } from "mantine-datatable";
 import { Group, Text } from "@mantine/core";
 import ItemIcon from "./ItemIcon";
 import { ItemContentsResourceData } from "../Types/ItemContentsResourceData";
+import { useOpenFolder } from "../Hooks/use-open-folder";
 
 interface ItemTableProps {
     itemContents: ItemContentsResourceData[];
-    openFolder: (type: string, id: string) => void;
     selectedRecord: ItemContentsResourceData[];
     setSelectedRecord: (records: ItemContentsResourceData[]) => void;
 }
 
 const ItemTable: React.FC<ItemTableProps> = ({
     itemContents,
-    openFolder,
     selectedRecord,
     setSelectedRecord,
 }) => {
+    const { openFolder } = useOpenFolder();
+
+
     if (!itemContents.length) {
         return (
             <Text size="lg" c="gray.5">
@@ -50,11 +52,11 @@ const ItemTable: React.FC<ItemTableProps> = ({
             ]}
             records={itemContents}
             customRowAttributes={({ type, id }) => ({
-                // onDoubleClick: (e: MouseEvent) => {
-                //     if (e.button === 0) {
-                //         openFolder(type, id);
-                //     }
-                // },
+                onDoubleClick: (e: MouseEvent) => {
+                    if (e.button === 0) {
+                        openFolder(type, id);
+                    }
+                },
             })}
             highlightOnHover
             verticalSpacing="md"
