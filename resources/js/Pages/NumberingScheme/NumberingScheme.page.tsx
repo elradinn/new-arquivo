@@ -1,33 +1,50 @@
-import { useState } from "react";
-import { Head, router } from "@inertiajs/react";
-import { IconSearch } from "@tabler/icons-react";
-import { Flex, rem, Stack, Text, TextInput } from "@mantine/core";
-import { DataTable } from "mantine-datatable";
-import { NumberingScheme, NumberingSchemePageProps } from "@/types";
+import React, { useState } from "react";
+import { Head } from "@inertiajs/react";
+import { Stack, Text, Button, Flex, TextInput, rem } from "@mantine/core";
+import { IconPlus, IconSearch } from "@tabler/icons-react";
 import { Authenticated } from "@/Modules/Common/Layouts/AuthenticatedLayout/Authenticated";
+import NumberingSchemeTable from "@/Modules/NumberingScheme/Components/NumberingSchemeTable";
+import NumberingSchemeForm from "@/Modules/NumberingScheme/Forms/NumberingSchemeForm";
+import { NumberingSchemeResourceData } from "@/Modules/NumberingScheme/Types/NumberingSchemeResourceData";
+import { useSearchDataTable } from "@/Modules/Common/Hooks/use-search-datatable";
+import { usePaginateDataTable } from "@/Modules/Common/Hooks/use-paginate-datatable";
 
-export default function NumberingSchemePage({
-    auth,
+interface NumberingSchemePageProps {
+    auth: any;
+    numberingScheme: {
+        data: NumberingSchemeResourceData[];
+        total: number;
+        per_page: number;
+        current_page: number;
+        links: { label: string; url: string | null }[];
+    };
+    filters: {
+        search: string;
+    };
+}
+
+const NumberingSchemePage: React.FC<NumberingSchemePageProps> = ({
     numberingScheme,
     filters,
-}: NumberingSchemePageProps) {
-    const [selectedRecord, setSelectedRecord] = useState<NumberingScheme[]>([]);
+}) => {
+    const [selectedRecord, setSelectedRecord] = useState<NumberingSchemeResourceData[]>([]);
+    const [formOpened, setFormOpened] = useState(false);
+    const [editingScheme, setEditingScheme] = useState<NumberingSchemeResourceData | null>(null);
 
-    // const [page, setPage] = useState(numberingScheme.current_page);
-    // const [search, setSearch] = useState(filters.search || "");
+    const { search, setSearch, handleSearch } = useSearchDataTable(filters.search || "", "/numbering-schemes");
+    const { page, setPage, handlePageChange } = usePaginateDataTable(numberingScheme.current_page);
 
-    // const handleSearch = (search: string) => {
-    //     router.get("/numbering-schemes", { search }, { preserveState: true, replace: true });
-    // };
+    const openForm = () => setFormOpened(true);
 
-    // const handleonPageChange = (page: number) => {
-    //     const newUrl = numberingScheme.links.find(
-    //         (link: { label: string; url: string }) => link.label === page.toString(),
-    //     )?.url;
-    //     if (newUrl) {
-    //         router.visit(newUrl);
-    //     }
-    // };
+    const closeForm = () => {
+        setFormOpened(false);
+        setEditingScheme(null);
+    };
+
+    const handleEdit = (scheme: NumberingSchemeResourceData) => {
+        setEditingScheme(scheme);
+        setFormOpened(true);
+    };
 
     return (
         <Authenticated>
@@ -37,7 +54,7 @@ export default function NumberingSchemePage({
                     Numbering Scheme
                 </Text>
 
-                {/* <Flex
+                <Flex
                     justify="space-between"
                     direction={{ base: "column", md: "row" }}
                     gap={{ base: 12, md: 0 }}
@@ -54,33 +71,32 @@ export default function NumberingSchemePage({
                             handleSearch(e.target.value);
                         }}
                     />
+                    <Button leftSection={<IconPlus size={14} />} onClick={openForm}>
+                        Add New Numbering Scheme
+                    </Button>
                 </Flex>
 
-                <DataTable
-                    pinLastColumn
-                    withTableBorder
-                    shadow="xs"
-                    borderRadius="sm"
-                    withRowBorders={false}
-                    highlightOnHover
-                    verticalSpacing="md"
+                <NumberingSchemeTable
+                    records={numberingScheme.data}
                     totalRecords={numberingScheme.total}
                     recordsPerPage={numberingScheme.per_page}
                     page={page}
                     onPageChange={(p) => {
                         setPage(p);
-                        handleonPageChange(p);
+                        handlePageChange(p, numberingScheme.links);
                     }}
-                    columns={[
-                        { accessor: "name", noWrap: true },
-                        { accessor: "description", noWrap: true },
-                        { accessor: "folder", noWrap: true },
-                    ]}
-                    records={numberingScheme.data}
                     selectedRecords={selectedRecord}
                     onSelectedRecordsChange={setSelectedRecord}
-                /> */}
+                />
+
+                <NumberingSchemeForm
+                    isOpened={formOpened}
+                    close={closeForm}
+                    initialData={editingScheme || undefined}
+                />
             </Stack>
         </Authenticated>
     );
-}
+};
+
+export default NumberingSchemePage;

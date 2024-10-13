@@ -21,16 +21,16 @@ class NumberingSchemeController extends Controller
         protected DeleteNumberingSchemeAction $deleteNumberingSchemeAction,
     ) {}
 
-    // /**
-    //  * @return \Spatie\LaravelData\DataCollection<NumberingSchemeResourceData>
-    //  */
+    /**
+     * @return \Inertia\Response
+     */
     public function index()
     {
-        // $numberingSchemes = NumberingScheme::with('folder')->get();
+        $numberingSchemes = NumberingScheme::with('folder')->get();
 
-        // return NumberingSchemeResourceData::collect($numberingSchemes);
-
-        return Inertia::render('NumberingScheme/NumberingScheme.page');
+        return Inertia::render('NumberingScheme/NumberingScheme.page', [
+            'numberingSchemes' => NumberingSchemeResourceData::collect($numberingSchemes),
+        ]);
     }
 
     public function store(CreateNumberingSchemeData $data): JsonResponse

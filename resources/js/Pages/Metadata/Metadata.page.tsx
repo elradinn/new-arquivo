@@ -8,8 +8,8 @@ import CreateMetadataForm from "@/Modules/Metadata/Forms/CreateMetadataForm";
 import UpdateMetadataForm from "@/Modules/Metadata/Forms/UpdateMetadataForm";
 import DeleteMetadataForm from "@/Modules/Metadata/Forms/DeleteMetadataForm";
 import MetadataTable from "@/Modules/Metadata/Components/MetadataTable";
-import { useMetadataSearch } from "@/Modules/Metadata/Hooks/use-search-metadata";
-import { useMetadataPagination } from "@/Modules/Metadata/Hooks/use-paginate-metadata";
+import { useSearchDataTable } from "@/Modules/Common/Hooks/use-search-datatable";
+import { usePaginateDataTable } from "@/Modules/Common/Hooks/use-paginate-datatable";
 import { MetadataResourceData } from "@/Modules/Metadata/Types/MetadataResourceData";
 import { PaginationData, Filters } from "@/Modules/Metadata/Types/MetadataPageTypes";
 
@@ -22,8 +22,8 @@ export default function MetadataPage({ metadata, filters }: IProps) {
     const [selectedRecord, setSelectedRecord] = useState<MetadataResourceData[]>([]);
     const [currentMetadata, setCurrentMetadata] = useState<MetadataResourceData>();
 
-    const { search, setSearch, handleSearch } = useMetadataSearch(filters.search || "");
-    const { page, setPage, handlePageChange } = useMetadataPagination(metadata.current_page);
+    const { search, setSearch, handleSearch } = useSearchDataTable(filters.search || "", "/metadata");
+    const { page, setPage, handlePageChange } = usePaginateDataTable(metadata.current_page);
 
     const [addMetadataOpened, { open: openAddMetadata, close: closeAddMetadata }] = useDisclosure(false);
     const [editMetadataOpened, { open: openEditMetadata, close: closeEditMetadata }] = useDisclosure(false);
