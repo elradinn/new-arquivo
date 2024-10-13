@@ -1,5 +1,4 @@
-import { PageProps } from "@/types";
-import { useForm, usePage } from "@inertiajs/react";
+import { useForm } from "@inertiajs/react";
 import {
     Avatar,
     Badge,
@@ -139,12 +138,9 @@ const ApprovalForm: React.FC<IFormProps> = ({ isOpened, close }) => {
         // has_active_workflow: "0",
     });
 
-    const parent_id = usePage<PageProps>().props.folder?.id;
 
     const createApprovalSubmit: FormEventHandler = (e) => {
         e.preventDefault();
-
-        data.file_id = parent_id.toString();
 
         post(route("approval.store"), {
             preserveScroll: true,
