@@ -8,10 +8,11 @@ use Modules\Workspace\Models\Workspace;
 use Franzose\ClosureTable\Models\Entity;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Item extends Entity
 {
-    use HasUuids;
+    use HasUuids, SoftDeletes;
 
     /**
      * The table associated with the model.

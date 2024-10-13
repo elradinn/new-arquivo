@@ -2,28 +2,24 @@ import { Head } from "@inertiajs/react";
 import { Group, Stack, Text } from "@mantine/core";
 import { Authenticated } from "@/Modules/Common/Layouts/AuthenticatedLayout/Authenticated";
 import { DataTable } from "mantine-datatable";
-import { useState } from "react";
 import ItemIcon from "@/Modules/Item/Components/ItemIcon";
 import Toolbar from "@/Modules/Common/Components/Toolbar/Toolbar";
+import { useSelectItems } from "@/Modules/Item/Hooks/use-select-items";
 
-export default function TrashPage({ auth, files }: any) {
-    const [selectedRecord, setSelectedRecord] = useState<any[]>([]);
+import { TrashedItemsResourceData } from "@/Modules/Trash/Types/TrashedItemsResourceData";
 
-    const extractIds = (records: any[]): string[] => {
-        return records.map((record) => record.id);
-    };
+interface TrashPageProps {
+    trashedItems: TrashedItemsResourceData[];
+}
 
-    // const ids = extractIds(selectedRecord);
-
-    // const allFiles = {
-    //     data: files.data,
-    // };
+export default function TrashPage({ trashedItems }: TrashPageProps) {
+    const { selectedRecord, setSelectedRecord, ids } = useSelectItems();
 
     return (
         <>
             <Head title="Trash" />
 
-            {/* <Authenticated
+            <Authenticated
                 toolbar={
                     <Toolbar
                         fileSelected={selectedRecord.length > 0}
@@ -37,7 +33,7 @@ export default function TrashPage({ auth, files }: any) {
                 <Stack px={8} gap={24} py={8} style={{ pointerEvents: "all" }}>
                     <Text fw={500}>Trash</Text>
 
-                    {!allFiles.data.length ? (
+                    {trashedItems.length === 0 ? (
                         <Text size="lg" c="gray.5">
                             This trash bin is empty
                         </Text>
@@ -47,16 +43,16 @@ export default function TrashPage({ auth, files }: any) {
                             columns={[
                                 {
                                     accessor: "name",
-                                    render: ({ mime, is_folder, name }) => (
+                                    render: ({ mime, type, name }) => (
                                         <Group align="center" gap={12}>
-                                            <ItemIcon mime={mime} isFolder={is_folder} />
+                                            <ItemIcon mime={mime} isFolder={type === 'folder'} />
                                             <span>{name}</span>
                                         </Group>
                                     ),
                                 },
-                                { accessor: "path" },
+                                { accessor: "deleted_at" },
                             ]}
-                            records={allFiles.data}
+                            records={trashedItems}
                             highlightOnHover
                             verticalSpacing="lg"
                             horizontalSpacing="xl"
@@ -65,16 +61,6 @@ export default function TrashPage({ auth, files }: any) {
                         />
                     )}
                 </Stack>
-            </Authenticated> */}
-
-            <Authenticated
-                toolbar={
-                    <Toolbar page="trash" />
-                }
-            >
-                <Head title="Trash" />
-
-                <p>Trash</p>
             </Authenticated>
         </>
     );
