@@ -2,156 +2,167 @@
 
 namespace Modules\Item\Actions;
 
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Modules\Item\Data\DownloadItemsData;
 use Modules\Item\Models\Item;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use ZipArchive;
-use Illuminate\Support\Facades\Log;
-use Modules\Folder\Models\Folder;
 
 class DownloadItemsAction
 {
-    /**
-     * Executes the download process.
-     *
-     * @param DownloadItemsData $data
-     * @return array
-     */
-    public function execute(DownloadItemsData $data): array
+    public function execute(DownloadItemsData $data)
     {
-        Log::info('Data: ' . json_encode($data));
-        // Fetch items based on the 'all' flag or specific IDs
-        if ($data->all) {
-            if (!$data->parent_id) {
-                throw new \InvalidArgumentException('Parent ID is required when downloading all items.');
-            }
+        $parent = $data->parent_id ? Item::find($data->parent_id) : null;
 
-            $items = Item::where('parent_id', $data->parent_id)->with(['document', 'folder'])->get();
-        } else {
-            if (empty($data->ids)) {
-                throw new \InvalidArgumentException('No item IDs provided for download.');
-            }
+        $all = $data->all;
+        $ids = $data->ids;
 
-            $items = Item::whereIn('id', $data->ids)->with(['document', 'folder'])->get();
-        }
-
-        if ($items->isEmpty()) {
-            throw new \Exception('No valid items found for download.');
-        }
-
-        // Collect all file paths
-        $files = $this->collectFiles($items);
-
-        if (empty($files)) {
-            throw new \Exception('No files found to download.');
-        }
-
-        // If there's only one file, return its direct URL
-        if (count($files) === 1) {
-            $file = $files[0];
-            $fileUrl = Storage::disk('public')->url($file['path']);
+        if (!$all && empty($ids)) {
             return [
-                'url' => $fileUrl,
-                'filename' => $file['name'],
+                'message' => 'Please select items to download'
             ];
         }
 
-        // Create a unique ZIP file name
-        $zipFileName = 'downloads/' . Str::uuid() . '.zip';
-
-        // Ensure the downloads directory exists
-        Storage::disk('public')->makeDirectory('downloads');
-
-        // Initialize ZipArchive
-        $zip = new ZipArchive;
-        $zipPath = storage_path('app/public/' . $zipFileName);
-
-        if ($zip->open($zipPath, ZipArchive::CREATE) === TRUE) {
-            foreach ($files as $file) {
-                $filePath = storage_path('app/public/' . $file['path']);
-                if (file_exists($filePath)) {
-                    // Add file to the ZIP archive with its original name
-                    $zip->addFile($filePath, $file['name']);
-                } else {
-                    Log::warning("File not found: {$filePath}");
-                }
+        if ($all) {
+            if (!$parent) {
+                return [
+                    'message' => 'Parent item not found.'
+                ];
             }
-            $zip->close();
+
+            $url = $this->createZip($parent->getChildren()->load('folder', 'document'));
+            $filename = $parent->folder->name ?? $parent->workspace->name . '.zip';
         } else {
-            throw new \Exception('Failed to create ZIP archive.');
+            [$url, $filename, $message] = $this->getDownloadUrl($ids, $parent ? $parent->folder->name ?? $parent->workspace->name : 'download');
+
+            if ($message) {
+                return [
+                    'message' => $message
+                ];
+            }
         }
 
-        // Generate a publicly accessible URL for the ZIP file
-        $zipUrl = Storage::disk('public')->url($zipFileName);
-
         return [
-            'url' => $zipUrl,
-            'filename' => 'download.zip',
+            'url' => $url,
+            'filename' => $filename
         ];
     }
 
-    /**
-     * Recursively collects all file paths from the selected items.
-     *
-     * @param \Illuminate\Support\Collection $items
-     * @return array
-     */
-    private function collectFiles($items): array
+    public function createZip($items): string
     {
-        $files = [];
+        $zipPath = 'zip/' . Str::random() . '.zip';
+        $publicPath = "public/$zipPath";
+
+        if (!Storage::exists('zip')) {
+            Storage::makeDirectory('zip');
+        }
+
+        $zipFile = Storage::path($publicPath);
+
+        $zip = new ZipArchive();
+
+        Log::info('createZip: ' . $items);
+
+        if ($zip->open($zipFile, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
+            $this->addItemsToZip($zip, $items);
+            $zip->close();
+        } else {
+            Log::error("Failed to create zip file at $zipFile");
+            return '';
+        }
+
+        return Storage::url($zipPath);
+    }
+
+    private function addItemsToZip($zip, $items, $ancestors = '')
+    {
+        Log::info("What are we adding to the zip?: " . json_encode($items));
+        Log::info('Item Folder: ' . $items);
 
         foreach ($items as $item) {
-            if ($item->document) {
-                $files[] = [
-                    'path' => $item->document->file_path,
-                    'name' => $item->document->name,
-                ];
+            if ($item->folder) {
+                $this->addItemsToZip($zip, $item->getChildren()->load('folder', 'document'), $ancestors . $item->folder->name . '/');
+            } else {
+                $document = $item->document;
+                $localPath = Storage::disk('public')->path($document->file_path);
+
+                Log::info('Document where na u?: ' . $document);
+
+                if ($document->uploaded_on_cloud) {
+                    // Assuming the file is accessible via the public disk
+                    $dest = pathinfo($document->file_path, PATHINFO_BASENAME);
+                    $content = Storage::get($document->file_path);
+                    Storage::disk('public')->put($dest, $content);
+                    $localPath = Storage::disk('public')->path($dest);
+                }
+
+                if (file_exists($localPath)) {
+                    $zip->addFile($localPath, $ancestors . $document->name);
+                } else {
+                    Log::warning("File not found: $localPath");
+                }
+            }
+        }
+    }
+
+    private function getDownloadUrl(array $ids, $zipName)
+    {
+        if (count($ids) === 1) {
+            $item = Item::find($ids[0]);
+            if (!$item) {
+                return [null, null, 'Item not found.'];
             }
 
             if ($item->folder) {
-                Log::info('An empty folder?: ' . $item->folder);
-                $folderFiles = $this->getAllFilesInFolder($item->folder);
-                $files = array_merge($files, $folderFiles);
+                Log::info('Count of empty folder?: ' . $item->getChildren()->load('folder', 'document')->count());
+                if ($item->getChildren()->load('folder', 'document')->count() === 0) {
+                    return [null, null, 'The folder is empty'];
+                }
+                $url = $this->createZip($item->getChildren()->load('folder', 'document'));
+                $filename = $item->folder->name . '.zip';
+            } elseif ($item->document) {
+                $document = $item->document;
+                Log::info('Are you there solo document download path?: ' . json_encode($document->file_path));
+                $dest = pathinfo($document->file_path, PATHINFO_BASENAME);
+
+                try {
+                    if ($document->uploaded_on_cloud) {
+                        $content = Storage::get($document->file_path);
+                    } else {
+                        $content = Storage::disk('local')->get($document->file_path);
+                        Log::info('File content where na u?: ' . $content);
+                    }
+
+                    if ($content === null) {
+                        throw new \Exception('File content is null.');
+                    }
+                } catch (\Exception $e) {
+                    Log::error("Error fetching file content: " . $e->getMessage());
+                    return [null, null, 'Error fetching file content.'];
+                }
+
+                Log::debug("Getting file content. File: " . $document->file_path . ". Content length: " . strlen($content));
+
+                $success = Storage::disk('public')->put($dest, $content);
+                Log::debug('Inserted in public disk. "' . $dest . '". Success: ' . intval($success));
+
+                if (!$success) {
+                    return [null, null, 'Failed to store the file for download.'];
+                }
+
+                $url = Storage::url($dest);
+                Log::debug("Logging URL " . $url);
+                $filename = $document->name;
+            } else {
+                return [null, null, 'Selected item is neither a folder nor a document.'];
             }
+        } else {
+            $items = Item::whereIn('id', $ids)->get();
+            $url = $this->createZip($items);
+            $filename = $zipName . '.zip';
         }
 
-
-        return $files;
-    }
-
-    /**
-     * Recursively retrieves all files within a folder and its subfolders.
-     *
-     * @param \Modules\Folder\Models\Folder $folder
-     * @return array
-     */
-    private function getAllFilesInFolder(Folder $folder): array
-    {
-        $files = [];
-
-        // Get documents in the current folder
-        $itemDocuments = $folder->item->getChildren()->load('document');
-        Log::info('Are there documents?: ' . json_encode($itemDocuments));
-        foreach ($itemDocuments as $item) {
-            if ($item->document) {
-                $files[] = [
-                    'path' => $item->document->file_path,
-                    'name' => $item->document->name,
-                ];
-            }
-        }
-
-        // Get subfolders and recursively get their files
-        $subfolders = $folder->item->getChildren()->load('folder');
-        Log::info($subfolders);
-        foreach ($subfolders as $subfolder) {
-            if ($subfolder->folder) {
-                $files = array_merge($files, $this->getAllFilesInFolder($subfolder->folder));
-            }
-        }
-
-
-        return $files;
+        return [$url, $filename, null];
     }
 }
