@@ -13,6 +13,7 @@ import {
     IconPlus,
 } from "@tabler/icons-react";
 import React, { FormEventHandler } from "react";
+import useModalStore from "../../Hooks/use-modal-store";
 
 interface IFormProps {
     isOpened: boolean;
@@ -104,6 +105,8 @@ const NewFilesButton: React.FC<IButtonProps> = ({ uploadFileRef, itemParent }) =
     const [createFolderOpened, { open: openCreateFolder, close: closeCreateFolder }] =
         useDisclosure(false);
 
+    const { openModal } = useModalStore();
+
     return (
         <>
             <Menu
@@ -135,7 +138,7 @@ const NewFilesButton: React.FC<IButtonProps> = ({ uploadFileRef, itemParent }) =
                                 }}
                             />
                         }
-                        onClick={openCreateFolder}
+                        onClick={() => openModal("folder")}
                     >
                         New Folder
                     </Menu.Item>
@@ -168,8 +171,6 @@ const NewFilesButton: React.FC<IButtonProps> = ({ uploadFileRef, itemParent }) =
             </Menu>
 
             <CreateFolderForm
-                isOpened={createFolderOpened}
-                close={closeCreateFolder}
                 itemParent={itemParent}
             />
         </>

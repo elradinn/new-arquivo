@@ -22,6 +22,7 @@ import axios from "axios";
 import { DataTable } from "mantine-datatable";
 import { FormEventHandler, useEffect, useState } from "react";
 import ItemIcon from "@/Modules/Item/Components/ItemIcon";
+import useModalStore from "../../Hooks/use-modal-store";
 
 interface IFormProps {
     isOpened: boolean;
@@ -274,18 +275,20 @@ const ApprovalButton: React.FC<ApprovalButtonProps> = ({ approvalActive }) => {
     const [createApprovalOpened, { open: openCreateApproval, close: closeCreateApproval }] =
         useDisclosure(false);
 
+    const { openModal, modals, closeModal } = useModalStore();
+
     return (
         <>
             <Button
                 variant={approvalActive ? "light" : "subtle"}
                 color={approvalActive ? "green.8" : "dark.3"}
                 leftSection={<IconGitBranch size={18} />}
-                onClick={openCreateApproval}
+                onClick={() => openModal("approval")}
             >
                 Approval
             </Button>
 
-            <ApprovalForm isOpened={createApprovalOpened} close={closeCreateApproval} />
+            <ApprovalForm isOpened={modals["approval"]} close={() => closeModal("approval")} />
         </>
     );
 };

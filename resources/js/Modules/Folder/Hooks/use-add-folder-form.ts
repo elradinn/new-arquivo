@@ -2,6 +2,7 @@ import { useForm } from "@inertiajs/react";
 import { CreateFolderFormData } from "../Types/CreateFolderFormData";
 import { notifications } from "@mantine/notifications";
 import { ItemParentResourceData } from "@/Modules/Item/Types/ItemParentResourceData";
+import useModalStore from "@/Modules/Common/Hooks/use-modal-store";
 
 interface IProps {
     itemParent?: ItemParentResourceData;
@@ -13,6 +14,7 @@ export function useAddFolder({ itemParent, close }: IProps) {
         parent_id: "",
         name: "",
     });
+    const { closeModal } = useModalStore();
 
     const submit = (e: React.FormEvent) => {
         data.parent_id = itemParent?.item_id || "";
@@ -41,7 +43,7 @@ export function useAddFolder({ itemParent, close }: IProps) {
                 });
             },
             onFinish: () => {
-                close();
+                closeModal("folder");
                 reset();
                 clearErrors();
             },

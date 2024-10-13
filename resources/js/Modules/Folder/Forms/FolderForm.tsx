@@ -1,19 +1,19 @@
 import { Button, Flex, Modal, Stack, Text, TextInput } from "@mantine/core";
 import { useAddFolder } from "../Hooks/use-add-folder-form";
 import { ItemParentResourceData } from "@/Modules/Item/Types/ItemParentResourceData";
+import useModalStore from "@/Modules/Common/Hooks/use-modal-store";
 
 interface IProps {
-    isOpened: boolean;
-    close: () => void;
     itemParent?: ItemParentResourceData;
 }
 
-const CreateFolderForm: React.FC<IProps> = ({ isOpened, close, itemParent }) => {
+const CreateFolderForm: React.FC<IProps> = ({ itemParent }) => {
     const { data, setData, submit, processing, errors } = useAddFolder({ itemParent, close });
+    const { modals, closeModal } = useModalStore();
     return (
         <Modal
-            opened={isOpened}
-            onClose={close}
+            opened={modals["folder"]}
+            onClose={() => closeModal("folder")}
             title={
                 <Text fw="bold" size="lg">
                     Create Folder
@@ -35,7 +35,7 @@ const CreateFolderForm: React.FC<IProps> = ({ isOpened, close, itemParent }) => 
                 </Stack>
 
                 <Flex align="center" justify="end" mt={16}>
-                    <Button variant="outline" onClick={close}>
+                    <Button variant="outline" onClick={() => closeModal("folder")}>
                         Cancel
                     </Button>
 
