@@ -21,7 +21,7 @@ interface IProps {
     uploadFileRef?: React.RefObject<() => void>;
     fileSelected?: boolean;
     selectedIds?: string[];
-    folderId?: number;
+    parentId?: string;
     approvalActive?: boolean;
     trackingActive?: boolean;
     itemParent?: ItemParentResourceData;
@@ -32,7 +32,7 @@ const Toolbar: React.FC<IProps> = ({
     uploadFileRef,
     fileSelected,
     selectedIds,
-    folderId,
+    parentId,
     approvalActive,
     trackingActive,
     itemParent,
@@ -51,7 +51,7 @@ const Toolbar: React.FC<IProps> = ({
                         <div>
                             <NewFilesButton uploadFileRef={uploadFileRef} itemParent={itemParent} />
 
-                            <PropertiesButton folderId={folderId} />
+                            <PropertiesButton parentId={parentId} />
 
                             <ApprovalButton approvalActive={approvalActive} />
 
@@ -78,7 +78,7 @@ const Toolbar: React.FC<IProps> = ({
 
                     <DeleteFilesButton all={false} ids={selectedIds} />
 
-                    <DownloadFilesButton all={false} ids={selectedIds} />
+                    <DownloadFilesButton all={false} ids={selectedIds} parentId={parentId} />
                 </>
             ) : (
                 <>

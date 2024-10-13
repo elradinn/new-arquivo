@@ -3,15 +3,15 @@ import { Button } from "@mantine/core";
 import { httpGet } from "@/Modules/Item/Helpers/http-helper";
 import { usePage } from "@inertiajs/react";
 import { IconDownload } from "@tabler/icons-react";
-import { PageProps } from "@/types";
 
 interface IProps {
     all?: boolean;
     ids?: string[];
+    parentId?: string;
 }
 
-const DownloadFilesButton: React.FC<IProps> = ({ all, ids }) => {
-    const parent_id = usePage<PageProps>().props.folder?.id;
+const DownloadFilesButton: React.FC<IProps> = ({ all, ids, parentId }) => {
+    console.log({ all, ids, parentId });
 
     const download = () => {
         if (!all && ids?.length === 0) {
@@ -19,8 +19,8 @@ const DownloadFilesButton: React.FC<IProps> = ({ all, ids }) => {
         }
 
         const p = new URLSearchParams();
-        if (parent_id) {
-            p.append("parent_id", String(parent_id));
+        if (parentId) {
+            p.append("parent_id", String(parentId));
         }
 
         if (all) {
@@ -29,7 +29,7 @@ const DownloadFilesButton: React.FC<IProps> = ({ all, ids }) => {
             ids?.forEach((id) => p.append("ids[]", id));
         }
 
-        const url = route("file.download");
+        const url = route("item.download");
 
         httpGet(`${url}?${p.toString()}`).then((res) => {
             if (!res.url) {

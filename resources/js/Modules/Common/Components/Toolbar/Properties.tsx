@@ -4,16 +4,16 @@ import { IconAdjustments } from "@tabler/icons-react";
 import React from "react";
 
 interface IProps {
-    folderId?: number;
+    parentId?: string;
 }
 
-const PropertiesButton: React.FC<IProps> = ({ folderId }) => {
+const PropertiesButton: React.FC<IProps> = ({ parentId }) => {
     return (
         <>
             <Button
                 variant="subtle"
                 component={Link}
-                href={`/folder/edit/${folderId}`}
+                href={`/folder/edit/${parentId}`}
                 color="dark.3"
                 leftSection={<IconAdjustments size={18} />}
             >

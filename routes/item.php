@@ -5,9 +5,11 @@ use Modules\Item\Controllers\ItemController;
 
 Route::middleware('auth')->group(function () {
 
-    // Testing only. Temporary route to get all items
-    Route::prefix('items')->group(function () {
+    Route::prefix('item')->group(function () {
 
+        // Testing only. Temporary route to get all items
         Route::get('/', [ItemController::class, 'index']);
+
+        Route::get('/download', [ItemController::class, 'download'])->name('item.download');
     });
 });
