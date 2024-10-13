@@ -62,8 +62,6 @@ class DownloadItemsAction
 
         $zip = new ZipArchive();
 
-        Log::info('createZip: ' . $items);
-
         if ($zip->open($zipFile, ZipArchive::CREATE | ZipArchive::OVERWRITE) === true) {
             $this->addItemsToZip($zip, $items);
             $zip->close();
@@ -77,17 +75,12 @@ class DownloadItemsAction
 
     private function addItemsToZip($zip, $items, $ancestors = '')
     {
-        Log::info("What are we adding to the zip?: " . json_encode($items));
-        Log::info('Item Folder: ' . $items);
-
         foreach ($items as $item) {
             if ($item->folder) {
                 $this->addItemsToZip($zip, $item->getChildren()->load('folder', 'document'), $ancestors . $item->folder->name . '/');
             } else {
                 $document = $item->document;
                 $publicPath = Storage::disk('public')->path($document->file_path);
-
-                Log::info('Document where na u?: ' . $document);
 
                 if ($document->uploaded_on_cloud) {
                     // Assuming the file is accessible via the public disk
@@ -115,7 +108,6 @@ class DownloadItemsAction
             }
 
             if ($item->folder) {
-                Log::info('Count of empty folder?: ' . $item->getChildren()->load('folder', 'document')->count());
                 if ($item->getChildren()->load('folder', 'document')->count() === 0) {
                     return [null, null, 'The folder is empty'];
                 }
@@ -123,7 +115,6 @@ class DownloadItemsAction
                 $filename = $item->folder->name . '.zip';
             } elseif ($item->document) {
                 $document = $item->document;
-                Log::info('Are you there solo document download path?: ' . json_encode($document->file_path));
                 $dest = pathinfo($document->file_path, PATHINFO_BASENAME);
 
                 try {
@@ -131,7 +122,6 @@ class DownloadItemsAction
                         $content = Storage::get($document->file_path);
                     } else {
                         $content = Storage::disk('public')->get($document->file_path);
-                        Log::info('File content where na u?: ' . $content);
                     }
 
                     if ($content === null) {
