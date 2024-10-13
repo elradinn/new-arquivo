@@ -11,8 +11,6 @@ interface IProps {
 }
 
 const DownloadFilesButton: React.FC<IProps> = ({ all, ids, parentId }) => {
-    console.log({ all, ids, parentId });
-
     const download = () => {
         if (!all && ids?.length === 0) {
             return;

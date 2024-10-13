@@ -32,8 +32,6 @@ export default function DocumentEditPage({ document, itemAncestors }: IProps) {
         // Implement your close logic here
     };
 
-    console.log(document);
-
     return (
         <Authenticated toolbar={<Toolbar page="folder" />}>
             <Head title="Document Properties" />
