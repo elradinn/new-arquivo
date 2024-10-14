@@ -1,9 +1,10 @@
 import ApproveIcon from "./ApproveIcon";
-import { Avatar, Button, Card, Flex, Group, Stack, Text, Textarea } from "@mantine/core";
+import { Avatar, Badge, Button, Card, Flex, Group, Stack, Text, Textarea } from "@mantine/core";
 import { Head, useForm } from "@inertiajs/react";
 import { IconDownload, IconFileTypePdf, IconFolder } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
 import { DocumentApprovalResourceData } from "@/Modules/DocumentApproval/Types/DocumentApprovalResourceData";
+import StateBadge from "@/Modules/Common/Components/StateBadge/StateBadge";
 
 const ApproveDocumentPage: React.FC<{ documentApproval: DocumentApprovalResourceData }> = ({ documentApproval }) => {
     // const { data, post, processing } = useForm({
@@ -38,23 +39,24 @@ const ApproveDocumentPage: React.FC<{ documentApproval: DocumentApprovalResource
     return (
         <>
             <Head title="Approve Document" />
-            <Flex mih={100} justify="center" mb={48}>
-                <div>
+            <Flex mih={100} justify="center" mb={48} style={{ padding: '1rem' }}>
+                <div style={{ maxWidth: '600px', width: '100%' }}>
                     <Stack gap={16} align="center" mb={16}>
                         <ApproveIcon />
-
-                        <Text fw={500} size="xl">
-                            {documentApproval.type} Document
+                        <Text fw={500} size="xl" ta="center">
+                            This document needs your {documentApproval.type} decision
                         </Text>
                     </Stack>
 
                     <Stack gap={24}>
-                        <Group>
-                            <IconFolder color="none" fill="gray" />
-                            <Text fw={500} size="lg" c="gray">
-                                {documentApproval.destination || "No Destination"}
-                            </Text>
-                        </Group>
+                        {documentApproval.destination && (
+                            <Group>
+                                <IconFolder color="none" fill="gray" />
+                                <Text fw={500} size="lg" c="gray">
+                                    {documentApproval.destination || "No Destination"}
+                                </Text>
+                            </Group>
+                        )}
 
                         <Card shadow="xs" radius="sm" withBorder py={24} px={20}>
                             <Group gap={24} justify="space-between">
@@ -65,7 +67,7 @@ const ApproveDocumentPage: React.FC<{ documentApproval: DocumentApprovalResource
                                             {documentApproval.document_name}
                                         </Text>
                                         <Text size="md" c="dimmed">
-                                            {documentApproval.created_at} - {documentApproval.overall_state}
+                                            {documentApproval.created_at} - <StateBadge state={documentApproval.overall_state} />
                                         </Text>
                                     </div>
                                 </Group>
@@ -84,9 +86,8 @@ const ApproveDocumentPage: React.FC<{ documentApproval: DocumentApprovalResource
                                     <Text size="md" fw={500}>
                                         {userApproval.user_name}
                                     </Text>
-                                    <Text size="sm" c="dimmed">
-                                        State: {userApproval.user_state}
-                                    </Text>
+
+                                    <StateBadge state={userApproval.user_state} />
                                 </div>
                             </Group>
                         ))}
@@ -97,23 +98,15 @@ const ApproveDocumentPage: React.FC<{ documentApproval: DocumentApprovalResource
                             autosize
                             minRows={4}
                             maxRows={6}
+                            style={{ width: '100%' }}
                         />
 
                         <Flex align="center" justify="end">
-                            <Button
-                                color="red"
-                            // onClick={() => handleDocumentAction("rejected")}
-                            // loading={processing}
-                            >
+                            <Button color="red">
                                 Reject
                             </Button>
 
-                            <Button
-                                ml={12}
-                                color="green"
-                            // onClick={() => handleDocumentAction("approved")}
-                            // loading={processing}
-                            >
+                            <Button ml={12} color="green">
                                 Approve
                             </Button>
                         </Flex>
