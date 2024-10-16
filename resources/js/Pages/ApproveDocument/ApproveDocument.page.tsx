@@ -7,35 +7,28 @@ import { DocumentApprovalResourceData } from "@/Modules/DocumentApproval/Types/D
 import StateBadge from "@/Modules/Common/Components/StateBadge/StateBadge";
 
 const ApproveDocumentPage: React.FC<{ documentApproval: DocumentApprovalResourceData }> = ({ documentApproval }) => {
-    // const { data, post, processing } = useForm({
-    //     file_id: "",
-    //     destination_id: "",
-    //     notification_id: "",
-    //     action: "",
-    // });
+    const { data, post, processing } = useForm({
+        comment: "",
+    });
 
-    // const handleDocumentAction = (action: "approved" | "rejected") => {
-    //     data.notification_id = notification.id;
-    //     data.file_id = notification.data.file_id;
-    //     data.destination_id = notification.data.move_to;
-    //     data.action = action;
+    const handleDocumentAction = (action: "accept" | "reject") => {
+        post(route(`document_user_approval.${action}`, { userApproval: documentApproval.current_user_approval_id }), {
+            data: { comment: data.comment },
+            onSuccess: () => {
+                notifications.show({
+                    message: `Document ${action}ed successfully`,
+                    color: action === "accept" ? "green" : "red",
+                });
+            },
+            onError: () => {
+                notifications.show({
+                    message: "Something went wrong",
+                    color: "red",
+                });
+            },
+        });
+    };
 
-    //     post(route("approval.result"), {
-    //         data: { ...data, action },
-    //         onSuccess: () => {
-    //             notifications.show({
-    //                 message: `Document ${action} successfully`,
-    //                 color: action === "approved" ? "green" : "red",
-    //             });
-    //         },
-    //         onError: () => {
-    //             notifications.show({
-    //                 message: "Something went wrong",
-    //                 color: "red",
-    //             });
-    //         },
-    //     });
-    // }
     return (
         <>
             <Head title="Approve Document" />
@@ -80,36 +73,46 @@ const ApproveDocumentPage: React.FC<{ documentApproval: DocumentApprovalResource
                         </Text>
 
                         {documentApproval.document_user_approvals.map(userApproval => (
-                            <Group key={userApproval.id}>
+                            <Group key={userApproval.user_id}>
                                 <Avatar />
                                 <div>
                                     <Text size="md" fw={500}>
                                         {userApproval.user_name}
                                     </Text>
-
                                     <StateBadge state={userApproval.user_state} />
+                                    {userApproval.user_state !== 'Pending' && (
+                                        <Text size="sm" c="dimmed">
+                                            Decision made on: {userApproval.updated_at}
+                                        </Text>
+                                    )}
                                 </div>
                             </Group>
                         ))}
 
-                        <Textarea
-                            label="Comment"
-                            placeholder="Add your comment on this document"
-                            autosize
-                            minRows={4}
-                            maxRows={6}
-                            style={{ width: '100%' }}
-                        />
+                        {!documentApproval.is_done && (
+                            <Stack>
+                                <Textarea
+                                    label="Comment"
+                                    placeholder="Add your comment on this document"
+                                    autosize
+                                    minRows={4}
+                                    maxRows={6}
+                                    style={{ width: '100%' }}
+                                    value={data.comment}
+                                    onChange={(e) => data.comment = e.target.value}
+                                />
 
-                        <Flex align="center" justify="end">
-                            <Button color="red">
-                                Reject
-                            </Button>
+                                <Flex align="center" justify="end">
+                                    <Button color="red" onClick={() => handleDocumentAction("reject")} disabled={processing}>
+                                        Reject
+                                    </Button>
 
-                            <Button ml={12} color="green">
-                                Approve
-                            </Button>
-                        </Flex>
+                                    <Button ml={12} color="green" onClick={() => handleDocumentAction("accept")} disabled={processing}>
+                                        Approve
+                                    </Button>
+                                </Flex>
+                            </Stack>
+                        )}
                     </Stack>
                 </div>
             </Flex>

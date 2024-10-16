@@ -1,5 +1,4 @@
 export type DocumentUserApproval = {
-    id: string;
     user_id: string;
     user_name: string;
     user_state: string;
@@ -19,4 +18,6 @@ export type DocumentApprovalResourceData = {
     document_name: string;
     created_at: string;
     updated_at: string;
+    is_done: boolean;
+    current_user_approval_id?: string;
 };
