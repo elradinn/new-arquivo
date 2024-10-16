@@ -37,6 +37,10 @@ class CreateDocumentApprovalAction
 
         $documentApproval->documentApprovalUsers()->saveMany($documentApprovalUsers);
 
+        $documentApproval->document->update([
+            'status' => $approvalType === 'reviewal' ? DocumentReviewalPending::class : DocumentApprovalPending::class,
+        ]);
+
         $this->sendDocumentApprovalNotificationAction->execute($documentApproval);
 
         return $documentApproval;

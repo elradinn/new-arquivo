@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\DocumentUserApproval\Controllers\DocumentUserApprovalController;
+use Modules\DocumentApprovalHasUser\Controllers\DocumentUserApprovalController;
 
 Route::middleware('auth')->group(function () {
 

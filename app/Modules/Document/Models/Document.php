@@ -12,10 +12,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Modules\DocumentApproval\States\DocumentState;
+use Spatie\ModelStates\HasStates;
 
 class Document extends Model
 {
-    use HasUuids;
+    use HasUuids, HasStates;
 
     protected $primaryKey = 'item_id'; // Use item_id as the primary key
     public $incrementing = false; // Since item_id is not auto-incrementing integer
@@ -30,6 +32,10 @@ class Document extends Model
         'mime',
         'size',
         'file_path',
+    ];
+
+    protected $casts = [
+        'status' => DocumentState::class,
     ];
 
     /**

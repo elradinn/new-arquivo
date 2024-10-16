@@ -30,7 +30,7 @@ class ItemContentsResourceData extends Resource
             size: $item->document->size ?? null,
             type: $item->document ? 'document' : 'folder',
             document_number: $item->document->document_number ?? null,
-            status: $item->document->status ?? null,
+            status: $item->document && $item->document->status ? $item->document->status->label() : null,
             description: $item->document->description ?? null,
             file_path: $item->document->file_path ?? null
         );
