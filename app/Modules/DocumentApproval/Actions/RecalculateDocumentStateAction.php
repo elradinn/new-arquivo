@@ -43,5 +43,9 @@ class RecalculateDocumentStateAction
                 $documentApproval->overall_state->transitionTo(DocumentApprovalAccepted::class);
             }
         }
+
+        $documentApproval->document->update([
+            'status' => $documentApproval->overall_state->label(),
+        ]);
     }
 }

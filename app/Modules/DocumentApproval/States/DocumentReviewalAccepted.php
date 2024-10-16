@@ -6,6 +6,6 @@ class DocumentReviewalAccepted extends DocumentState
 {
     public function label(): string
     {
-        return 'Accepted';
+        return 'Reviewal Accepted';
     }
 }

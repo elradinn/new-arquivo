@@ -6,6 +6,6 @@ class DocumentApprovalRejected extends DocumentState
 {
     public function label(): string
     {
-        return 'Rejected';
+        return 'Approval Rejected';
     }
 }

@@ -6,6 +6,6 @@ class DocumentApprovalAccepted extends DocumentState
 {
     public function label(): string
     {
-        return 'Accepted';
+        return 'Approval Accepted';
     }
 }

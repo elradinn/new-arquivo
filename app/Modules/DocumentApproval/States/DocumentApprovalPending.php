@@ -6,6 +6,6 @@ class DocumentApprovalPending extends DocumentState
 {
     public function label(): string
     {
-        return 'Pending';
+        return 'Approval Pending';
     }
 }
