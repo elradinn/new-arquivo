@@ -1,30 +1,12 @@
 import { Badge } from "@mantine/core";
+import { getColorStatus } from "@/Modules/Common/Helpers/get-color-status";
 
 interface StateBadgeProps {
-    state: string;
+    state: string | undefined;
 }
 
 const StateBadge: React.FC<StateBadgeProps> = ({ state }) => {
-    const getColor = (state: string) => {
-        switch (state) {
-            case "Reviewal Pending":
-                return "yellow";
-            case "Reviewal Accepted":
-                return "green";
-            case "Reviewal Rejected":
-                return "red";
-            case "Approval Pending":
-                return "blue";
-            case "Approval Accepted":
-                return "teal";
-            case "Approval Rejected":
-                return "orange";
-            default:
-                return "gray";
-        }
-    };
-
-    return <Badge color={getColor(state)} variant="light">{state}</Badge>;
+    return <Badge color={getColorStatus(state)} variant="light">{state}</Badge>;
 };
 
 export default StateBadge;
