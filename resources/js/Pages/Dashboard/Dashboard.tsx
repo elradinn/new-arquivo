@@ -17,15 +17,6 @@ const mockFiles = [
         is_folder: 0,
     },
     {
-        id: 2,
-        name: "Design Mockups",
-        owner: "Bob",
-        updated_at: "2024-08-03T09:18:00Z",
-        size: "1.2 MB",
-        mime: "image/png",
-        is_folder: 1,
-    },
-    {
         id: 3,
         name: "Meeting Notes.txt",
         owner: "Carol",
@@ -44,15 +35,6 @@ const mockFiles = [
         is_folder: 0,
     },
     {
-        id: 5,
-        name: "Marketing",
-        owner: "Eve",
-        updated_at: "2024-05-30T16:00:00Z",
-        size: "-",
-        mime: "application/vnd.google-apps.folder",
-        is_folder: 1,
-    },
-    {
         id: 6,
         name: "Research Paper.docx",
         owner: "Frank",
@@ -60,15 +42,6 @@ const mockFiles = [
         size: "40 KB",
         mime: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         is_folder: 0,
-    },
-    {
-        id: 7,
-        name: "Holiday Photos",
-        owner: "Grace",
-        updated_at: "2024-08-01T15:25:00Z",
-        size: "3.4 MB",
-        mime: "image/jpeg",
-        is_folder: 1,
     },
 ];
 

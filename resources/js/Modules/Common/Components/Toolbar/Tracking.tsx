@@ -132,7 +132,7 @@ const TrackingButton: React.FC<TrackingButtonProps> = ({ trackingActive, folderI
                 leftSection={<IconListTree size={18} />}
                 onClick={openCreateApproval}
             >
-                Tracking
+                Numbering
             </Button>
 
             <ApprovalForm isOpened={createApprovalOpened} close={closeCreateApproval} folderItemId={folderItemId} />

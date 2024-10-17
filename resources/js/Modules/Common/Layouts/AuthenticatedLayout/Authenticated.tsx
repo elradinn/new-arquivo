@@ -36,7 +36,9 @@ interface IProps {
 export function Authenticated({ children, toolbar }: IProps) {
     const [opened, { toggle }] = useDisclosure();
 
-    const user = usePage<PageProps>().props.auth.user;
+    const { props } = usePage<PageProps>();
+    const user = props.auth.user;
+    const isAdmin = props.auth.isAdmin;
 
     return (
         <AppShell
@@ -62,15 +64,17 @@ export function Authenticated({ children, toolbar }: IProps) {
                     />
 
                     <Group align="center" gap={8}>
-                        <Button
-                            component={Link}
-                            href={route('admin.tools')}
-                            leftSection={<IconLayoutGrid stroke={1.5} />}
-                            radius="md"
-                            variant="light"
-                        >
-                            Admin Tools
-                        </Button>
+                        {isAdmin && (
+                            <Button
+                                component={Link}
+                                href={route('admin.tools')}
+                                leftSection={<IconLayoutGrid stroke={1.5} />}
+                                radius="md"
+                                variant="light"
+                            >
+                                Admin Tools
+                            </Button>
+                        )}
                         <Menu
                             width={200}
                             transitionProps={{
