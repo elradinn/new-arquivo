@@ -22,10 +22,14 @@ import { DataTable } from "mantine-datatable";
 import { FormEventHandler, useEffect, useState } from "react";
 import ItemIcon from "@/Modules/Item/Components/ItemIcon";
 import useModalStore from "../../Hooks/use-modal-store";
+import { UserResourceData } from "@/Modules/User/Types/UserResourceData";
+import { ItemParentResourceData } from "@/Modules/Item/Types/ItemParentResourceData";
+import { CreateWorkflowData } from "@/Modules/Workflow/Types/CreateWorkflowData";
 
 interface IFormProps {
     isOpened: boolean;
     close: () => void;
+    itemParent?: ItemParentResourceData;
 }
 
 
@@ -122,27 +126,44 @@ const MoveFileModal: React.FC<ModalProps> = ({ isOpened, close, onFolderSelect }
     );
 };
 
-const ApprovalForm: React.FC<IFormProps> = ({ isOpened, close }) => {
+const ApprovalForm: React.FC<IFormProps> = ({ isOpened, close, itemParent }) => {
     const [checked, setChecked] = useState(false);
     const [selectedFolderName, setSelectedFolderName] = useState<string | null>(null);
-
+    const [users, setUsers] = useState<UserResourceData[]>([]);
     const [moveFilesOpened, { open: openmoveFiles, close: closemoveFiles }] = useDisclosure(false);
+    const [workflowType, setWorkflowType] = useState("reviewal");
 
-    const { data, setData, post, processing, errors, reset } = useForm({
-        // Approval Process
-        file_id: "",
+    const { data, setData, post, processing, errors, reset } = useForm<CreateWorkflowData>({
+        folder_item_id: "",
         resolution: "",
-        move_to: "",
-
-        // Update the Folder
-        // has_active_workflow: "0",
+        destination: "",
+        type: "reviewal", // initial value
+        users: []
     });
 
+    useEffect(() => {
+        if (workflowType) {
+            fetchUsers(workflowType);
+        }
+    }, [workflowType]);
+
+    const fetchUsers = async (type: string) => {
+        try {
+            const response = await axios.get(`/workflows/api/users-by-workflow-type?type=${type}`);
+            setUsers(response.data);
+        } catch (error) {
+            console.error("Error fetching users", error);
+        }
+    };
 
     const createApprovalSubmit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        post(route("approval.store"), {
+        data.folder_item_id = itemParent?.item_id ?? "";
+
+        data.users = users.map(user => ({ user_id: user.id }));
+
+        post(route("workflows.store"), {
             preserveScroll: true,
             onSuccess: () => {
                 close();
@@ -163,7 +184,6 @@ const ApprovalForm: React.FC<IFormProps> = ({ isOpened, close }) => {
 
     const handleFolderSelect = (folderName: string, folderId: string) => {
         setSelectedFolderName(folderName);
-        data.move_to = folderId;
     };
 
     return (
@@ -183,21 +203,25 @@ const ApprovalForm: React.FC<IFormProps> = ({ isOpened, close }) => {
                         Routinely directs any uploaded file in this folder through a predefined
                         approval workflow
                     </Text>
+
                     <Radio.Group
                         name="status"
-                    // value={data.has_active_workflow}
-                    // onChange={(value) => setData("has_active_workflow", value)}
+                        value={data.type}
+                        onChange={(value) => {
+                            setData("type", value);
+                            setWorkflowType(value);
+                        }}
                     >
                         <Group mt="xs">
-                            <Radio value="1" label="Active" />
-                            <Radio value="0" label="Inactive" />
+                            <Radio value="reviewal" label="Review" defaultChecked />
+                            <Radio value="approval" label="Approval" />
                         </Group>
                     </Radio.Group>
 
                     <Textarea
                         label="Resolution"
                         placeholder="Your resolution for this approval"
-                        value={data.resolution}
+                        value={data.resolution ?? ""}
                         onChange={(e) => setData("resolution", e.target.value)}
                         error={errors.resolution}
                         autosize
@@ -205,41 +229,19 @@ const ApprovalForm: React.FC<IFormProps> = ({ isOpened, close }) => {
                         maxRows={4}
                     />
 
-                    <Switch
-                        label="Move after successful workflow"
-                        checked={checked}
-                        onChange={(event) => setChecked(event.currentTarget.checked)}
-                    />
-
-                    {checked && (
-                        <>
-                            <Text size="sm">After approval, move the document to</Text>
-                            <Input
-                                component="button"
-                                pointer
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    openmoveFiles();
-                                }}
-                                error={errors.move_to}
-                            >
-                                {selectedFolderName || "Choose a folder"}
-                            </Input>
-                        </>
-                    )}
                     <Text size="sm" fw={500} mb={-8}>
-                        Current Approver
+                        User in this workflow
                     </Text>
-                    <Paper withBorder radius="md" py={16} px={10}>
-                        <Group>
-                            <Avatar />
-
-                            <Stack gap={8}>
-                                <Text size="sm">John Doe</Text>
-                                <Badge variant="light">Director</Badge>
-                            </Stack>
-                        </Group>
-                    </Paper>
+                    {users.map(user => (
+                        <Paper withBorder radius="md" py={16} px={10}>
+                            <Group key={user.id}>
+                                <Avatar />
+                                <Stack gap={8}>
+                                    <Text size="sm">{user.name}</Text>
+                                </Stack>
+                            </Group>
+                        </Paper>
+                    ))}
                 </Stack>
 
                 <Flex align="center" justify="end" mt={16}>
@@ -252,22 +254,16 @@ const ApprovalForm: React.FC<IFormProps> = ({ isOpened, close }) => {
                     </Button>
                 </Flex>
             </form>
-
-            <MoveFileModal
-                isOpened={moveFilesOpened}
-                close={closemoveFiles}
-                file_id={["1"]}
-                onFolderSelect={handleFolderSelect}
-            />
         </Modal>
     );
 };
 
 interface ApprovalButtonProps {
     approvalActive?: boolean;
+    itemParent?: ItemParentResourceData;
 }
 
-const ApprovalButton: React.FC<ApprovalButtonProps> = ({ approvalActive }) => {
+const ApprovalButton: React.FC<ApprovalButtonProps> = ({ approvalActive, itemParent }) => {
     const [createApprovalOpened, { open: openCreateApproval, close: closeCreateApproval }] =
         useDisclosure(false);
 
@@ -284,7 +280,7 @@ const ApprovalButton: React.FC<ApprovalButtonProps> = ({ approvalActive }) => {
                 Approval
             </Button>
 
-            <ApprovalForm isOpened={modals["approval"]} close={() => closeModal("approval")} />
+            <ApprovalForm isOpened={modals["approval"]} close={() => closeModal("approval")} itemParent={itemParent} />
         </>
     );
 };

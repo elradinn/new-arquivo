@@ -44,6 +44,10 @@ const UserTable: React.FC<UserTableProps> = ({
                 { accessor: "name", noWrap: true },
                 { accessor: "email", noWrap: true },
                 {
+                    accessor: "workflow_role",
+                    title: "Workflow Role",
+                },
+                {
                     accessor: "actions",
                     title: <Box mr={6}>Actions</Box>,
                     textAlign: "right",
@@ -68,6 +72,7 @@ const UserTable: React.FC<UserTableProps> = ({
                         </Group>
                     ),
                 },
+
             ]}
             records={users}
             selectedRecords={selectedRecords}

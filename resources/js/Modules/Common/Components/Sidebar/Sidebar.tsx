@@ -86,10 +86,10 @@ const Sidebar: React.FC = () => {
                     <Divider />
                     <Group justify="space-between" p="sm" mt={12}>
                         <Text size="xs" fw={500} c="dimmed">
-                            Workspaces
+                            Sections
                         </Text>
 
-                        <Tooltip label="Create workspace" withArrow position="right">
+                        <Tooltip label="New section" withArrow position="right">
                             <ActionIcon variant="default" size={18} onClick={() => openModal("workspace")}>
                                 <IconPlus
                                     style={{

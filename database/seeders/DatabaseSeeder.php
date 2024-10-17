@@ -21,19 +21,37 @@ class DatabaseSeeder extends Seeder
             RolePermissionSeeder::class,
         ]);
 
+        //TODO: workflow roles have unassigned, reviewer, approver
+
         // Create Users
         $testUser1 = User::create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => 'Admin User',
+            'email' => 'adminuser@example.com',
             'password' => '12345678',
+            'workflow_role' => 'unassigned',
         ]);
 
         $testUser1->assignRole('admin');
 
         $testUser2 = User::create([
-            'name' => 'Test Approval',
-            'email' => 'testapproval@example.com',
+            'name' => 'Reviewer User 1',
+            'email' => 'revieweruser1@example.com',
             'password' => '12345678',
+            'workflow_role' => 'reviewer',
+        ]);
+
+        $testUser3 = User::create([
+            'name' => 'Reviewer User 2',
+            'email' => 'revieweruser2@example.com',
+            'password' => '12345678',
+            'workflow_role' => 'reviewer',
+        ]);
+
+        $testUser4 = User::create([
+            'name' => 'Approval User',
+            'email' => 'approvaluser@example.com',
+            'password' => '12345678',
+            'workflow_role' => 'approver',
         ]);
 
         // Create Metadata

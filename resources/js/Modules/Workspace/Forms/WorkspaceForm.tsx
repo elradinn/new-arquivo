@@ -12,7 +12,7 @@ export default function WorkspaceForm() {
             onClose={() => closeModal("workspace")}
             title={
                 <Text fw={500} size="md">
-                    Create New Workspace
+                    Create New Section
                 </Text>
             }
             size={550}
@@ -26,7 +26,7 @@ export default function WorkspaceForm() {
                         type="text"
                         name="name"
                         value={data.name}
-                        placeholder="Workspace Name"
+                        placeholder="Section Name"
                         onChange={(e) => setData("name", e.target.value)}
                         data-autofocus
                         error={errors.name}

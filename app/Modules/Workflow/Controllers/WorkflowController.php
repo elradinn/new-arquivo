@@ -7,9 +7,12 @@ use Modules\Workflow\Data\CreateWorkflowData;
 use Modules\Workflow\Actions\CreateWorkflowAction;
 use Modules\Workflow\Models\Workflow;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Modules\Workflow\Data\UpdateWorkflowData;
 use Modules\Workflow\Actions\UpdateWorkflowAction;
 use Modules\Workflow\Actions\DeleteWorkflowAction;
+use Modules\User\Models\User;
+use Illuminate\Http\Request;
 
 class WorkflowController extends Controller
 {
@@ -25,11 +28,11 @@ class WorkflowController extends Controller
         return response()->json($workflows);
     }
 
-    public function store(CreateWorkflowData $data): JsonResponse
+    public function store(CreateWorkflowData $data): RedirectResponse
     {
         $workflow = $this->createWorkflowAction->execute($data);
 
-        return response()->json(['message' => 'Workflow created successfully', 'workflow' => $workflow], 201);
+        return redirect()->back();
     }
 
     public function update(Workflow $workflow, UpdateWorkflowData $data): JsonResponse
@@ -42,5 +45,22 @@ class WorkflowController extends Controller
     {
         $this->deleteWorkflowAction->execute($workflow);
         return response()->json(['message' => 'Workflow deleted successfully.'], 200);
+    }
+
+    public function getUsersByWorkflowType(Request $request): JsonResponse
+    {
+        $type = $request->query('type');
+
+        if (!in_array($type, ['reviewal', 'approval'])) {
+            return response()->json(['error' => 'Invalid workflow type'], 400);
+        }
+
+        if ($type == 'reviewal') {
+            $users = User::where('workflow_role', 'reviewer')->get();
+        } else if ($type == 'approval') {
+            $users = User::where('workflow_role', 'approver')->get();
+        }
+
+        return response()->json($users);
     }
 }

@@ -33,7 +33,7 @@ const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent, parentId, ap
         <div>
             <NewFilesButton uploadFileRef={uploadFileRef} itemParent={itemParent} />
             <PropertiesButton parentId={parentId} />
-            <ApprovalButton approvalActive={approvalActive} />
+            <ApprovalButton approvalActive={itemParent?.has_active_workflow} itemParent={itemParent} />
             <MetadataButton />
             <ActivityButton />
             <TrackingButton trackingActive={itemParent?.has_active_numbering_scheme} folderItemId={parentId} />
