@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
 
         // Create Users
         $testUser1 = User::create([
-            'name' => 'Admin User',
+            'name' => 'John Alfred',
             'email' => 'adminuser@example.com',
             'password' => '12345678',
             'workflow_role' => 'unassigned',
@@ -34,21 +34,21 @@ class DatabaseSeeder extends Seeder
         $testUser1->assignRole('admin');
 
         $testUser2 = User::create([
-            'name' => 'Reviewer User 1',
+            'name' => 'Angelo',
             'email' => 'revieweruser1@example.com',
             'password' => '12345678',
             'workflow_role' => 'reviewer',
         ]);
 
         $testUser3 = User::create([
-            'name' => 'Reviewer User 2',
+            'name' => 'Geryme',
             'email' => 'revieweruser2@example.com',
             'password' => '12345678',
             'workflow_role' => 'reviewer',
         ]);
 
         $testUser4 = User::create([
-            'name' => 'Approval User',
+            'name' => 'Mark Elthon',
             'email' => 'approvaluser@example.com',
             'password' => '12345678',
             'workflow_role' => 'approver',
@@ -74,6 +74,26 @@ class DatabaseSeeder extends Seeder
         $createWorkspaceAction = app(CreateWorkspaceAction::class);
         $workspace = $createWorkspaceAction->execute(new CreateWorkspaceData(
             name: 'Administrative',
+            owned_by: $testUser1->id
+        ));
+
+        $workspace = $createWorkspaceAction->execute(new CreateWorkspaceData(
+            name: 'Applications',
+            owned_by: $testUser1->id
+        ));
+
+        $workspace = $createWorkspaceAction->execute(new CreateWorkspaceData(
+            name: 'Services',
+            owned_by: $testUser1->id
+        ));
+
+        $workspace = $createWorkspaceAction->execute(new CreateWorkspaceData(
+            name: 'Partnerships',
+            owned_by: $testUser1->id
+        ));
+
+        $workspace = $createWorkspaceAction->execute(new CreateWorkspaceData(
+            name: 'Test Folder',
             owned_by: $testUser1->id
         ));
 
