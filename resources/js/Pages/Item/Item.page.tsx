@@ -35,6 +35,7 @@ export default function ItemPage({ itemParent, itemAncestors, itemContents }: It
                     selectedIds={ids}
                     fileSelected={selectedRecord.length > 0}
                     parentId={itemParent.item_id}
+                    uploadFileRef={openRef}
                 />
             }>
                 <ItemDropzone onDrop={uploadFiles} openRef={openRef}>

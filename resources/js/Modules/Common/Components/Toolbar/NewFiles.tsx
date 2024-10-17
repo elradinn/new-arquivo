@@ -1,6 +1,5 @@
 import CreateFolderForm from "@/Modules/Folder/Forms/FolderForm";
 import { ItemParentResourceData } from "@/Modules/Item/Types/ItemParentResourceData";
-import { PageProps } from "@/types";
 import { useForm, usePage } from "@inertiajs/react";
 import { Button, Flex, Menu, Modal, rem, Stack, Text, TextInput } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
@@ -25,76 +24,76 @@ interface FormData {
     parent_id?: number;
 }
 
-const CreateFolderFormOld: React.FC<IFormProps> = ({ isOpened, close }) => {
-    const { data, setData, post, processing, errors, reset } = useForm<FormData>({
-        name: "",
-        parent_id: 0,
-    });
+// const CreateFolderFormOld: React.FC<IFormProps> = ({ isOpened, close }) => {
+//     const { data, setData, post, processing, errors, reset } = useForm<FormData>({
+//         name: "",
+//         parent_id: 0,
+//     });
 
-    const parent_id = usePage<PageProps>().props.folder?.id;
+//     const parent_id = usePage<PageProps>().props.folder?.id;
 
-    const createFolderSubmit: FormEventHandler = (e) => {
-        e.preventDefault();
+//     const createFolderSubmit: FormEventHandler = (e) => {
+//         e.preventDefault();
 
-        data.parent_id = parent_id;
+//         data.parent_id = parent_id;
 
-        post(route("folder.create"), {
-            preserveScroll: true,
-            onSuccess: () => {
-                close();
-                notifications.show({
-                    message: "New folder created",
-                    color: "green",
-                });
-            },
-            onError: () => {
-                close();
-                notifications.show({
-                    message: "Something went wrong",
-                    color: "red",
-                });
-            },
-            onFinish: () => reset(),
-        });
-    };
+//         post(route("folder.create"), {
+//             preserveScroll: true,
+//             onSuccess: () => {
+//                 close();
+//                 notifications.show({
+//                     message: "New folder created",
+//                     color: "green",
+//                 });
+//             },
+//             onError: () => {
+//                 close();
+//                 notifications.show({
+//                     message: "Something went wrong",
+//                     color: "red",
+//                 });
+//             },
+//             onFinish: () => reset(),
+//         });
+//     };
 
-    return (
-        <Modal
-            opened={isOpened}
-            onClose={close}
-            title={
-                <Text fw="bold" size="lg">
-                    Create Folder
-                </Text>
-            }
-            size={550}
-        >
-            <form onSubmit={createFolderSubmit}>
-                <Stack gap={16}>
-                    <TextInput
-                        id="name"
-                        type="text"
-                        name="name"
-                        value={data.name}
-                        placeholder="Folder Name"
-                        onChange={(e) => setData("name", e.target.value)}
-                        error={errors.name}
-                    />
-                </Stack>
+//     return (
+//         <Modal
+//             opened={isOpened}
+//             onClose={close}
+//             title={
+//                 <Text fw="bold" size="lg">
+//                     Create Folder
+//                 </Text>
+//             }
+//             size={550}
+//         >
+//             <form onSubmit={createFolderSubmit}>
+//                 <Stack gap={16}>
+//                     <TextInput
+//                         id="name"
+//                         type="text"
+//                         name="name"
+//                         value={data.name}
+//                         placeholder="Folder Name"
+//                         onChange={(e) => setData("name", e.target.value)}
+//                         error={errors.name}
+//                     />
+//                 </Stack>
 
-                <Flex align="center" justify="end" mt={16}>
-                    <Button variant="outline" onClick={close}>
-                        Cancel
-                    </Button>
+//                 <Flex align="center" justify="end" mt={16}>
+//                     <Button variant="outline" onClick={close}>
+//                         Cancel
+//                     </Button>
 
-                    <Button ml={12} type="submit" loading={processing}>
-                        Create
-                    </Button>
-                </Flex>
-            </form>
-        </Modal>
-    );
-};
+//                     <Button ml={12} type="submit" loading={processing}>
+//                         Create
+//                     </Button>
+//                 </Flex>
+//             </form>
+//         </Modal>
+//     );
+// };
 
 interface IButtonProps {
     uploadFileRef?: React.RefObject<() => void>;
