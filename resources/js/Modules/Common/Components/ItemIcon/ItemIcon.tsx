@@ -21,11 +21,12 @@ import {
     isZip,
 } from "@/Modules/Item/Helpers/file-helper";
 import { Indicator } from "@mantine/core";
+import { getColorStatus } from "@/Modules/Common/Helpers/get-color-status";
 
 interface ItemIconProps {
     mime: string;
     isFolder: boolean;
-    approvalStatus?: string | null;
+    approvalStatus?: string | undefined;
 }
 
 const ItemIcon = ({ mime, isFolder, approvalStatus }: ItemIconProps) => {
@@ -52,20 +53,26 @@ const ItemIcon = ({ mime, isFolder, approvalStatus }: ItemIconProps) => {
         return <IconFile size={20} />;
     };
 
-    const getColorBasedOnStatus = (status: string | null | undefined) => {
-        switch (status) {
-            case "approved":
-                return "green";
-            case "rejected":
-                return "red";
-            case "pending":
-                return "yellow";
-            default:
-                return null;
-        }
-    };
+    // const getColorBasedOnStatus = (status: string | null | undefined) => {
+    //     switch (status) {
+    //         case "Reviewal Pending":
+    //             return "yellow";
+    //         case "Reviewal Accepted":
+    //             return "green";
+    //         case "Reviewal Rejected":
+    //             return "red";
+    //         case "Approval Pending":
+    //             return "blue";
+    //         case "Approval Accepted":
+    //             return "teal";
+    //         case "Approval Rejected":
+    //             return "orange";
+    //         default:
+    //             return null;
+    //     }
+    // };
 
-    const indicatorColor = getColorBasedOnStatus(approvalStatus);
+    const indicatorColor = getColorStatus(approvalStatus);
 
     return indicatorColor ? (
         <Indicator position="bottom-end" color={indicatorColor}>

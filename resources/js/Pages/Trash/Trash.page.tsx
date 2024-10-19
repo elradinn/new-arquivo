@@ -4,8 +4,7 @@ import { Authenticated } from "@/Modules/Common/Layouts/AuthenticatedLayout/Auth
 import { DataTable } from "mantine-datatable";
 import ItemIcon from "@/Modules/Item/Components/ItemIcon";
 import Toolbar from "@/Modules/Common/Components/Toolbar/Toolbar";
-import { useSelectItems } from "@/Modules/Item/Hooks/use-select-items";
-
+import { useSelectItems } from "@/Modules/Common/Hooks/use-select-items";
 import { TrashedItemsResourceData } from "@/Modules/Trash/Types/TrashedItemsResourceData";
 
 interface TrashPageProps {
