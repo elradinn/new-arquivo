@@ -15,7 +15,7 @@ import Toolbar from "@/Modules/Common/Components/Toolbar/Toolbar";
 import { DocumentResourceData } from "@/Modules/Document/Types/DocumentResourceData";
 import { ItemAncestorsResourceData } from "@/Modules/Item/Types/ItemAncestorsResourceData";
 import ItemBreadcrumbs from "@/Modules/Item/Components/ItemBreadcrumbs";
-import MetadataInput from "@/Modules/Metadata/Components/MetadataInput";
+import MetadataInput from "@/Modules/Document/Components/MetadataInput";
 import RelatedDocumentsInput from "@/Modules/Document/Components/RelatedDocumentsInput";
 
 interface IProps {

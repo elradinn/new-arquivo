@@ -1,4 +1,4 @@
-import { createTheme } from "@mantine/core";
+import { createTheme, Input, Modal } from "@mantine/core";
 
 export const theme = createTheme({
     /** Put your mantine theme override here */
@@ -18,5 +18,13 @@ export const theme = createTheme({
             "#012657",
             "#001633",
         ],
+    },
+    components: {
+        Modal: Modal.extend({
+            defaultProps: {
+                radius: 12,
+                padding: "md",
+            },
+        }),
     },
 });

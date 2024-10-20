@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { Head } from "@inertiajs/react";
-import { Button, Flex, rem, Stack, Text, TextInput } from "@mantine/core";
-import { IconPlus, IconSearch } from "@tabler/icons-react";
+import { ActionIcon, Box, Button, Group, Flex, rem, Stack, Text, TextInput } from "@mantine/core";
+import { IconEdit, IconPlus, IconSearch, IconTrash } from "@tabler/icons-react";
 import { Authenticated } from "@/Modules/Common/Layouts/AuthenticatedLayout/Authenticated";
 import CreateMetadataForm from "@/Modules/Metadata/Forms/CreateMetadataForm";
 import UpdateMetadataForm from "@/Modules/Metadata/Forms/UpdateMetadataForm";
 import DeleteMetadataForm from "@/Modules/Metadata/Forms/DeleteMetadataForm";
-import MetadataTable from "@/Modules/Metadata/Components/MetadataTable";
 import { useSearchDataTable } from "@/Modules/Common/Hooks/use-search-datatable";
 import { usePaginateDataTable } from "@/Modules/Common/Hooks/use-paginate-datatable";
 import { MetadataResourceData } from "@/Modules/Metadata/Types/MetadataResourceData";
 import useModalStore from "@/Modules/Common/Hooks/use-modal-store";
 import { PaginationData, Filters } from "@/Modules/Common/Types/CommonPageTypes";
+import { DataTable } from "mantine-datatable";
 
 interface IProps {
     metadata: PaginationData<MetadataResourceData>;
@@ -40,7 +40,7 @@ export default function MetadataPage({ metadata, filters }: IProps) {
     return (
         <Authenticated>
             <Head title="Metadata" />
-            <Stack px={8} gap={24} py={8}>
+            <Stack px={8} py={8} gap={24}>
                 <Text component="h2" size="xl" fw={600} c="gray.8">
                     Metadata
                 </Text>
@@ -59,17 +59,53 @@ export default function MetadataPage({ metadata, filters }: IProps) {
                         Add New Metadata
                     </Button>
                 </Flex>
-                <MetadataTable
-                    metadata={metadata.data}
-                    total={metadata.total}
-                    perPage={metadata.per_page}
+
+                <DataTable
+                    pinLastColumn
+                    withTableBorder
+                    shadow="xs"
+                    minHeight={"50vh"}
+                    borderRadius="sm"
+                    withRowBorders={false}
+                    highlightOnHover
+                    verticalSpacing="md"
+                    totalRecords={metadata.total}
+                    recordsPerPage={metadata.per_page}
                     page={page}
                     onPageChange={(p) => {
                         setPage(p);
                         handlePageChange(p, metadata.links);
                     }}
-                    onEdit={handleEditMetadata}
-                    onDelete={handleDeleteMetadata}
+                    columns={[
+                        { accessor: "name", noWrap: true },
+                        { accessor: "type", noWrap: true },
+                        {
+                            accessor: "actions",
+                            title: <Box mr={6}>Actions</Box>,
+                            textAlign: "right",
+                            render: (metadata) => (
+                                <Group gap={8} justify="right" wrap="nowrap">
+                                    <ActionIcon
+                                        size="sm"
+                                        variant="subtle"
+                                        color="gray"
+                                        onClick={() => handleEditMetadata(metadata)}
+                                    >
+                                        <IconEdit size={48} />
+                                    </ActionIcon>
+                                    <ActionIcon
+                                        size="sm"
+                                        variant="subtle"
+                                        color="red"
+                                        onClick={() => handleDeleteMetadata(metadata)}
+                                    >
+                                        <IconTrash size={48} />
+                                    </ActionIcon>
+                                </Group>
+                            ),
+                        },
+                    ]}
+                    records={metadata.data}
                     selectedRecords={selectedRecord}
                     onSelectedRecordsChange={setSelectedRecord}
                 />
