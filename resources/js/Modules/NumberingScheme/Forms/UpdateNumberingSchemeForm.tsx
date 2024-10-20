@@ -1,5 +1,4 @@
 import { Modal, Text, TextInput, Button, Stack, Flex } from "@mantine/core";
-import { NumberingSchemeResourceData } from "../Types/NumberingSchemeResourceData";
 import { useUpdateNumberingScheme } from "../Hooks/use-update-numbering-scheme";
 import useModalStore from "@/Modules/Common/Hooks/use-modal-store";
 import { ItemParentResourceData } from "@/Modules/Item/Types/ItemParentResourceData";
@@ -11,15 +10,17 @@ interface IProps {
 export const UpdateNumberingSchemeForm: React.FC<IProps> = ({
     itemParent,
 }) => {
+    const { modals, closeModal } = useModalStore();
+    const isOpen = modals["updateNumberingScheme"];
+
     const { data, setData, handleSubmit, processing, errors } = useUpdateNumberingScheme({
         itemParent,
+        isOpen,
     });
-
-    const { modals, closeModal } = useModalStore();
 
     return (
         <Modal
-            opened={modals["updateNumberingScheme"]}
+            opened={isOpen}
             onClose={() => closeModal("updateNumberingScheme")}
             title={<Text size="lg">Update Numbering Scheme</Text>}
             size={550}

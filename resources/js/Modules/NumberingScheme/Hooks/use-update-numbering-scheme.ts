@@ -1,7 +1,6 @@
 import { FormEventHandler, useEffect } from "react";
 import { useForm } from "@inertiajs/react";
 import { notifications } from "@mantine/notifications";
-import { NumberingSchemeResourceData } from "../Types/NumberingSchemeResourceData";
 import { UpdateNumberingSchemeData } from "../Types/UpdateNumberingSchemeData";
 import { ItemParentResourceData } from "@/Modules/Item/Types/ItemParentResourceData";
 import { useFetchNumberingScheme } from "./use-fetch-numbering-scheme";
@@ -9,10 +8,11 @@ import useModalStore from "@/Modules/Common/Hooks/use-modal-store";
 
 interface UseUpdateNumberingSchemeProps {
     itemParent?: ItemParentResourceData;
+    isOpen: boolean;
 }
 
-export function useUpdateNumberingScheme({ itemParent }: UseUpdateNumberingSchemeProps) {
-    const numberingScheme = useFetchNumberingScheme(itemParent?.numbering_scheme_id);
+export function useUpdateNumberingScheme({ itemParent, isOpen }: UseUpdateNumberingSchemeProps) {
+    const numberingScheme = useFetchNumberingScheme({ numberingSchemeId: itemParent?.numbering_scheme_id, isOpen });
 
     const { data, setData, put, processing, errors, reset } = useForm<UpdateNumberingSchemeData>({
         name: "",
