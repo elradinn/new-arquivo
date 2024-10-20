@@ -10,11 +10,11 @@ import MetadataTable from "@/Modules/Metadata/Components/MetadataTable";
 import { useSearchDataTable } from "@/Modules/Common/Hooks/use-search-datatable";
 import { usePaginateDataTable } from "@/Modules/Common/Hooks/use-paginate-datatable";
 import { MetadataResourceData } from "@/Modules/Metadata/Types/MetadataResourceData";
-import { PaginationData, Filters } from "@/Modules/Metadata/Types/MetadataPageTypes";
 import useModalStore from "@/Modules/Common/Hooks/use-modal-store";
+import { PaginationData, Filters } from "@/Modules/Common/Types/CommonPageTypes";
 
 interface IProps {
-    metadata: PaginationData;
+    metadata: PaginationData<MetadataResourceData>;
     filters: Filters;
 }
 

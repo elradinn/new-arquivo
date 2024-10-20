@@ -1,14 +1,12 @@
-import { MetadataResourceData } from "./MetadataResourceData";
-
 export type PaginationLinks = {
     url: string | null;
     label: string;
     active: boolean;
 };
 
-export type PaginationData = {
+export type PaginationData<T> = {
     current_page: number;
-    data: MetadataResourceData[];
+    data: T[];
     first_page_url: string;
     from: number;
     last_page: number;
