@@ -11,6 +11,7 @@ import { ItemAncestorsResourceData } from "@/Modules/Item/Types/ItemAncestorsRes
 import { ItemContentsResourceData } from "@/Modules/Item/Types/ItemContentsResourceData";
 import { ItemParentResourceData } from "@/Modules/Item/Types/ItemParentResourceData";
 import Toolbar from "@/Modules/Common/Components/Toolbar/Toolbar";
+import ItemToolbar from "@/Modules/Item/Components/ItemToolbar";
 interface ItemPageProps {
     itemParent: ItemParentResourceData;
     itemAncestors: ItemAncestorsResourceData[];
@@ -22,15 +23,21 @@ export default function ItemPage({ itemParent, itemAncestors, itemContents }: It
     const { uploadFiles } = useUploadDocument(itemParent);
     const { selectedRecord, setSelectedRecord, ids } = useSelectItems();
 
-    console.log(itemParent);
-
     return (
         <>
             <Head title="My Files" />
 
             <Authenticated toolbar={
-                <Toolbar
-                    page="item"
+                // <Toolbar
+                //     page="item"
+                //     itemParent={itemParent}
+                //     selectedIds={ids}
+                //     fileSelected={selectedRecord.length > 0}
+                //     parentId={itemParent.item_id}
+                //     uploadFileRef={openRef}
+                // />
+
+                <ItemToolbar
                     itemParent={itemParent}
                     selectedIds={ids}
                     fileSelected={selectedRecord.length > 0}

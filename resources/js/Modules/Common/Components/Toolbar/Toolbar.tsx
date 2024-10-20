@@ -1,5 +1,5 @@
 import React from "react";
-import { Group } from "@mantine/core";
+import { Button, Group, Menu, rem } from "@mantine/core";
 import NewFilesButton from "./NewFiles";
 import PropertiesButton from "./Properties";
 import MetadataButton from "./Metadata";
@@ -16,6 +16,9 @@ import RestoreFilesButton from "./RestoreFiles";
 import ApprovalButton from "./Approval";
 import MoveButton from "./Move";
 import { ItemParentResourceData } from "@/Modules/Item/Types/ItemParentResourceData";
+import { IconAdjustments, IconChevronDown, IconDeviceSdCard, IconFileIsr, IconFolderPlus, IconFolderUp, IconGitBranch, IconPlus } from "@tabler/icons-react";
+import { Link } from "@inertiajs/react";
+import useModalStore from "../../Hooks/use-modal-store";
 
 interface IProps {
     page: "item" | "trash" | "folder";
@@ -26,22 +29,122 @@ interface IProps {
     approvalActive?: boolean;
     trackingActive?: boolean;
     itemParent?: ItemParentResourceData;
+
 }
 
-const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent, parentId, approvalActive, trackingActive }) => (
+// const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent, parentId, approvalActive, trackingActive }) => (
+//     <>
+//         <div>
+//             <NewFilesButton uploadFileRef={uploadFileRef} itemParent={itemParent} />
+//             <PropertiesButton parentId={parentId} />
+//             <ApprovalButton approvalActive={itemParent?.has_active_workflow} itemParent={itemParent} />
+//             <MetadataButton />
+//             <ActivityButton />
+//             <TrackingButton trackingActive={itemParent?.has_active_numbering_scheme} folderItemId={parentId} />
+//             <ColumnButton />
+//         </div>
+//         <div>
+//             <SortButton />
+//             <ViewButton />
+//         </div>
+//     </>
+// );
+
+const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, selectedIds, parentId, approvalActive }) => (
     <>
         <div>
-            <NewFilesButton uploadFileRef={uploadFileRef} itemParent={itemParent} />
-            <PropertiesButton parentId={parentId} />
-            <ApprovalButton approvalActive={itemParent?.has_active_workflow} itemParent={itemParent} />
-            <MetadataButton />
-            <ActivityButton />
-            <TrackingButton trackingActive={itemParent?.has_active_numbering_scheme} folderItemId={parentId} />
-            <ColumnButton />
+            <Menu
+                shadow="md"
+                width={220}
+                transitionProps={{
+                    transition: "pop-top-left",
+                }}
+                position="bottom-start"
+            >
+                <Menu.Target>
+                    <Button
+                        variant="subtle"
+                        color="dark.3"
+                        leftSection={<IconPlus size={18} />}
+                        rightSection={<IconChevronDown size={12} />}
+                    >
+                        New
+                    </Button>
+                </Menu.Target>
+
+                <Menu.Dropdown>
+                    <Menu.Item
+                        leftSection={
+                            <IconFolderPlus
+                                style={{
+                                    width: rem(14),
+                                    height: rem(14),
+                                }}
+                            />
+                        }
+                    // onClick={() => openModal("folder")}
+                    >
+                        New Folder
+                    </Menu.Item>
+                    <Menu.Item
+                        leftSection={
+                            <IconFileIsr
+                                style={{
+                                    width: rem(14),
+                                    height: rem(14),
+                                }}
+                            />
+                        }
+                        onClick={() => uploadFileRef?.current?.()}
+                    >
+                        Upload Files
+                    </Menu.Item>
+                    <Menu.Item
+                        leftSection={
+                            <IconFolderUp
+                                style={{
+                                    width: rem(14),
+                                    height: rem(14),
+                                }}
+                            />
+                        }
+                    >
+                        Upload Folder
+                    </Menu.Item>
+                </Menu.Dropdown>
+            </Menu>
+
+            <Button
+                variant="subtle"
+                component={Link}
+                href={route("folder.edit", { id: parentId })}
+                color="dark.3"
+                leftSection={<IconAdjustments size={18} />}
+            >
+                Properties
+            </Button>
+
+            <Button
+                variant={approvalActive ? "light" : "subtle"}
+                color={approvalActive ? "green.8" : "dark.3"}
+                leftSection={<IconGitBranch size={18} />}
+            // onClick={() => openModal("approval")}
+            >
+                Approval
+            </Button>
+
+            <Button
+                variant="subtle"
+                color="dark.3"
+                leftSection={<IconDeviceSdCard size={18} />}
+            >
+                Metadata
+            </Button>
         </div>
+
+
         <div>
-            <SortButton />
-            <ViewButton />
+
         </div>
     </>
 );
