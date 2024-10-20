@@ -22,13 +22,10 @@ import CreateWorkflowForm from "@/Modules/Workflow/Forms/CreateWorkflowForm";
 
 interface IProps {
     uploadFileRef?: React.RefObject<() => void>;
-    fileSelected?: boolean;
-    selectedIds?: string[];
-    parentId?: string;
     itemParent?: ItemParentResourceData;
 }
 
-const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, fileSelected, parentId, itemParent }) => {
+const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent }) => {
     const { openModal } = useModalStore();
 
     return (
@@ -36,7 +33,7 @@ const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, fileSelected, parentId, 
             h="50%"
             px="md"
             align="center"
-            justify={!fileSelected ? "space-between" : "flex-start"}
+            justify="space-between"
         >
             <div>
                 <Menu
@@ -103,7 +100,7 @@ const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, fileSelected, parentId, 
                 <Button
                     variant="subtle"
                     component={Link}
-                    href={route("folder.edit", { id: parentId })}
+                    href={route("folder.edit", { id: itemParent?.item_id })}
                     color="dark.3"
                     leftSection={<IconAdjustments size={18} />}
                 >
