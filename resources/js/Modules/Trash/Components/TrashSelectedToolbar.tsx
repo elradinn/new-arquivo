@@ -20,9 +20,6 @@ const TrashSelectedToolbar: React.FC<IProps> = ({ selectedIds }) => {
             align="center"
             justify="flex-start"
         >
-            {/* <PermanentDeleteButton all={false} ids={selectedIds} />
-            <RestoreFilesButton all={false} ids={selectedIds} /> */}
-
             <Button
                 variant="subtle"
                 color="dark.3"
