@@ -6,19 +6,19 @@ import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { DeleteTrashedItemsData } from "@/Modules/Trash/Types/DeleteTrashedItemsData";
 
-interface RestoreFilesProps {
+interface PermanentDeleteButtonProps {
     all: boolean;
     ids?: string[];
 }
 
-interface DeleteModalProps {
+interface PermanentDeleteModalProps {
     isOpened: boolean;
     close: () => void;
     deleteAll?: boolean;
     deleteIds?: string[];
 }
 
-const PermanentDeleteForm: React.FC<DeleteModalProps> = ({
+const PermanentDeleteForm: React.FC<PermanentDeleteModalProps> = ({
     isOpened,
     close,
     deleteIds,
@@ -96,9 +96,7 @@ const PermanentDeleteForm: React.FC<DeleteModalProps> = ({
     );
 };
 
-// TODO: Maybe need for empty bin again?
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const PermanentDeleteButton: React.FC<RestoreFilesProps> = ({ all, ids }) => {
+const PermanentDeleteButton: React.FC<PermanentDeleteButtonProps> = ({ all, ids }) => {
     const [
         deleteFilesOpened,
         { open: openDeleteFiles, close: closeDeleteFiles },
