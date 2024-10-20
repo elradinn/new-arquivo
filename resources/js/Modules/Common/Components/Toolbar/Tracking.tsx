@@ -23,7 +23,7 @@ interface IFormProps {
     folderItemId?: string;
 }
 
-const ApprovalForm: React.FC<IFormProps> = ({ isOpened, close, folderItemId }) => {
+const NumberingSchemeForm: React.FC<IFormProps> = ({ isOpened, close, folderItemId }) => {
     const { data, setData, post, processing, errors, reset } = useForm<CreateNumberingSchemeData>({
         folder_item_id: "",
         name: "",
@@ -151,7 +151,7 @@ const TrackingButton: React.FC<TrackingButtonProps> = ({ trackingActive, folderI
                 Numbering
             </Button>
 
-            <ApprovalForm isOpened={createApprovalOpened} close={closeCreateApproval} folderItemId={folderItemId} />
+            <NumberingSchemeForm isOpened={createApprovalOpened} close={closeCreateApproval} folderItemId={folderItemId} />
         </>
     );
 };

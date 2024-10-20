@@ -19,6 +19,7 @@ import { useOpenFolder } from "@/Modules/Item/Hooks/use-open-folder";
 import { ItemAncestorsResourceData } from "@/Modules/Item/Types/ItemAncestorsResourceData";
 import { ItemContentsResourceData } from "@/Modules/Item/Types/ItemContentsResourceData";
 import { ItemParentResourceData } from "@/Modules/Item/Types/ItemParentResourceData";
+import Toolbar from "@/Modules/Common/Components/Toolbar/Toolbar";
 
 interface ItemPageProps {
     itemParent: ItemParentResourceData;
@@ -38,6 +39,15 @@ export default function ItemPage({ itemParent, itemAncestors, itemContents }: It
             <Head title="My Files" />
 
             <Authenticated toolbar={
+                // <Toolbar
+                //     page="item"
+                //     itemParent={itemParent}
+                //     selectedIds={ids}
+                //     fileSelected={selectedRecord.length > 0}
+                //     parentId={itemParent.item_id}
+                //     uploadFileRef={openRef}
+                // />
+
                 selectedRecord.length > 0 ? (
                     <SelectedItemToolbar selectedIds={ids} parentId={itemParent.item_id} />
                 ) : (

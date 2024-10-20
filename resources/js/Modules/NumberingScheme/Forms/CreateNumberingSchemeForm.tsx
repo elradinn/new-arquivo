@@ -1,21 +1,18 @@
 import { Modal, Text, TextInput, Button, Stack, Flex } from "@mantine/core";
 import { NumberingSchemeResourceData } from "../Types/NumberingSchemeResourceData";
-import { useUpdateNumberingScheme } from "../Hooks/use-update-numbering-scheme";
 import useModalStore from "@/Modules/Common/Hooks/use-modal-store";
 import { ItemParentResourceData } from "@/Modules/Item/Types/ItemParentResourceData";
+import { useCreateNumberingScheme } from "../Hooks/use-create-numbering-scheme";
 
-interface NumberingSchemeFormProps {
-    initialData?: NumberingSchemeResourceData;
-    itemParent: ItemParentResourceData;
+interface IProps {
+    itemParent?: ItemParentResourceData;
 }
 
-const NumberingSchemeForm: React.FC<NumberingSchemeFormProps> = ({
-    initialData,
+const CreateNumberingSchemeForm: React.FC<IProps> = ({
     itemParent,
 }) => {
-    const { data, setData, handleSubmit, processing, errors } = useUpdateNumberingScheme({
-        initialData,
-        close,
+    const { data, setData, handleSubmit, processing, errors } = useCreateNumberingScheme({
+        itemParent,
     });
 
     const { modals, closeModal } = useModalStore();
@@ -24,7 +21,7 @@ const NumberingSchemeForm: React.FC<NumberingSchemeFormProps> = ({
         <Modal
             opened={modals["numberingScheme"]}
             onClose={() => closeModal("numberingScheme")}
-            title={<Text size="lg">{initialData ? "Edit" : "Create"} Numbering Scheme</Text>}
+            title={<Text size="lg">Create Numbering Scheme</Text>}
             size={550}
         >
             <form onSubmit={handleSubmit}>
@@ -47,7 +44,7 @@ const NumberingSchemeForm: React.FC<NumberingSchemeFormProps> = ({
                         Cancel
                     </Button>
                     <Button ml={12} type="submit" loading={processing}>
-                        {initialData ? "Update" : "Create"}
+                        Create
                     </Button>
                 </Flex>
             </form>
@@ -55,4 +52,4 @@ const NumberingSchemeForm: React.FC<NumberingSchemeFormProps> = ({
     );
 };
 
-export default NumberingSchemeForm;
+export default CreateNumberingSchemeForm;

@@ -19,6 +19,8 @@ import useModalStore from "@/Modules/Common/Hooks/use-modal-store";
 import { ItemParentResourceData } from "../Types/ItemParentResourceData";
 import { Link } from "@inertiajs/react";
 import CreateWorkflowForm from "@/Modules/Workflow/Forms/CreateWorkflowForm";
+import NumberingSchemeForm from "@/Modules/NumberingScheme/Forms/NumberingSchemeForm";
+import CreateNumberingSchemeForm from "@/Modules/NumberingScheme/Forms/CreateNumberingSchemeForm";
 
 interface IProps {
     uploadFileRef?: React.RefObject<() => void>;
@@ -136,7 +138,7 @@ const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent }) => {
                     variant={itemParent?.has_active_numbering_scheme ? "light" : "subtle"}
                     color={itemParent?.has_active_numbering_scheme ? "green.8" : "dark.3"}
                     leftSection={<IconListTree size={18} />}
-                // onClick={openCreateApproval}
+                    onClick={() => openModal("numberingScheme")}
                 >
                     Numbering
                 </Button>
@@ -145,7 +147,6 @@ const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent }) => {
                     variant="subtle"
                     color="dark.3"
                     leftSection={<IconTable size={18} />}
-                // onClick={openCreateApproval}
                 >
                     Column
                 </Button>
@@ -173,6 +174,7 @@ const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent }) => {
 
             {/* Forms */}
             <CreateWorkflowForm itemParent={itemParent} />
+            <CreateNumberingSchemeForm itemParent={itemParent} />
         </Group>
     );
 };

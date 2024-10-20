@@ -38,7 +38,8 @@ export function useUpdateNumberingScheme({ initialData, close }: UseUpdateNumber
                     color: "green",
                 });
             },
-            onError: () => {
+            onError: (errors) => {
+                console.log(errors);
                 notifications.show({
                     message: "Something went wrong",
                     color: "red",
