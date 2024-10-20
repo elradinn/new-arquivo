@@ -49,7 +49,7 @@ export default function ItemPage({ itemParent, itemAncestors, itemContents }: It
                 // />
 
                 selectedRecord.length > 0 ? (
-                    <SelectedItemToolbar selectedIds={ids} parentId={itemParent.item_id} />
+                    <SelectedItemToolbar setSelectedRecord={setSelectedRecord} selectedIds={ids} parentId={itemParent.item_id} />
                 ) : (
                     <ItemToolbar
                         itemParent={itemParent}

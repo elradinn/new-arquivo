@@ -9,6 +9,7 @@ import { DeleteItemsData } from "@/Modules/Item/Types/DeleteItemsData";
 interface DeleteButtonProps {
     all: boolean;
     ids?: string[];
+    setSelectedRecord: (record: any[]) => void;
 }
 
 interface DeleteModalProps {
@@ -16,6 +17,7 @@ interface DeleteModalProps {
     close: () => void;
     deleteAll?: boolean;
     deleteIds?: string[];
+    setSelectedRecord: (record: any[]) => void;
 }
 
 const DeleteFilesForm: React.FC<DeleteModalProps> = ({
@@ -23,6 +25,7 @@ const DeleteFilesForm: React.FC<DeleteModalProps> = ({
     close,
     deleteAll,
     deleteIds,
+    setSelectedRecord,
 }) => {
     const {
         data,
@@ -41,6 +44,13 @@ const DeleteFilesForm: React.FC<DeleteModalProps> = ({
         destroy(route("item.delete"), {
             onSuccess: () => {
                 close();
+
+                // Wait for the modal to close before resetting the selected record
+                // Because it has a wierd UI transition, its just instant and not smooth
+                setTimeout(() => {
+                    setSelectedRecord([]);
+                }, 100);
+
                 notifications.show({
                     message: "Files deleted",
                     color: "green",
@@ -96,7 +106,7 @@ const DeleteFilesForm: React.FC<DeleteModalProps> = ({
     );
 };
 
-const DeleteFilesButton: React.FC<DeleteButtonProps> = ({ all, ids }) => {
+const DeleteFilesButton: React.FC<DeleteButtonProps> = ({ all, ids, setSelectedRecord }) => {
     const [
         deleteFilesOpened,
         { open: openDeleteFiles, close: closeDeleteFiles },
@@ -118,6 +128,7 @@ const DeleteFilesButton: React.FC<DeleteButtonProps> = ({ all, ids }) => {
                 close={closeDeleteFiles}
                 deleteAll={false}
                 deleteIds={ids}
+                setSelectedRecord={setSelectedRecord}
             />
         </>
     );
