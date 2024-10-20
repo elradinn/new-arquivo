@@ -29,7 +29,7 @@ interface ItemIconProps {
     approvalStatus?: string | undefined;
 }
 
-const ItemIcon = ({ mime, isFolder, approvalStatus }: ItemIconProps) => {
+export const ItemIcon: React.FC<ItemIconProps> = ({ mime, isFolder, approvalStatus }) => {
     const renderIcon = () => {
         if (isFolder) {
             return <IconFolder size={20} fill="orange" color="orange" />;
@@ -53,25 +53,6 @@ const ItemIcon = ({ mime, isFolder, approvalStatus }: ItemIconProps) => {
         return <IconFile size={20} />;
     };
 
-    // const getColorBasedOnStatus = (status: string | null | undefined) => {
-    //     switch (status) {
-    //         case "Reviewal Pending":
-    //             return "yellow";
-    //         case "Reviewal Accepted":
-    //             return "green";
-    //         case "Reviewal Rejected":
-    //             return "red";
-    //         case "Approval Pending":
-    //             return "blue";
-    //         case "Approval Accepted":
-    //             return "teal";
-    //         case "Approval Rejected":
-    //             return "orange";
-    //         default:
-    //             return null;
-    //     }
-    // };
-
     const indicatorColor = getColorStatus(approvalStatus);
 
     return indicatorColor ? (
@@ -82,5 +63,3 @@ const ItemIcon = ({ mime, isFolder, approvalStatus }: ItemIconProps) => {
         renderIcon()
     );
 };
-
-export default ItemIcon;

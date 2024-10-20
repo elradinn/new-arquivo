@@ -3,7 +3,7 @@ import { Head } from "@inertiajs/react";
 import { Group, Stack, Text } from "@mantine/core";
 import { DataTable } from "mantine-datatable";
 
-import ItemIcon from "@/Modules/Common/Components/ItemIcon/ItemIcon";
+import { ItemIcon } from "@/Modules/Common/Components/ItemIcon/ItemIcon";
 import { Authenticated } from "@/Modules/Common/Layouts/AuthenticatedLayout/Authenticated";
 
 import ItemBreadcrumbs from "@/Modules/Item/Components/ItemBreadcrumbs";
