@@ -19,7 +19,12 @@ export function useDeleteFiles({ setSelectedRecord }: UseDeleteFilesProps) {
         destroy(route("item.delete"), {
             onSuccess: () => {
                 closeModal("deleteFiles");
-                setSelectedRecord([]);
+
+                // Small delay for smooth transition of UI
+                setTimeout(() => {
+                    setSelectedRecord([]);
+                }, 100);
+
                 notifications.show({
                     message: "Files deleted",
                     color: "green",

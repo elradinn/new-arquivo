@@ -6,6 +6,8 @@ import ItemIcon from "@/Modules/Item/Components/ItemIcon";
 import Toolbar from "@/Modules/Common/Components/Toolbar/Toolbar";
 import { useSelectItems } from "@/Modules/Common/Hooks/use-select-items";
 import { TrashedItemsResourceData } from "@/Modules/Trash/Types/TrashedItemsResourceData";
+import TrashSelectedToolbar from "@/Modules/Trash/Components/TrashSelectedToolbar";
+import TrashToolbar from "@/Modules/Trash/Components/TrashToolbar";
 
 interface TrashPageProps {
     trashedItems: TrashedItemsResourceData[];
@@ -20,11 +22,17 @@ export default function TrashPage({ trashedItems }: TrashPageProps) {
 
             <Authenticated
                 toolbar={
-                    <Toolbar
-                        fileSelected={selectedRecord.length > 0}
-                        selectedIds={ids}
-                        page="trash"
-                    />
+                    // <Toolbar
+                    //     fileSelected={selectedRecord.length > 0}
+                    //     selectedIds={ids}
+                    //     page="trash"
+                    // />
+
+                    selectedRecord.length > 0 ? (
+                        <TrashSelectedToolbar selectedIds={ids} />
+                    ) : (
+                        <TrashToolbar />
+                    )
                 }
             >
                 <Head title="My Files" />
