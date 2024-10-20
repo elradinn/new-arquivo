@@ -19,8 +19,9 @@ import useModalStore from "@/Modules/Common/Hooks/use-modal-store";
 import { ItemParentResourceData } from "../Types/ItemParentResourceData";
 import { Link } from "@inertiajs/react";
 import CreateWorkflowForm from "@/Modules/Workflow/Forms/CreateWorkflowForm";
-import NumberingSchemeForm from "@/Modules/NumberingScheme/Forms/NumberingSchemeForm";
+import { UpdateNumberingSchemeForm } from "@/Modules/NumberingScheme/Forms/UpdateNumberingSchemeForm";
 import CreateNumberingSchemeForm from "@/Modules/NumberingScheme/Forms/CreateNumberingSchemeForm";
+import CreateFolderForm from "@/Modules/Folder/Forms/FolderForm";
 
 interface IProps {
     uploadFileRef?: React.RefObject<() => void>;
@@ -36,8 +37,9 @@ const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent }) => {
             px="md"
             align="center"
             justify="space-between"
+
         >
-            <div>
+            <Group gap="xs">
                 <Menu
                     shadow="md"
                     width={220}
@@ -110,8 +112,8 @@ const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent }) => {
                 </Button>
 
                 <Button
-                    variant={itemParent?.has_active_workflow ? "light" : "subtle"}
-                    color={itemParent?.has_active_workflow ? "green.8" : "dark.3"}
+                    variant={itemParent?.workflow_id ? "light" : "subtle"}
+                    color={itemParent?.workflow_id ? "green.8" : "dark.3"}
                     leftSection={<IconGitBranch size={18} />}
                     onClick={() => openModal("workflow")}
                 >
@@ -135,10 +137,10 @@ const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent }) => {
                 </Button>
 
                 <Button
-                    variant={itemParent?.has_active_numbering_scheme ? "light" : "subtle"}
-                    color={itemParent?.has_active_numbering_scheme ? "green.8" : "dark.3"}
+                    variant={itemParent?.numbering_scheme_id ? "light" : "subtle"}
+                    color={itemParent?.numbering_scheme_id ? "green.8" : "dark.3"}
                     leftSection={<IconListTree size={18} />}
-                    onClick={() => openModal("numberingScheme")}
+                    onClick={() => openModal(itemParent?.numbering_scheme_id ? "updateNumberingScheme" : "createNumberingScheme")}
                 >
                     Numbering
                 </Button>
@@ -150,9 +152,9 @@ const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent }) => {
                 >
                     Column
                 </Button>
-            </div>
+            </Group>
 
-            <div>
+            <Group gap="xs">
                 <Button
                     variant="subtle"
                     color="dark.3"
@@ -170,11 +172,13 @@ const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent }) => {
                 >
                     View
                 </Button>
-            </div>
+            </Group>
 
             {/* Forms */}
+            <CreateFolderForm itemParent={itemParent} />
             <CreateWorkflowForm itemParent={itemParent} />
             <CreateNumberingSchemeForm itemParent={itemParent} />
+            <UpdateNumberingSchemeForm itemParent={itemParent} />
         </Group>
     );
 };

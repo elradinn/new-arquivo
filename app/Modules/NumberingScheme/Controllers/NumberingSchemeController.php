@@ -50,6 +50,11 @@ class NumberingSchemeController extends Controller
         ]);
     }
 
+    public function show(NumberingScheme $numberingScheme): JsonResponse
+    {
+        return response()->json($numberingScheme);
+    }
+
     public function store(CreateNumberingSchemeData $data): RedirectResponse
     {
         $this->createNumberingSchemeAction->execute($data);
@@ -57,11 +62,11 @@ class NumberingSchemeController extends Controller
         return redirect()->back();
     }
 
-    public function update(UpdateNumberingSchemeData $data, NumberingScheme $numberingScheme): JsonResponse
+    public function update(UpdateNumberingSchemeData $data, NumberingScheme $numberingScheme): RedirectResponse
     {
         $numberingScheme = $this->updateNumberingSchemeAction->execute($numberingScheme, $data);
 
-        return response()->json($numberingScheme);
+        return redirect()->back();
     }
 
     public function destroy(NumberingScheme $numberingScheme): JsonResponse

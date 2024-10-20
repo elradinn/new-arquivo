@@ -9,7 +9,7 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/', [NumberingSchemeController::class, 'index'])->name('numbering-scheme.index');
 
-        Route::get('/{numberingScheme}', [NumberingSchemeController::class, 'show'])->name('numbering-scheme.show');
+        Route::get('/api/{numberingScheme}', [NumberingSchemeController::class, 'show'])->name('numbering-scheme.show');
 
         Route::post('/create', [NumberingSchemeController::class, 'store'])->name('numbering-scheme.store');
 

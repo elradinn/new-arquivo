@@ -19,8 +19,8 @@ const CreateNumberingSchemeForm: React.FC<IProps> = ({
 
     return (
         <Modal
-            opened={modals["numberingScheme"]}
-            onClose={() => closeModal("numberingScheme")}
+            opened={modals["createNumberingScheme"]}
+            onClose={() => closeModal("createNumberingScheme")}
             title={<Text size="lg">Create Numbering Scheme</Text>}
             size={550}
         >
@@ -40,7 +40,7 @@ const CreateNumberingSchemeForm: React.FC<IProps> = ({
                     />
                 </Stack>
                 <Flex align="center" justify="end" mt={16}>
-                    <Button variant="light" onClick={() => closeModal("numberingScheme")}>
+                    <Button variant="light" onClick={() => closeModal("createNumberingScheme")}>
                         Cancel
                     </Button>
                     <Button ml={12} type="submit" loading={processing}>

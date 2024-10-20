@@ -26,14 +26,13 @@ export function useCreateNumberingScheme({ itemParent }: IProps) {
         post(route("numbering-scheme.store"), {
             preserveScroll: true,
             onSuccess: () => {
-                close();
+                closeModal("numberingScheme");
                 notifications.show({
                     message: "Numbering scheme created",
                     color: "green",
                 });
             },
             onError: () => {
-                closeModal("numberingScheme");
                 notifications.show({
                     message: "Something went wrong",
                     color: "red",

@@ -3,7 +3,7 @@ import { Group, Stack, Text } from "@mantine/core";
 import { Authenticated } from "@/Modules/Common/Layouts/AuthenticatedLayout/Authenticated";
 import { StatCards } from "@/Modules/Common/Components/StatCards/StatCards";
 import { DataTable } from "mantine-datatable";
-import ItemIcon from "@/Modules/Common/Components/ItemIcon/ItemIcon";
+import { ItemIcon } from "@/Modules/Common/Components/ItemIcon/ItemIcon";
 
 const mockFiles = [
     {

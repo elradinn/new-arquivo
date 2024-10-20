@@ -3,43 +3,45 @@ import { useForm } from "@inertiajs/react";
 import { notifications } from "@mantine/notifications";
 import { NumberingSchemeResourceData } from "../Types/NumberingSchemeResourceData";
 import { UpdateNumberingSchemeData } from "../Types/UpdateNumberingSchemeData";
+import { ItemParentResourceData } from "@/Modules/Item/Types/ItemParentResourceData";
+import { useFetchNumberingScheme } from "./use-fetch-numbering-scheme";
+import useModalStore from "@/Modules/Common/Hooks/use-modal-store";
 
 interface UseUpdateNumberingSchemeProps {
-    initialData?: NumberingSchemeResourceData;
-    close: () => void;
+    itemParent?: ItemParentResourceData;
 }
 
-export function useUpdateNumberingScheme({ initialData, close }: UseUpdateNumberingSchemeProps) {
-    const { data, setData, post, patch, processing, errors, reset } = useForm<UpdateNumberingSchemeData>({
+export function useUpdateNumberingScheme({ itemParent }: UseUpdateNumberingSchemeProps) {
+    const numberingScheme = useFetchNumberingScheme(itemParent?.numbering_scheme_id);
+
+    const { data, setData, put, processing, errors, reset } = useForm<UpdateNumberingSchemeData>({
         name: "",
         prefix: "",
     });
 
+    const { closeModal } = useModalStore();
+
     useEffect(() => {
-        if (initialData) {
-            setData({
-                name: initialData.name,
-                prefix: initialData.prefix,
-            });
-        }
-    }, [initialData]);
+        setData({
+            name: numberingScheme?.name || "",
+            prefix: numberingScheme?.prefix || "",
+        });
+    }, [numberingScheme]);
 
     const handleSubmit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        const routeName = initialData ? "numbering-scheme.update" : "numbering-scheme.store";
-        const method = initialData ? patch : post;
+        const routeName = "numbering-scheme.update";
 
-        method(route(routeName, initialData?.id), {
+        put(route(routeName, itemParent?.numbering_scheme_id), {
             onSuccess: () => {
-                close();
+                closeModal("updateNumberingScheme");
                 notifications.show({
-                    message: `Numbering scheme ${initialData ? "updated" : "created"} successfully`,
+                    message: `Numbering scheme updated successfully`,
                     color: "green",
                 });
             },
             onError: (errors) => {
-                console.log(errors);
                 notifications.show({
                     message: "Something went wrong",
                     color: "red",

@@ -11,8 +11,8 @@ class ItemParentResourceData extends Data
         public string $item_id,
         public string $name,
         public string $owned_by,
-        public bool $has_active_numbering_scheme,
-        public bool $has_active_workflow
+        public ?string $numbering_scheme_id = null,
+        public ?string $workflow_id = null
     ) {}
 
     public static function fromModel(Item $item): self
@@ -21,8 +21,8 @@ class ItemParentResourceData extends Data
             item_id: $item->id,
             name: $item->workspace->name ?? $item->folder->name ?? null,
             owned_by: $item->workspace->owned_by ?? $item->folder->owned_by ?? null,
-            has_active_numbering_scheme: $item->folder && $item->folder->numberingScheme ? $item->folder->numberingScheme->exists() : false,
-            has_active_workflow: $item->folder && $item->folder->workflow ? $item->folder->workflow->exists() : false
+            numbering_scheme_id: $item->folder->numberingScheme->id ?? null,
+            workflow_id: $item->folder->workflow->id ?? null
         );
     }
 }

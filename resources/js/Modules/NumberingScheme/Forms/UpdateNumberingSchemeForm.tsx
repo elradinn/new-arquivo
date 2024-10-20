@@ -4,27 +4,24 @@ import { useUpdateNumberingScheme } from "../Hooks/use-update-numbering-scheme";
 import useModalStore from "@/Modules/Common/Hooks/use-modal-store";
 import { ItemParentResourceData } from "@/Modules/Item/Types/ItemParentResourceData";
 
-interface NumberingSchemeFormProps {
-    initialData?: NumberingSchemeResourceData;
-    itemParent: ItemParentResourceData;
+interface IProps {
+    itemParent?: ItemParentResourceData;
 }
 
-const NumberingSchemeForm: React.FC<NumberingSchemeFormProps> = ({
-    initialData,
+export const UpdateNumberingSchemeForm: React.FC<IProps> = ({
     itemParent,
 }) => {
     const { data, setData, handleSubmit, processing, errors } = useUpdateNumberingScheme({
-        initialData,
-        close,
+        itemParent,
     });
 
     const { modals, closeModal } = useModalStore();
 
     return (
         <Modal
-            opened={modals["numberingScheme"]}
-            onClose={() => closeModal("numberingScheme")}
-            title={<Text size="lg">{initialData ? "Edit" : "Create"} Numbering Scheme</Text>}
+            opened={modals["updateNumberingScheme"]}
+            onClose={() => closeModal("updateNumberingScheme")}
+            title={<Text size="lg">Update Numbering Scheme</Text>}
             size={550}
         >
             <form onSubmit={handleSubmit}>
@@ -43,16 +40,14 @@ const NumberingSchemeForm: React.FC<NumberingSchemeFormProps> = ({
                     />
                 </Stack>
                 <Flex align="center" justify="end" mt={16}>
-                    <Button variant="light" onClick={() => closeModal("numberingScheme")}>
+                    <Button variant="light" onClick={() => closeModal("updateNumberingScheme")}>
                         Cancel
                     </Button>
                     <Button ml={12} type="submit" loading={processing}>
-                        {initialData ? "Update" : "Create"}
+                        Update
                     </Button>
                 </Flex>
             </form>
         </Modal>
     );
 };
-
-export default NumberingSchemeForm;
