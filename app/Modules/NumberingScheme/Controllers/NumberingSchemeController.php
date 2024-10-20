@@ -70,4 +70,9 @@ class NumberingSchemeController extends Controller
 
         return response()->json(['message' => 'Numbering scheme deleted successfully']);
     }
+
+    public function getNumberingSchemeOfFolder(NumberingScheme $numberingScheme): JsonResponse
+    {
+        return response()->json($numberingScheme);
+    }
 }

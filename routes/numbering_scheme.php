@@ -16,5 +16,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/{numberingScheme}', [NumberingSchemeController::class, 'update'])->name('numbering-scheme.update');
 
         Route::delete('/{numberingScheme}', [NumberingSchemeController::class, 'destroy'])->name('numbering-scheme.destroy');
+
+        Route::get('/api/{numberingScheme}', [NumberingSchemeController::class, 'getNumberingSchemeOfFolder']);
     });
 });

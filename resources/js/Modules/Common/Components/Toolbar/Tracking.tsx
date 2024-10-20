@@ -14,6 +14,7 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { notifications } from "@mantine/notifications";
 import { IconListTree } from "@tabler/icons-react";
+import axios from "axios";
 import React, { FormEventHandler } from "react";
 
 interface IFormProps {
@@ -28,6 +29,21 @@ const ApprovalForm: React.FC<IFormProps> = ({ isOpened, close, folderItemId }) =
         name: "",
         prefix: "",
     });
+
+    // useEffect(() => {
+    //     if (workflowType) {
+    //         fetchUsers(workflowType);
+    //     }
+    // }, [workflowType]);
+
+    // const fetchUsers = async (type: string) => {
+    //     try {
+    //         const response = await axios.get(`/numbering-scheme/api/{}`);
+    //         setUsers(response.data);
+    //     } catch (error) {
+    //         console.error("Error fetching users", error);
+    //     }
+    // };
 
 
     const createFolderSubmit: FormEventHandler = (e) => {
