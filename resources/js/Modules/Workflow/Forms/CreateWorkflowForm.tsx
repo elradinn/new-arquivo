@@ -93,7 +93,7 @@ const CreateWorkflowForm: React.FC<IFormProps> = ({ itemParent }) => {
                 </Stack>
 
                 <Flex align="center" justify="end" mt={16}>
-                    <Button variant="outline" onClick={() => closeModal("workflow")}>
+                    <Button variant="light" onClick={() => closeModal("workflow")}>
                         Cancel
                     </Button>
 
