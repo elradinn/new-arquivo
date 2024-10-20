@@ -2,7 +2,7 @@ import { useRef, FormEventHandler } from "react";
 import { Box, Button, Flex, rem, TextInput } from "@mantine/core";
 import { useForm } from "@inertiajs/react";
 import { Text, Transition } from "@mantine/core";
-import classes from "../Edit.module.css";
+import classes from "../Styles/Edit.module.css";
 
 export default function UpdatePasswordForm() {
     const passwordInput = useRef<HTMLInputElement>(null);

@@ -24,7 +24,7 @@ class TrashController extends Controller
         $data = $this->getTrashedItemAction->execute();
 
 
-        return Inertia::render('Trash/Trash.page', $data);
+        return Inertia::render('Trash', $data);
     }
 
     public function delete(DeleteTrashedItemsData $data): RedirectResponse

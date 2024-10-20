@@ -1,4 +1,4 @@
-import ApproveIcon from "./ApproveIcon";
+import ApproveIcon from "@/Modules/Common/Components/ApproveIcon/ApproveIcon";
 import { Avatar, Badge, Button, Card, Flex, Group, Stack, Text, Textarea } from "@mantine/core";
 import { Head, useForm } from "@inertiajs/react";
 import { IconDownload, IconFileTypePdf, IconFolder } from "@tabler/icons-react";

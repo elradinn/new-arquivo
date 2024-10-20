@@ -13,7 +13,7 @@ import {
     Title,
 } from "@mantine/core";
 import OfficeLogo from "@/Modules/Common/Components/OfficeLogo/OfficeLogo";
-import classes from "./Welcome.module.css";
+import classes from "@/Modules/Welcome/Welcome.module.css";
 
 export default function Welcome({
     auth,

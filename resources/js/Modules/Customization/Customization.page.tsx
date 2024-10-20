@@ -1,14 +1,13 @@
 import { Head } from "@inertiajs/react";
-import { PageProps } from "@/types";
 import { Divider, Stack } from "@mantine/core";
-import { AdminLayout } from "@/Layouts/AdminLayout/AdminLayout";
+import { Authenticated } from "@/Modules/Common/Layouts/AuthenticatedLayout/Authenticated";
 import OfficeLogo from "./OfficeLogo";
 import OrganizationDetails from "./OrganizationDetails";
 import Themes from "./Themes";
 
-export default function CustomizationPage({ auth }: PageProps) {
+export default function CustomizationPage() {
     return (
-        <AdminLayout user={auth.user}>
+        <Authenticated>
             <Head title="Customization" />
             <Stack px={8} gap={48} py={8} mx={32} mt={32}>
                 <OfficeLogo />
@@ -23,6 +22,6 @@ export default function CustomizationPage({ auth }: PageProps) {
 
                 <Divider c="dimmed" />
             </Stack>
-        </AdminLayout>
+        </Authenticated>
     );
 }

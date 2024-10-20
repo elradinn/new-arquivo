@@ -28,7 +28,7 @@ class ActivityLogController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        return Inertia::render('ActivityLog/ActivityLog.page', [
+        return Inertia::render('ActivityLog', [
             'activityLogs' => ActivityLogResourceData::collect($activityLogs),
             'filters' => $request->only(['search']),
         ]);

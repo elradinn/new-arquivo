@@ -44,7 +44,7 @@ class DocumentController extends Controller
 
         $itemAncestors = $item->ancestorsWithSelf()->get()->load('workspace', 'folder');
 
-        return Inertia::render('DocumentProperties/DocumentProperties.page', array_merge([
+        return Inertia::render('DocumentProperties', array_merge([
             // 'itemAncestors' => ItemAncestorsResourceData::collect($itemAncestors, DataCollection::class),
             'document' => DocumentResourceData::fromModel($document),
         ]));
@@ -54,7 +54,7 @@ class DocumentController extends Controller
     {
         $this->documentAuthorization->canEdit(Auth::user(), $document);
 
-        return Inertia::render('DocumentProperties/DocumentEdit.page', [
+        return Inertia::render('DocumentProperties', [
             'document' => DocumentResourceData::fromModel($document),
         ]);
     }

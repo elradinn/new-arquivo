@@ -44,7 +44,7 @@ class NumberingSchemeController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        return Inertia::render('NumberingScheme/NumberingScheme.page', [
+        return Inertia::render('NumberingScheme', [
             'numberingSchemes' => NumberingSchemeResourceData::collect($numberingSchemes),
             'filters' => $request->only(['search']),
         ]);

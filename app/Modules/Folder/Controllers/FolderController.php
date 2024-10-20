@@ -47,7 +47,7 @@ class FolderController extends Controller
 
         $data = $this->getItemDataAction->execute($items);
 
-        return Inertia::render('Item/Item.page', $data);
+        return Inertia::render('Item', $data);
     }
 
     public function store(CreateFolderData $data): RedirectResponse
@@ -65,7 +65,7 @@ class FolderController extends Controller
 
         $data = $this->getItemDataAction->execute($item);
 
-        return Inertia::render('FolderProperties/FolderProperties.page', array_merge($data, [
+        return Inertia::render('FolderProperties', array_merge($data, [
             'folder' => FolderResourceData::from($folder),
         ]));
     }

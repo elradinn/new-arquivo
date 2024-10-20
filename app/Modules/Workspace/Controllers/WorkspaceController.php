@@ -51,7 +51,7 @@ class WorkspaceController extends Controller
 
         $data = $this->getItemDataAction->execute($item);
 
-        return Inertia::render('Item/Item.page', $data);
+        return Inertia::render('Item', $data);
     }
 
     public function store(CreateWorkspaceData $data): RedirectResponse

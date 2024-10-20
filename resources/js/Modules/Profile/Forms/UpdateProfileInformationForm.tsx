@@ -11,7 +11,7 @@ import {
     TextInput,
     Transition,
 } from "@mantine/core";
-import classes from "../Edit.module.css";
+import classes from "../Styles/Edit.module.css";
 
 export default function UpdateProfileInformation({
     mustVerifyEmail,

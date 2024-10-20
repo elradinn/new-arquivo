@@ -44,7 +44,7 @@ class MetadataController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        return Inertia::render('Metadata/Metadata.page', [
+        return Inertia::render('Metadata', [
             'metadata' => MetadataResourceData::collect($metadata),
             'filters' => $request->only(['search']),
         ]);

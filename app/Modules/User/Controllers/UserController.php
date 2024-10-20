@@ -42,7 +42,7 @@ class UserController extends Controller
             ->paginate(10)
             ->withQueryString();
 
-        return Inertia::render('User/User.page', [
+        return Inertia::render('User', [
             'users' => UserResourceData::collect($users),
             'filters' => $request->only(['search']),
         ]);

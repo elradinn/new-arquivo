@@ -1,14 +1,13 @@
 import { Authenticated } from "@/Modules/Common/Layouts/AuthenticatedLayout/Authenticated";
-import DeleteUserForm from "./Partials/DeleteUserForm";
-import UpdatePasswordForm from "./Partials/UpdatePasswordForm";
-import UpdateProfileInformationForm from "./Partials/UpdateProfileInformationForm";
+import DeleteUserForm from "@/Modules/Profile/Forms/DeleteUserForm";
+import UpdatePasswordForm from "@/Modules/Profile/Forms/UpdatePasswordForm";
+import UpdateProfileInformationForm from "@/Modules/Profile/Forms/UpdateProfileInformationForm";
 import { Head } from "@inertiajs/react";
 import { PageProps } from "@/Modules/Common/Types";
-import { Paper, Text } from "@mantine/core";
-import classes from "./Edit.module.css";
+import { Paper } from "@mantine/core";
+import classes from "@/Modules/Profile/Styles/Edit.module.css";
 
-export default function Edit({
-    auth,
+export default function EditProfile({
     mustVerifyEmail,
     status,
 }: PageProps<{ mustVerifyEmail: boolean; status?: string }>) {

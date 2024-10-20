@@ -1,5 +1,4 @@
 import { Head } from "@inertiajs/react";
-import { PageProps } from "@/types";
 import { Group, Stack, Text } from "@mantine/core";
 import { Authenticated } from "@/Modules/Common/Layouts/AuthenticatedLayout/Authenticated";
 import { StatCards } from "@/Modules/Common/Components/StatCards/StatCards";
@@ -13,6 +12,7 @@ const mockFiles = [
         owner: "Alice",
         updated_at: "2024-07-21T14:32:00Z",
         size: "32 KB",
+        type: "file",
         mime: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         is_folder: 0,
     },
@@ -22,6 +22,7 @@ const mockFiles = [
         owner: "Carol",
         updated_at: "2024-06-15T11:22:00Z",
         size: "12 KB",
+        type: "file",
         mime: "text/plain",
         is_folder: 0,
     },
@@ -32,6 +33,7 @@ const mockFiles = [
         updated_at: "2024-08-10T08:45:00Z",
         size: "256 KB",
         mime: "application/pdf",
+        type: "file",
         is_folder: 0,
     },
     {
@@ -41,12 +43,13 @@ const mockFiles = [
         updated_at: "2024-07-25T10:10:00Z",
         size: "40 KB",
         mime: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        type: "file",
         is_folder: 0,
     },
 ];
 
 // TODO: Make this to module Dashboard
-export default function DashboardPage({ auth }: PageProps) {
+export default function DashboardPage() {
     return (
         <Authenticated>
             <Head title="Dashboard" />
