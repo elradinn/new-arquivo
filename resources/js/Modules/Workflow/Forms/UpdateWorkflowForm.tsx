@@ -82,7 +82,7 @@ const UpdateWorkflowForm: React.FC<IFormProps> = ({ itemParent }) => {
                         Users in this workflow
                     </Text>
 
-                    {data.users.map(user => (
+                    {fetchedUsers.map(user => (
                         <Paper withBorder radius="md" py={16} px={10} key={user.id}>
                             <Group>
                                 <Avatar />
