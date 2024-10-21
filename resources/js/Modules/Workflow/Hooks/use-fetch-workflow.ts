@@ -18,7 +18,7 @@ export function useFetchWorkflow({ workflowId, isOpen }: IProps) {
 
     const fetchWorkflow = async (workflowId: number) => {
         try {
-            const response = await axios.get(`/workflows/api/${workflowId}`);
+            const response = await axios.get(`/workflows/${workflowId}`);
             setWorkflow(response.data);
         } catch (error) {
             console.error("Error fetching workflow", error);

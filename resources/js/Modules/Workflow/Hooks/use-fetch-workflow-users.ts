@@ -13,7 +13,7 @@ export function useFetchWorkflowUsers(workflowType: string) {
 
     const fetchUsers = async (type: string) => {
         try {
-            const response = await axios.get(`/workflows/api/users-by-workflow-type?type=${type}`);
+            const response = await axios.get(`/workflows/get-workflow-users-by-type/${type}`);
             setUsers(response.data);
         } catch (error) {
             console.error("Error fetching users", error);

@@ -53,10 +53,27 @@ class WorkflowController extends Controller
         return response()->json(['message' => 'Workflow deleted successfully.'], 200);
     }
 
-    public function getUsersByWorkflowType(Request $request): JsonResponse
-    {
-        $type = $request->query('type');
+    // public function getUsersByWorkflowType(Request $request): JsonResponse
+    // {
+    //     dd("Hello");
 
+    //     $type = $request->query('type');
+
+    //     if (!in_array($type, ['reviewal', 'approval'])) {
+    //         return response()->json(['error' => 'Invalid workflow type'], 400);
+    //     }
+
+    //     if ($type == 'reviewal') {
+    //         $users = User::where('workflow_role', 'reviewer')->get();
+    //     } else if ($type == 'approval') {
+    //         $users = User::where('workflow_role', 'approver')->get();
+    //     }
+
+    //     return response()->json($users);
+    // }
+
+    public function getWorkflowUsersByType(string $type): JsonResponse
+    {
         if (!in_array($type, ['reviewal', 'approval'])) {
             return response()->json(['error' => 'Invalid workflow type'], 400);
         }

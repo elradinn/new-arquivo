@@ -18,7 +18,7 @@ export function useFetchNumberingScheme({ numberingSchemeId, isOpen }: IProps) {
 
     const fetchNumberingScheme = async (numberingSchemeId: number) => {
         try {
-            const response = await axios.get(`/numbering-scheme/api/${numberingSchemeId}`);
+            const response = await axios.get(`/numbering-scheme/${numberingSchemeId}`);
             setNumberingScheme(response.data);
             console.log(response.data);
         } catch (error) {
