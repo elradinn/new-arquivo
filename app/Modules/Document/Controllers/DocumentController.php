@@ -54,7 +54,7 @@ class DocumentController extends Controller
     {
         $this->documentAuthorization->canEdit(Auth::user(), $document);
 
-        return Inertia::render('DocumentProperties', [
+        return Inertia::render('DocumentEdit', [
             'document' => DocumentResourceData::fromModel($document),
         ]);
     }
