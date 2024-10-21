@@ -22,6 +22,7 @@ import CreateWorkflowForm from "@/Modules/Workflow/Forms/CreateWorkflowForm";
 import { UpdateNumberingSchemeForm } from "@/Modules/NumberingScheme/Forms/UpdateNumberingSchemeForm";
 import CreateNumberingSchemeForm from "@/Modules/NumberingScheme/Forms/CreateNumberingSchemeForm";
 import CreateFolderForm from "@/Modules/Folder/Forms/FolderForm";
+import UpdateWorkflowForm from "@/Modules/Workflow/Forms/UpdateWorkflowForm";
 
 interface IProps {
     uploadFileRef?: React.RefObject<() => void>;
@@ -115,7 +116,7 @@ const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent }) => {
                     variant={itemParent?.workflow_id ? "light" : "subtle"}
                     color={itemParent?.workflow_id ? "green.8" : "dark.3"}
                     leftSection={<IconGitBranch size={18} />}
-                    onClick={() => openModal("workflow")}
+                    onClick={() => openModal(itemParent?.workflow_id ? "updateWorkflow" : "createWorkflow")}
                 >
                     Workflow
                 </Button>
@@ -177,6 +178,7 @@ const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent }) => {
             {/* Forms */}
             <CreateFolderForm itemParent={itemParent} />
             <CreateWorkflowForm itemParent={itemParent} />
+            <UpdateWorkflowForm itemParent={itemParent} />
             <CreateNumberingSchemeForm itemParent={itemParent} />
             <UpdateNumberingSchemeForm itemParent={itemParent} />
         </Group>

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { NumberingSchemeResourceData } from "../Types/NumberingSchemeResourceData";
 
 interface IProps {
-    numberingSchemeId?: string;
+    numberingSchemeId?: number;
     isOpen?: boolean;
 }
 
@@ -16,7 +16,7 @@ export function useFetchNumberingScheme({ numberingSchemeId, isOpen }: IProps) {
         }
     }, [numberingSchemeId, isOpen]);
 
-    const fetchNumberingScheme = async (numberingSchemeId: string) => {
+    const fetchNumberingScheme = async (numberingSchemeId: number) => {
         try {
             const response = await axios.get(`/numbering-scheme/api/${numberingSchemeId}`);
             setNumberingScheme(response.data);

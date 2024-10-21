@@ -2,27 +2,30 @@
 
 namespace Modules\Workflow\Data;
 
-use Spatie\LaravelData\Data;
-use Spatie\LaravelData\Attributes\Validation\Uuid;
-use Spatie\LaravelData\Attributes\DataCollectionOf;
+use Spatie\LaravelData\Attributes\Validation\In;
 use Spatie\LaravelData\Attributes\Validation\Required;
-use Modules\User\Models\User;
+use Spatie\LaravelData\Data;
 
 class UpdateWorkflowData extends Data
 {
     /**
-     * @param WorkflowHasUserData[] $users_to_add
-     * @param WorkflowHasUserData[] $users_to_remove
+     * @param WorkflowHasUserData[] $users
      */
     public function __construct(
 
         public ?string $resolution = null,
 
-        #[Uuid()]
-        public ?string $destination = null,
+        #[Required(), In(['reviewal', 'approval'])]
+        public string $type,
 
-        public ?array $users_to_add,
+        #[Required]
+        public array $users
 
-        public ?array $users_to_remove
+        // #[Uuid()]
+        // public ?string $destination = null,
+
+        // public ?array $users_to_add,
+
+        // public ?array $users_to_remove
     ) {}
 }

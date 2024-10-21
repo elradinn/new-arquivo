@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\User\Models\User;
 
 class Workflow extends Model
 {
@@ -25,5 +26,10 @@ class Workflow extends Model
     public function workflowUsers(): HasMany
     {
         return $this->hasMany(WorkflowHasUser::class);
+    }
+
+    public function users()
+    {
+        return $this->hasManyThrough(User::class, WorkflowHasUser::class, 'workflow_id', 'id', 'id', 'user_id');
     }
 }

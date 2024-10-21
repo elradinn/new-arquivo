@@ -13,6 +13,7 @@ use Modules\Workflow\Actions\UpdateWorkflowAction;
 use Modules\Workflow\Actions\DeleteWorkflowAction;
 use Modules\User\Models\User;
 use Illuminate\Http\Request;
+use Modules\Workflow\Data\WorkflowResource;
 
 class WorkflowController extends Controller
 {
@@ -26,6 +27,11 @@ class WorkflowController extends Controller
     {
         $workflows = Workflow::with('workflowUsers')->get();
         return response()->json($workflows);
+    }
+
+    public function show(Workflow $workflow): JsonResponse
+    {
+        return response()->json(WorkflowResource::fromModel($workflow));
     }
 
     public function store(CreateWorkflowData $data): RedirectResponse

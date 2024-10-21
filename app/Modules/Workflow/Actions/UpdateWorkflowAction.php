@@ -5,6 +5,7 @@ namespace Modules\Workflow\Actions;
 use Modules\Workflow\Data\UpdateWorkflowData;
 use Modules\Workflow\Models\Workflow;
 use Modules\Workflow\Models\WorkflowHasUser;
+use Modules\User\Models\User;
 
 class UpdateWorkflowAction
 {
@@ -13,24 +14,48 @@ class UpdateWorkflowAction
         // Update workflow details
         $workflow->update($data->toArray());
 
-        // Remove specified users if any
-        if (!empty($data->users_to_remove)) {
-            $userIdsToRemove = array_map(fn($user) => $user->user_id, $data->users_to_remove);
-            WorkflowHasUser::where('workflow_id', $workflow->id)
-                ->whereIn('user_id', $userIdsToRemove)
-                ->delete();
+        // Determine required role based on the new type
+        $requiredRole = $this->getRequiredRole($data->type);
+
+        if ($requiredRole) {
+            // Filter users based on the required role
+            $filteredUsers = User::whereIn('id', array_map(fn($user) => $user->user_id, $data->users))
+                ->where('role', $requiredRole)
+                ->get();
+
+            // Remove existing users if the type has changed
+            if ($workflow->type !== $data->type) {
+                WorkflowHasUser::where('workflow_id', $workflow->id)
+                    ->delete();
+            }
+
+            // Prepare new user associations
+            $newUsers = $filteredUsers->map(function ($user) use ($workflow) {
+                return new WorkflowHasUser([
+                    'workflow_id' => $workflow->id,
+                    'user_id' => $user->id,
+                ]);
+            });
+
+            // Associate the filtered users with the workflow
+            $workflow->workflowUsers()->saveMany($newUsers);
         }
 
-        // Add new users if any
-        $newUsers = collect($data->users_to_add)->map(function ($user) use ($workflow) {
-            return new WorkflowHasUser([
-                'workflow_id' => $workflow->id,
-                'user_id' => $user->user_id,
-            ]);
-        });
-
-        $workflow->workflowUsers()->saveMany($newUsers);
-
         return ['workflow' => $workflow->load('workflowUsers')];
+    }
+
+    /**
+     * Determines the required user role based on the workflow type.
+     *
+     * @param string $type
+     * @return string|null
+     */
+    private function getRequiredRole(string $type): ?string
+    {
+        return match ($type) {
+            'reviewal' => 'reviewer',
+            'approval' => 'approver',
+            default => null,
+        };
     }
 }

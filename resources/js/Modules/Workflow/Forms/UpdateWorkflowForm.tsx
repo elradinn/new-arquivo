@@ -11,40 +11,41 @@ import {
     Textarea,
 } from "@mantine/core";
 import { ItemParentResourceData } from "@/Modules/Item/Types/ItemParentResourceData";
-import { useCreateWorkflow } from "../Hooks/use-create-workflow";
 import useModalStore from "@/Modules/Common/Hooks/use-modal-store";
+import { useUpdateWorkflow } from "../Hooks/use-update-workflow";
 
 interface IFormProps {
     itemParent?: ItemParentResourceData;
 }
 
-const CreateWorkflowForm: React.FC<IFormProps> = ({ itemParent }) => {
+const UpdateWorkflowForm: React.FC<IFormProps> = ({ itemParent }) => {
+    const { modals, closeModal } = useModalStore();
+    const isOpen = modals["updateWorkflow"];
+
     const {
         data,
         setData,
-        createApprovalSubmit,
+        handleUpdateWorkflow,
         processing,
-        errors,
         users,
-        setWorkflowType
-    } = useCreateWorkflow({
-        itemParentId: itemParent?.item_id,
+        errors,
+    } = useUpdateWorkflow({
+        itemParent,
+        isOpen,
     });
-
-    const { modals, closeModal } = useModalStore();
 
     return (
         <Modal
-            opened={modals["createWorkflow"]}
-            onClose={() => closeModal("createWorkflow")}
+            opened={modals["updateWorkflow"]}
+            onClose={() => closeModal("updateWorkflow")}
             title={
                 <Text fw="bold" size="lg">
-                    Create Workflow Process
+                    Update Workflow Process
                 </Text>
             }
             size={550}
         >
-            <form onSubmit={createApprovalSubmit}>
+            <form onSubmit={handleUpdateWorkflow}>
                 <Stack gap={16}>
                     <Text size="sm" c="dimmed">
                         Routinely directs any uploaded file in this folder through a predefined
@@ -54,9 +55,8 @@ const CreateWorkflowForm: React.FC<IFormProps> = ({ itemParent }) => {
                     <Radio.Group
                         name="status"
                         value={data.type}
-                        onChange={(value) => {
+                        onChange={(value: string) => {
                             setData("type", value);
-                            setWorkflowType(value);
                         }}
                     >
                         <Group mt="xs">
@@ -77,15 +77,16 @@ const CreateWorkflowForm: React.FC<IFormProps> = ({ itemParent }) => {
                     />
 
                     <Text size="sm" fw={500} mb={-8}>
-                        User in this workflow
+                        Users in this workflow
                     </Text>
 
-                    {users.map(user => (
-                        <Paper withBorder radius="md" py={16} px={10} key={user.id}>
+                    {data.users.map(user => (
+                        <Paper withBorder radius="md" py={16} px={10} key={user.user_id}>
                             <Group>
                                 <Avatar />
                                 <Stack gap={8}>
-                                    <Text size="sm">{user.name}</Text>
+                                    <Text size="sm">{user.user_name}</Text>
+                                    <Text size="sm">{user.user_email}</Text>
                                 </Stack>
                             </Group>
                         </Paper>
@@ -93,12 +94,12 @@ const CreateWorkflowForm: React.FC<IFormProps> = ({ itemParent }) => {
                 </Stack>
 
                 <Flex align="center" justify="end" mt={16}>
-                    <Button variant="light" onClick={() => closeModal("createWorkflow")}>
+                    <Button variant="light" onClick={() => closeModal("updateWorkflow")}>
                         Cancel
                     </Button>
 
                     <Button ml={12} type="submit" loading={processing}>
-                        Create
+                        Update
                     </Button>
                 </Flex>
             </form>
@@ -106,4 +107,4 @@ const CreateWorkflowForm: React.FC<IFormProps> = ({ itemParent }) => {
     );
 };
 
-export default CreateWorkflowForm;
+export default UpdateWorkflowForm;
