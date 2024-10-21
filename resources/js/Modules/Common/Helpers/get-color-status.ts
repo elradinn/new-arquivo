@@ -1,16 +1,13 @@
 export const getColorStatus = (state: string | undefined) => {
     switch (state) {
         case "Reviewal Pending":
-            return "yellow";
+        case "Approval Pending":
+            return "orange";
         case "Reviewal Accepted":
+        case "Approval Accepted":
             return "green";
         case "Reviewal Rejected":
-            return "red";
-        case "Approval Pending":
-            return "blue";
-        case "Approval Accepted":
-            return "teal";
         case "Approval Rejected":
-            return "orange";
+            return "red";
     }
 };

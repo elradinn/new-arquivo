@@ -9,6 +9,8 @@ import {
     IconFileZip,
     IconFileText,
     IconFile,
+    IconSquareCheckFilled,
+    IconMessageFilled,
 } from "@tabler/icons-react";
 import {
     isAudio,
@@ -20,7 +22,7 @@ import {
     isWord,
     isZip,
 } from "@/Modules/Item/Helpers/file-helper";
-import { Indicator } from "@mantine/core";
+import { Group } from "@mantine/core";
 import { getColorStatus } from "@/Modules/Common/Helpers/get-color-status";
 
 interface ItemIconProps {
@@ -55,11 +57,19 @@ export const ItemIcon: React.FC<ItemIconProps> = ({ mime, isFolder, approvalStat
 
     const indicatorColor = getColorStatus(approvalStatus);
 
-    return indicatorColor ? (
-        <Indicator position="bottom-end" color={indicatorColor}>
+    const renderStatusIcon = () => {
+        if (approvalStatus?.includes("Approval")) {
+            return <IconSquareCheckFilled color={indicatorColor} />;
+        } else if (approvalStatus?.includes("Reviewal")) {
+            return <IconMessageFilled color={indicatorColor} />;
+        }
+        return null;
+    };
+
+    return (
+        <Group gap={4}>
+            {renderStatusIcon()}
             {renderIcon()}
-        </Indicator>
-    ) : (
-        renderIcon()
+        </Group>
     );
 };
