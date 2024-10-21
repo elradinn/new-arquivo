@@ -2,7 +2,7 @@ import { useForm } from "@inertiajs/react";
 import { notifications } from "@mantine/notifications";
 import { UpdateWorkflowData } from "../Types/UpdateWorkflowData";
 import { useFetchWorkflowUsers } from "./use-fetch-workflow-users";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useFetchWorkflow } from "./use-fetch-workflow";
 import useModalStore from "@/Modules/Common/Hooks/use-modal-store";
 import { ItemParentResourceData } from "@/Modules/Item/Types/ItemParentResourceData";
@@ -13,9 +13,11 @@ interface IProps {
 }
 
 export function useUpdateWorkflow({ itemParent, isOpen }: IProps) {
+    const [workflowType, setWorkflowType] = useState("reviewal");
     const workflow = useFetchWorkflow({ workflowId: itemParent?.workflow_id, isOpen });
-
-    console.log("Where is the workflow?", workflow);
+    const fetchedUsers = useFetchWorkflowUsers(workflowType, isOpen);
+    console.log("Fetched users", fetchedUsers);
+    const { closeModal } = useModalStore();
 
     const { data, setData, put, processing, errors, reset, clearErrors } = useForm<UpdateWorkflowData>({
         resolution: "",
@@ -23,9 +25,9 @@ export function useUpdateWorkflow({ itemParent, isOpen }: IProps) {
         users: [],
     });
 
-    const users = useFetchWorkflowUsers(data.type);
-
-    const { closeModal } = useModalStore();
+    useEffect(() => {
+        setData("users", fetchedUsers);
+    }, [fetchedUsers]);
 
     useEffect(() => {
         setData({
@@ -62,5 +64,5 @@ export function useUpdateWorkflow({ itemParent, isOpen }: IProps) {
         });
     };
 
-    return { data, setData, handleUpdateWorkflow, processing, errors, handleClose, users };
+    return { data, setData, handleUpdateWorkflow, processing, errors, handleClose, fetchedUsers, setWorkflowType };
 }

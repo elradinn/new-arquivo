@@ -11,8 +11,8 @@ interface IProps {
 
 export function useCreateWorkflow({ itemParentId }: IProps) {
     const [workflowType, setWorkflowType] = useState("reviewal");
-    const users = useFetchWorkflowUsers(workflowType);
-    const { closeModal } = useModalStore();
+    const { closeModal, modals } = useModalStore();
+    const users = useFetchWorkflowUsers(workflowType, modals["createWorkflow"]);
 
     const { data, setData, post, processing, errors, reset } = useForm<CreateWorkflowData>({
         folder_item_id: "",

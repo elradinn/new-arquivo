@@ -27,7 +27,8 @@ const UpdateWorkflowForm: React.FC<IFormProps> = ({ itemParent }) => {
         setData,
         handleUpdateWorkflow,
         processing,
-        users,
+        fetchedUsers,
+        setWorkflowType,
         errors,
     } = useUpdateWorkflow({
         itemParent,
@@ -57,6 +58,7 @@ const UpdateWorkflowForm: React.FC<IFormProps> = ({ itemParent }) => {
                         value={data.type}
                         onChange={(value: string) => {
                             setData("type", value);
+                            setWorkflowType(value);
                         }}
                     >
                         <Group mt="xs">
@@ -81,12 +83,12 @@ const UpdateWorkflowForm: React.FC<IFormProps> = ({ itemParent }) => {
                     </Text>
 
                     {data.users.map(user => (
-                        <Paper withBorder radius="md" py={16} px={10} key={user.user_id}>
+                        <Paper withBorder radius="md" py={16} px={10} key={user.id}>
                             <Group>
                                 <Avatar />
                                 <Stack gap={8}>
-                                    <Text size="sm">{user.user_name}</Text>
-                                    <Text size="sm">{user.user_email}</Text>
+                                    <Text size="sm">{user.name}</Text>
+                                    <Text size="sm">{user.email}</Text>
                                 </Stack>
                             </Group>
                         </Paper>
