@@ -20,7 +20,7 @@ class UpdateWorkflowAction
         if ($requiredRole) {
             // Filter users based on the required role
             $filteredUsers = User::whereIn('id', array_map(fn($user) => $user->user_id, $data->users))
-                ->where('role', $requiredRole)
+                ->where('workflow_role', $requiredRole)
                 ->get();
 
             // Remove existing users if the type has changed
@@ -29,8 +29,11 @@ class UpdateWorkflowAction
                     ->delete();
             }
 
-            // Prepare new user associations
-            $newUsers = $filteredUsers->map(function ($user) use ($workflow) {
+            // Prepare new user associations, excluding existing ones
+            $existingUserIds = $workflow->workflowUsers->pluck('user_id')->toArray();
+            $newUsers = $filteredUsers->reject(function ($user) use ($existingUserIds) {
+                return in_array($user->id, $existingUserIds);
+            })->map(function ($user) use ($workflow) {
                 return new WorkflowHasUser([
                     'workflow_id' => $workflow->id,
                     'user_id' => $user->id,

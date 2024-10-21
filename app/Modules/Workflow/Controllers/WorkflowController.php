@@ -41,10 +41,10 @@ class WorkflowController extends Controller
         return redirect()->back();
     }
 
-    public function update(Workflow $workflow, UpdateWorkflowData $data): JsonResponse
+    public function update(Workflow $workflow, UpdateWorkflowData $data): RedirectResponse
     {
         $updatedWorkflow = $this->updateWorkflowAction->execute($workflow, $data);
-        return response()->json($updatedWorkflow, 200);
+        return redirect()->back();
     }
 
     public function destroy(Workflow $workflow): JsonResponse
@@ -52,25 +52,6 @@ class WorkflowController extends Controller
         $this->deleteWorkflowAction->execute($workflow);
         return response()->json(['message' => 'Workflow deleted successfully.'], 200);
     }
-
-    // public function getUsersByWorkflowType(Request $request): JsonResponse
-    // {
-    //     dd("Hello");
-
-    //     $type = $request->query('type');
-
-    //     if (!in_array($type, ['reviewal', 'approval'])) {
-    //         return response()->json(['error' => 'Invalid workflow type'], 400);
-    //     }
-
-    //     if ($type == 'reviewal') {
-    //         $users = User::where('workflow_role', 'reviewer')->get();
-    //     } else if ($type == 'approval') {
-    //         $users = User::where('workflow_role', 'approver')->get();
-    //     }
-
-    //     return response()->json($users);
-    // }
 
     public function getWorkflowUsersByType(string $type): JsonResponse
     {

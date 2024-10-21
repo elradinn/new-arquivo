@@ -32,7 +32,7 @@ export function useUpdateWorkflow({ itemParent, isOpen }: IProps) {
         setData({
             resolution: workflow?.resolution || "",
             type: workflow?.type || "",
-            users: workflow?.users || [],
+            users: (workflow?.users || []).map(user => ({ user_id: user.id })),
         });
         setWorkflowType(workflow?.type || "");
     }, [workflow]);
@@ -45,6 +45,8 @@ export function useUpdateWorkflow({ itemParent, isOpen }: IProps) {
 
     const handleUpdateWorkflow = (e: React.FormEvent) => {
         e.preventDefault();
+
+        data.users = fetchedUsers.map(user => ({ user_id: user.id }));
 
         put(route("workflows.update", itemParent?.workflow_id), {
             onSuccess: () => {
