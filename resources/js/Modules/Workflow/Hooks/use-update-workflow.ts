@@ -26,7 +26,6 @@ export function useUpdateWorkflow({ itemParent, isOpen }: IProps) {
 
     useEffect(() => {
         setData("users", fetchedUsers);
-        console.log("Fetched users", fetchedUsers);
     }, [fetchedUsers]);
 
     useEffect(() => {
