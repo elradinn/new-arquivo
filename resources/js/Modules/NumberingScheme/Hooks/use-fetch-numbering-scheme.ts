@@ -20,7 +20,6 @@ export function useFetchNumberingScheme({ numberingSchemeId, isOpen }: IProps) {
         try {
             const response = await axios.get(`/numbering-scheme/${numberingSchemeId}`);
             setNumberingScheme(response.data);
-            console.log(response.data);
         } catch (error) {
             console.error("Error fetching numbering scheme", error);
         }

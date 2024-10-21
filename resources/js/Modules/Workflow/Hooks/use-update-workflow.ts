@@ -16,7 +16,6 @@ export function useUpdateWorkflow({ itemParent, isOpen }: IProps) {
     const [workflowType, setWorkflowType] = useState("reviewal");
     const workflow = useFetchWorkflow({ workflowId: itemParent?.workflow_id, isOpen });
     const fetchedUsers = useFetchWorkflowUsers(workflowType, isOpen);
-    console.log("Fetched users", fetchedUsers);
     const { closeModal } = useModalStore();
 
     const { data, setData, put, processing, errors, reset, clearErrors } = useForm<UpdateWorkflowData>({
@@ -27,6 +26,7 @@ export function useUpdateWorkflow({ itemParent, isOpen }: IProps) {
 
     useEffect(() => {
         setData("users", fetchedUsers);
+        console.log("Fetched users", fetchedUsers);
     }, [fetchedUsers]);
 
     useEffect(() => {
@@ -35,6 +35,7 @@ export function useUpdateWorkflow({ itemParent, isOpen }: IProps) {
             type: workflow?.type || "",
             users: workflow?.users || [],
         });
+        setWorkflowType(workflow?.type || "");
     }, [workflow]);
 
     const handleClose = () => {
@@ -64,5 +65,5 @@ export function useUpdateWorkflow({ itemParent, isOpen }: IProps) {
         });
     };
 
-    return { data, setData, handleUpdateWorkflow, processing, errors, handleClose, fetchedUsers, setWorkflowType };
+    return { data, setData, handleUpdateWorkflow, processing, errors, handleClose, fetchedUsers, setWorkflowType, workflow };
 }
