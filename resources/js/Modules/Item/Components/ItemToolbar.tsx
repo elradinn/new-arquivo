@@ -132,7 +132,9 @@ const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent }) => {
                 <Button
                     variant="subtle"
                     color="dark.3"
+                    component={Link}
                     leftSection={<IconArticle size={18} />}
+                    href={route("folder.activity-log", { id: itemParent?.item_id })}
                 >
                     Activity
                 </Button>

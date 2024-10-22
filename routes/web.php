@@ -12,6 +12,8 @@ require __DIR__ . '/workspace.php';
 
 require __DIR__ . '/folder.php';
 
+require __DIR__ . '/folder_activity_log.php';
+
 require __DIR__ . '/document.php';
 
 require __DIR__ . '/document_approval.php';

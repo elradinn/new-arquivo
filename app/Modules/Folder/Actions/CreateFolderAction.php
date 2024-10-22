@@ -22,9 +22,17 @@ class CreateFolderAction
             ])
         );
 
-        return $item->folder()->create([
+        $folder = $item->folder()->create([
             'name' => $data->name,
             'owned_by' => $data->owned_by ?? Auth::id(),
         ]);
+
+
+        activity()
+            ->performedOn($folder)
+            ->causedBy(Auth::id())
+            ->log("Folder created");
+
+        return $folder;
     }
 }
