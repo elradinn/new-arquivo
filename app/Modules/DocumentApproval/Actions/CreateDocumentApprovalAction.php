@@ -2,6 +2,7 @@
 
 namespace Modules\DocumentApproval\Actions;
 
+use Illuminate\Support\Facades\Auth;
 use Modules\DocumentApproval\States\DocumentApprovalPending;
 use Modules\DocumentApproval\States\DocumentReviewalPending;
 use Modules\DocumentApproval\Data\CreateDocumentApprovalData;
@@ -42,6 +43,11 @@ class CreateDocumentApprovalAction
         ]);
 
         $this->sendDocumentApprovalNotificationAction->execute($documentApproval);
+
+        activity()
+            ->performedOn($documentApproval->document)
+            ->causedBy(Auth::id())
+            ->log("Started " . $approvalType . " workflow");
 
         return $documentApproval;
     }

@@ -12,6 +12,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+use Modules\ActivityLog\Models\ActivityLog;
 use Modules\DocumentApproval\States\DocumentState;
 use Spatie\ModelStates\HasStates;
 
@@ -87,5 +90,10 @@ class Document extends Model
         return $this->belongsToMany(User::class, 'user_document_access', 'document_id', 'user_id')
             ->withPivot('role')
             ->withTimestamps();
+    }
+
+    public function activityLogs(): MorphMany
+    {
+        return $this->morphMany(ActivityLog::class, 'subject');
     }
 }

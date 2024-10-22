@@ -42,14 +42,14 @@ class UploadDocumentAction
                 'file_path' => $filePath,
             ]);
 
-            $this->applyDocumentNumberAction->execute($document);
-
-            $this->createDocumentApprovalFromWorkflowAction->execute($document);
-
             activity()
                 ->performedOn($document)
                 ->causedBy(Auth::id())
                 ->log("Document uploaded");
+
+            $this->applyDocumentNumberAction->execute($document);
+
+            $this->createDocumentApprovalFromWorkflowAction->execute($document);
 
             $documents[] = $document;
         }

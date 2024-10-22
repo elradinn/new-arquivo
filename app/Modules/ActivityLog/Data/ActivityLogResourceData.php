@@ -2,6 +2,7 @@
 
 namespace App\Modules\ActivityLog\Data;
 
+use Modules\ActivityLog\Models\ActivityLog;
 use Spatie\LaravelData\Resource;
 use Spatie\Activitylog\Models\Activity;
 
@@ -18,7 +19,7 @@ class ActivityLogResourceData extends Resource
         public string $description
     ) {}
 
-    public static function fromModel(Activity $activityLog): self
+    public static function fromModel(ActivityLog $activityLog): self
     {
         return new self(
             date: $activityLog->created_at->toDateString(),

@@ -2,6 +2,7 @@
 
 namespace Modules\Document\Controllers;
 
+use App\Modules\ActivityLog\Data\ActivityLogResourceData;
 use Modules\Common\Controllers\Controller;
 use Modules\Document\Models\Document;
 use Illuminate\Http\JsonResponse;
@@ -44,10 +45,10 @@ class DocumentController extends Controller
 
         $itemAncestors = $item->ancestorsWithSelf()->get()->load('workspace', 'folder');
 
-        return Inertia::render('DocumentProperties', array_merge([
-            // 'itemAncestors' => ItemAncestorsResourceData::collect($itemAncestors, DataCollection::class),
+        return Inertia::render('DocumentProperties', [
+            'activityLog' => ActivityLogResourceData::collect($document->activityLogs),
             'document' => DocumentResourceData::fromModel($document),
-        ]));
+        ]);
     }
 
     public function edit(Document $document): Response

@@ -13,6 +13,7 @@ import { DataTable } from "mantine-datatable";
 import { DocumentResourceData } from "@/Modules/Document/Types/DocumentResourceData";
 import { ItemAncestorsResourceData } from "@/Modules/Item/Types/ItemAncestorsResourceData";
 import ItemBreadcrumbs from "@/Modules/Item/Components/ItemBreadcrumbs";
+import { ActivityLogResourceData } from "@/Modules/ActivityLog/Types/ActivityLogResourceData";
 
 const mockAuditLog = [
     {
@@ -68,9 +69,12 @@ const mockAuditLog = [
 interface IProps {
     document: DocumentResourceData;
     itemAncestors: ItemAncestorsResourceData[];
+    activityLog: ActivityLogResourceData[]
 }
 
-export default function DocumentPropertiesPage({ document }: IProps) {
+export default function DocumentPropertiesPage({ document, activityLog }: IProps) {
+    console.log(activityLog);
+
     return (
         <Authenticated toolbar={<Toolbar page="folder" />}>
             <Head title="Document Properties" />
@@ -116,10 +120,10 @@ export default function DocumentPropertiesPage({ document }: IProps) {
                                 columns={[
                                     { accessor: "date" },
                                     { accessor: "time" },
-                                    { accessor: "user" },
-                                    { accessor: "action" },
+                                    { accessor: "user_name", title: "User" },
+                                    { accessor: "description", title: "Action" },
                                 ]}
-                                records={mockAuditLog}
+                                records={activityLog}
                                 highlightOnHover
                                 verticalSpacing="lg"
                                 horizontalSpacing="xl"

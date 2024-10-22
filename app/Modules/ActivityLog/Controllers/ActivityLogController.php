@@ -7,6 +7,7 @@ use Spatie\Activitylog\Models\Activity;
 use Modules\Common\Controllers\Controller;
 use App\Modules\ActivityLog\Data\ActivityLogResourceData;
 use Illuminate\Http\Request;
+use Modules\ActivityLog\Models\ActivityLog;
 
 class ActivityLogController extends Controller
 {
@@ -14,7 +15,7 @@ class ActivityLogController extends Controller
     {
         $search = $request->input('search');
 
-        $activityLogs = Activity::query()
+        $activityLogs = ActivityLog::query()
             ->when($search, function ($query, $search) {
                 $searchableColumns = ['description'];
 
