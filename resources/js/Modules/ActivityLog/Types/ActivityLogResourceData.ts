@@ -1,4 +1,5 @@
 export type ActivityLogResourceData = {
+    id: number;
     date: string;
     time: string;
     user_name: string;

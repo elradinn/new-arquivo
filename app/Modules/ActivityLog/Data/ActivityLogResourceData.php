@@ -9,6 +9,7 @@ use Spatie\Activitylog\Models\Activity;
 class ActivityLogResourceData extends Resource
 {
     public function __construct(
+        public int $id,
         public string $date,
         public string $time,
         public string $user_name,
@@ -19,9 +20,10 @@ class ActivityLogResourceData extends Resource
         public string $description
     ) {}
 
-    public static function fromModel(ActivityLog $activityLog): self
+    public static function fromModel(Activity $activityLog): self
     {
         return new self(
+            id: $activityLog->id,
             date: $activityLog->created_at->toDateString(),
             time: $activityLog->created_at->toTimeString(),
             user_name: $activityLog->causer?->name ?? 'System',

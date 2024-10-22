@@ -72,15 +72,13 @@ interface IProps {
     activityLog: ActivityLogResourceData[]
 }
 
-export default function DocumentPropertiesPage({ document, activityLog }: IProps) {
-    console.log(activityLog);
-
+export default function DocumentPropertiesPage({ document, itemAncestors, activityLog }: IProps) {
     return (
         <Authenticated toolbar={<Toolbar page="folder" />}>
             <Head title="Document Properties" />
-            {/* <Box px={8} py={8} mb={48}>
+            <Box px={8} py={8} mb={48}>
                 <ItemBreadcrumbs ancestors={itemAncestors} />
-            </Box> */}
+            </Box>
             <Grid>
                 <Grid.Col span={8}>
                     <Stack px={8} py={8} gap={48} mb={48}>

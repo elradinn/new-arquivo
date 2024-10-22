@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Modules\ActivityLog\Models\ActivityLog;
 use Modules\DocumentApproval\States\DocumentState;
+use Spatie\Activitylog\Models\Activity;
 use Spatie\ModelStates\HasStates;
 
 class Document extends Model
@@ -94,6 +95,6 @@ class Document extends Model
 
     public function activityLogs(): MorphMany
     {
-        return $this->morphMany(ActivityLog::class, 'subject');
+        return $this->morphMany(Activity::class, 'subject');
     }
 }

@@ -47,6 +47,7 @@ class DocumentController extends Controller
 
         return Inertia::render('DocumentProperties', [
             'activityLog' => ActivityLogResourceData::collect($document->activityLogs),
+            'itemAncestors' => ItemAncestorsResourceData::collect($itemAncestors, DataCollection::class),
             'document' => DocumentResourceData::fromModel($document),
         ]);
     }
