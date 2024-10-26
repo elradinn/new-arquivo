@@ -14,5 +14,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/{user}', [UserController::class, 'update']);
 
         Route::delete('/{user}', [UserController::class, 'delete']);
+
+        Route::get('/get-users-approval-role/{type}', [UserController::class, 'getUsersApprovalRole']);
     });
 });

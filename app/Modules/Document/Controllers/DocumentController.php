@@ -40,7 +40,7 @@ class DocumentController extends Controller
         return redirect()->back();
     }
 
-    public function show(Document $document): JsonResponse
+    public function show(Document $document)
     {
         $this->documentAuthorization->canView(Auth::user(), $document);
 
@@ -48,17 +48,17 @@ class DocumentController extends Controller
 
         $itemAncestors = $item->ancestorsWithSelf()->get()->load('workspace', 'folder');
 
-        // return Inertia::render('DocumentProperties', [
-        //     'activityLog' => ActivityLogResourceData::collect($document->activityLogs),
-        //     'itemAncestors' => ItemAncestorsResourceData::collect($itemAncestors, DataCollection::class),
-        //     'document' => DocumentResourceData::fromModel($document),
-        // ]);
-
-        return response()->json([
+        return Inertia::render('DocumentProperties', [
             'activityLog' => ActivityLogResourceData::collect($document->activityLogs),
             'itemAncestors' => ItemAncestorsResourceData::collect($itemAncestors, DataCollection::class),
             'document' => DocumentResourceData::fromModel($document),
-        ], 200);
+        ]);
+
+        // return response()->json([
+        //     'activityLog' => ActivityLogResourceData::collect($document->activityLogs),
+        //     'itemAncestors' => ItemAncestorsResourceData::collect($itemAncestors, DataCollection::class),
+        //     'document' => DocumentResourceData::fromModel($document),
+        // ], 200);
     }
 
     public function edit(Document $document): JsonResponse

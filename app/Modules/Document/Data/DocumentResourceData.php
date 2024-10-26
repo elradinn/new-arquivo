@@ -14,6 +14,7 @@ class DocumentResourceData extends Resource
         public ?string $status,
         public ?string $description,
         public ?string $file_path,
+        public ?string $document_approval_id,
         public array $related_documents,
         public array $metadata,
         public string $created_at,
@@ -29,6 +30,7 @@ class DocumentResourceData extends Resource
             status: $document->status,
             description: $document->description,
             file_path: $document->file_path,
+            document_approval_id: $document->documentApproval?->id,
             related_documents: $document->relatedDocuments->map(fn($relatedDocument) => [
                 'item_id' => $relatedDocument->item_id,
                 'name' => $relatedDocument->name,

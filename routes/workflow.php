@@ -19,6 +19,6 @@ Route::middleware('auth')->group(function () {
 
         // Route::get('/api/users-by-workflow-type', [WorkflowController::class, 'getUsersByWorkflowType']);
 
-        Route::get('/get-workflow-users-by-type/{type}', [WorkflowController::class, 'getWorkflowUsersByType']);
+        // Route::get('/get-workflow-users-by-type/{type}', [WorkflowController::class, 'getWorkflowUsersByType']);
     });
 });

@@ -28,8 +28,6 @@ export function useUpdateWorkflow({ itemParent, isOpen }: IProps) {
             users: [],
         });
 
-    console.log(fetchedUsers.map((user) => ({ user_id: user.id })));
-
     // useEffect(() => {
     //     setData("users", fetchedUsers);
     // }, [fetchedUsers]);

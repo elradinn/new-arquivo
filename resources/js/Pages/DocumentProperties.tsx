@@ -14,57 +14,9 @@ import { DocumentResourceData } from "@/Modules/Document/Types/DocumentResourceD
 import { ItemAncestorsResourceData } from "@/Modules/Item/Types/ItemAncestorsResourceData";
 import ItemBreadcrumbs from "@/Modules/Item/Components/ItemBreadcrumbs";
 import { ActivityLogResourceData } from "@/Modules/ActivityLog/Types/ActivityLogResourceData";
-
-const mockAuditLog = [
-    {
-        date: "16 Jun 2024",
-        time: "11:49 A.M",
-        user: "John Doe",
-        action: "Added file",
-    },
-    {
-        date: "16 Jun 2024",
-        time: "12:15 P.M",
-        user: "Jane Smith",
-        action: "Edited document",
-    },
-    {
-        date: "16 Jun 2024",
-        time: "01:03 P.M",
-        user: "Alice Johnson",
-        action: "Deleted file",
-    },
-    {
-        date: "17 Jun 2024",
-        time: "09:30 A.M",
-        user: "Bob Brown",
-        action: "Uploaded image",
-    },
-    {
-        date: "17 Jun 2024",
-        time: "10:45 A.M",
-        user: "Carol White",
-        action: "Moved file",
-    },
-    {
-        date: "17 Jun 2024",
-        time: "02:22 P.M",
-        user: "David Lee",
-        action: "Renamed file",
-    },
-    {
-        date: "18 Jun 2024",
-        time: "08:55 A.M",
-        user: "Emily Clark",
-        action: "Added comment",
-    },
-    {
-        date: "18 Jun 2024",
-        time: "11:12 A.M",
-        user: "Frank Moore",
-        action: "Shared file",
-    },
-];
+import useModalStore from "@/Modules/Common/Hooks/use-modal-store";
+import CreateDocumentApprovalForm from "@/Modules/DocumentApproval/Components/CreateDocumentApprovalForm";
+import UpdateDocumentApprovalForm from "@/Modules/DocumentApproval/Components/UpdateDocumentApprovalForm";
 
 interface IProps {
     document: DocumentResourceData;
@@ -72,7 +24,9 @@ interface IProps {
     activityLog: ActivityLogResourceData[]
 }
 
-export default function DocumentPropertiesPage({ document, itemAncestors, activityLog }: IProps) {
+const DocumentPropertiesPage: React.FC<IProps> = ({ document, itemAncestors, activityLog }: IProps) => {
+    const { openModal } = useModalStore();
+
     return (
         <Authenticated toolbar={<Toolbar page="folder" />}>
             <Head title="Document Properties" />
@@ -162,12 +116,18 @@ export default function DocumentPropertiesPage({ document, itemAncestors, activi
                             leftSection={<IconGitBranch size={18} />}
                             fullWidth
                             justify="left"
+                            onClick={() => { openModal(document.document_approval_id ? "updateDocumentApproval" : "createDocumentApproval") }}
                         >
-                            Start Approval Process
+                            {document.document_approval_id ? "View" : "Start"} Approval Process
                         </Button>
                     </Paper>
                 </Grid.Col>
             </Grid>
+
+            <CreateDocumentApprovalForm document={document} />
+            <UpdateDocumentApprovalForm document={document} />
         </Authenticated>
     );
 }
+
+export default DocumentPropertiesPage;

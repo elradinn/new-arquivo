@@ -16,7 +16,7 @@ interface IProps {
     filters: Filters;
 }
 
-export default function ActivityLogPage({ activityLogs, filters }: IProps) {
+const ActivityLogPage: React.FC<IProps> = ({ activityLogs, filters }: IProps) => {
     const { search, setSearch, handleSearch } = useSearchDataTable(
         filters.search || "",
         "/activity-log"
@@ -70,3 +70,5 @@ export default function ActivityLogPage({ activityLogs, filters }: IProps) {
         </Authenticated>
     );
 }
+
+export default ActivityLogPage;

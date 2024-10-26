@@ -5,6 +5,7 @@ export type DocumentResourceData = {
     status?: string;
     description?: string;
     file_path?: string;
+    document_approval_id?: string;
     related_documents: Array<{
         item_id: string;
         name: string;

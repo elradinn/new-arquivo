@@ -7,10 +7,12 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('document_approval')->group(function () {
 
-        Route::get('/{documentApproval}', [DocumentApprovalController::class, 'show']);
+        Route::get('/{documentApproval}', [DocumentApprovalController::class, 'show'])->name('document_approvals.show');
 
-        Route::post('/', [DocumentApprovalController::class, 'store']);
+        Route::get('/{documentApproval}/update', [DocumentApprovalController::class, 'showToUpdate'])->name('document_approvals.show_to_update');
 
-        Route::delete('/{documentApproval}', [DocumentApprovalController::class, 'cancel']);
+        Route::post('/', [DocumentApprovalController::class, 'store'])->name('document_approvals.store');
+
+        Route::delete('/{documentApproval}', [DocumentApprovalController::class, 'cancel'])->name('document_approvals.cancel');
     });
 });

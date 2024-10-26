@@ -68,4 +68,19 @@ class UserController extends Controller
 
         return response()->json(['message' => 'User deleted successfully'], Response::HTTP_NO_CONTENT);
     }
+
+    public function getUsersApprovalRole(string $type): JsonResponse
+    {
+        if (!in_array($type, ['reviewal', 'approval'])) {
+            return response()->json(['error' => 'Invalid workflow type'], 400);
+        }
+
+        if ($type == 'reviewal') {
+            $users = User::where('workflow_role', 'reviewer')->get();
+        } else if ($type == 'approval') {
+            $users = User::where('workflow_role', 'approver')->get();
+        }
+
+        return response()->json($users);
+    }
 }
