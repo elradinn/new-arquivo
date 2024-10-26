@@ -13,6 +13,8 @@ Route::middleware('auth')->group(function () {
 
         Route::post('/', [DocumentApprovalController::class, 'store'])->name('document_approvals.store');
 
+        Route::put('/{documentApproval}', [DocumentApprovalController::class, 'update'])->name('document_approvals.update');
+
         Route::delete('/{documentApproval}', [DocumentApprovalController::class, 'cancel'])->name('document_approvals.cancel');
     });
 });

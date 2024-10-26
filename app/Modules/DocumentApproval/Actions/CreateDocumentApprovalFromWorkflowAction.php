@@ -5,7 +5,7 @@ namespace Modules\DocumentApproval\Actions;
 use Modules\Document\Models\Document;
 use Modules\DocumentApproval\Actions\CreateDocumentApprovalAction;
 use Modules\DocumentApproval\Data\CreateDocumentApprovalData;
-use Modules\DocumentApprovalHasUser\Data\CreateDocumentApprovalHasUserData;
+use Modules\DocumentApprovalHasUser\Data\DocumentApprovalHasUserData;
 use Modules\Folder\Models\Folder;
 
 
@@ -27,7 +27,7 @@ class CreateDocumentApprovalFromWorkflowAction
                 resolution: $workflow->resolution,
                 destination: $workflow->destination,
                 type: $workflow->type,
-                users: $workflow->workflowUsers->map(fn($user) => new CreateDocumentApprovalHasUserData($user->user_id))->all()
+                users: $workflow->workflowUsers->map(fn($user) => new DocumentApprovalHasUserData($user->user_id))->all()
             );
 
             $this->createDocumentApprovalAction->execute($createDocumentApprovalData);

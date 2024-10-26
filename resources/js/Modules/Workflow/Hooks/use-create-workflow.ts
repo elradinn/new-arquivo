@@ -3,7 +3,7 @@ import { useForm } from "@inertiajs/react";
 import { notifications } from "@mantine/notifications";
 import useModalStore from "@/Modules/Common/Hooks/use-modal-store";
 import { CreateWorkflowData } from "@/Modules/Workflow/Types/CreateWorkflowData";
-import { useFetchWorkflowUsers } from "./use-fetch-workflow-users";
+import { useFetchUsersApprovalRole } from "@/Modules/Common/Hooks/use-fetch-users-approval-role";
 
 interface IProps {
     itemParentId?: string;
@@ -12,7 +12,7 @@ interface IProps {
 export function useCreateWorkflow({ itemParentId }: IProps) {
     const [workflowType, setWorkflowType] = useState("reviewal");
     const { closeModal, modals } = useModalStore();
-    const users = useFetchWorkflowUsers(workflowType, modals["createWorkflow"]);
+    const users = useFetchUsersApprovalRole(workflowType, modals["createWorkflow"]);
 
     const { data, setData, post, processing, errors, reset } = useForm<CreateWorkflowData>({
         folder_item_id: "",

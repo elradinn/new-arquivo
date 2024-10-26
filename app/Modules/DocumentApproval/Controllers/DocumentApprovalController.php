@@ -11,11 +11,14 @@ use Modules\DocumentApproval\Actions\CreateDocumentApprovalAction;
 use Modules\DocumentApproval\Data\CreateDocumentApprovalData;
 use Modules\DocumentApproval\Data\DocumentApprovalResourceData;
 use Modules\DocumentApproval\Models\DocumentApproval;
+use Modules\DocumentApproval\Actions\UpdateDocumentApprovalAction;
+use Modules\DocumentApproval\Data\UpdateDocumentApprovalData;
 
 class DocumentApprovalController extends Controller
 {
     public function __construct(
-        protected CreateDocumentApprovalAction $createDocumentApprovalAction
+        protected CreateDocumentApprovalAction $createDocumentApprovalAction,
+        protected UpdateDocumentApprovalAction $updateDocumentApprovalAction
     ) {}
 
     public function show(DocumentApproval $documentApproval): Response
@@ -42,5 +45,12 @@ class DocumentApprovalController extends Controller
         $documentApproval->delete();
 
         return response()->json(['message' => 'Document approval canceled.']);
+    }
+
+    public function update(DocumentApproval $documentApproval, UpdateDocumentApprovalData $data): RedirectResponse
+    {
+        $this->updateDocumentApprovalAction->execute($documentApproval, $data);
+
+        return redirect()->back();
     }
 }

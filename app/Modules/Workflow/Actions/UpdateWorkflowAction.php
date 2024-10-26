@@ -23,25 +23,16 @@ class UpdateWorkflowAction
                 ->where('workflow_role', $requiredRole)
                 ->get();
 
-            // Remove existing users if the type has changed
-            if ($workflow->type !== $data->type) {
-                WorkflowHasUser::where('workflow_id', $workflow->id)
-                    ->delete();
-            }
+            // Delete existing users
+            $workflow->workflowUsers()->delete();
 
-            // Prepare new user associations, excluding existing ones
-            $existingUserIds = $workflow->workflowUsers->pluck('user_id')->toArray();
-            $newUsers = $filteredUsers->reject(function ($user) use ($existingUserIds) {
-                return in_array($user->id, $existingUserIds);
-            })->map(function ($user) use ($workflow) {
-                return new WorkflowHasUser([
+            // Create new users
+            collect($filteredUsers)->each(function ($user) use ($workflow) {
+                WorkflowHasUser::create([
                     'workflow_id' => $workflow->id,
                     'user_id' => $user->id,
                 ]);
             });
-
-            // Associate the filtered users with the workflow
-            $workflow->workflowUsers()->saveMany($newUsers);
         }
 
         return ['workflow' => $workflow->load('workflowUsers')];

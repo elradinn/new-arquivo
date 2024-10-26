@@ -1,7 +1,7 @@
 import { useForm } from "@inertiajs/react";
 import { notifications } from "@mantine/notifications";
 import { UpdateWorkflowData } from "../Types/UpdateWorkflowData";
-import { useFetchWorkflowUsers } from "./use-fetch-workflow-users";
+import { useFetchUsersApprovalRole } from "@/Modules/Common/Hooks/use-fetch-users-approval-role";
 import { useEffect, useState } from "react";
 import { useFetchWorkflow } from "./use-fetch-workflow";
 import useModalStore from "@/Modules/Common/Hooks/use-modal-store";
@@ -18,7 +18,7 @@ export function useUpdateWorkflow({ itemParent, isOpen }: IProps) {
         workflowId: itemParent?.workflow_id,
         isOpen,
     });
-    const fetchedUsers = useFetchWorkflowUsers(workflowType, isOpen);
+    const fetchedUsers = useFetchUsersApprovalRole(workflowType, isOpen);
     const { closeModal } = useModalStore();
 
     const { data, setData, put, processing, errors, reset, clearErrors } =
@@ -53,6 +53,8 @@ export function useUpdateWorkflow({ itemParent, isOpen }: IProps) {
         e.preventDefault();
 
         data.users = fetchedUsers.map((user) => ({ user_id: user.id }));
+
+        console.log(data.users);
 
         put(route("workflows.update", itemParent?.workflow_id), {
             onSuccess: () => {

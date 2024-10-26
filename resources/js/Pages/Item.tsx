@@ -34,6 +34,7 @@ export default function ItemPage({ itemParent, itemAncestors, itemContents }: It
     const { openFolder } = useOpenFolder();
     const { openDocument } = useDocumentProperties();
 
+
     return (
         <>
             <Head title="My Files" />

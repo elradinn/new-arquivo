@@ -35,6 +35,7 @@ const UpdateWorkflowForm: React.FC<IFormProps> = ({ itemParent }) => {
         isOpen,
     });
 
+
     return (
         <Modal
             opened={modals["updateWorkflow"]}
