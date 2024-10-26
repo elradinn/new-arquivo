@@ -14,15 +14,21 @@ interface IProps {
 
 export function useUpdateWorkflow({ itemParent, isOpen }: IProps) {
     const [workflowType, setWorkflowType] = useState("reviewal");
-    const workflow = useFetchWorkflow({ workflowId: itemParent?.workflow_id, isOpen });
+    const workflow = useFetchWorkflow({
+        workflowId: itemParent?.workflow_id,
+        isOpen,
+    });
     const fetchedUsers = useFetchWorkflowUsers(workflowType, isOpen);
     const { closeModal } = useModalStore();
 
-    const { data, setData, put, processing, errors, reset, clearErrors } = useForm<UpdateWorkflowData>({
-        resolution: "",
-        type: "",
-        users: [],
-    });
+    const { data, setData, put, processing, errors, reset, clearErrors } =
+        useForm<UpdateWorkflowData>({
+            resolution: "",
+            type: "",
+            users: [],
+        });
+
+    console.log(fetchedUsers.map((user) => ({ user_id: user.id })));
 
     // useEffect(() => {
     //     setData("users", fetchedUsers);
@@ -32,7 +38,9 @@ export function useUpdateWorkflow({ itemParent, isOpen }: IProps) {
         setData({
             resolution: workflow?.resolution || "",
             type: workflow?.type || "",
-            users: (workflow?.users || []).map(user => ({ user_id: user.id })),
+            users: (workflow?.users || []).map((user) => ({
+                user_id: user.id,
+            })),
         });
         setWorkflowType(workflow?.type || "");
     }, [workflow]);
@@ -46,7 +54,7 @@ export function useUpdateWorkflow({ itemParent, isOpen }: IProps) {
     const handleUpdateWorkflow = (e: React.FormEvent) => {
         e.preventDefault();
 
-        data.users = fetchedUsers.map(user => ({ user_id: user.id }));
+        data.users = fetchedUsers.map((user) => ({ user_id: user.id }));
 
         put(route("workflows.update", itemParent?.workflow_id), {
             onSuccess: () => {
@@ -66,5 +74,15 @@ export function useUpdateWorkflow({ itemParent, isOpen }: IProps) {
         });
     };
 
-    return { data, setData, handleUpdateWorkflow, processing, errors, handleClose, fetchedUsers, setWorkflowType, workflow };
+    return {
+        data,
+        setData,
+        handleUpdateWorkflow,
+        processing,
+        errors,
+        handleClose,
+        fetchedUsers,
+        setWorkflowType,
+        workflow,
+    };
 }

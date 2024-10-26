@@ -3,6 +3,7 @@
 namespace Modules\DocumentApproval\Actions;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Modules\DocumentApproval\States\DocumentApprovalPending;
 use Modules\DocumentApproval\States\DocumentReviewalPending;
 use Modules\DocumentApproval\Data\CreateDocumentApprovalData;
@@ -35,6 +36,8 @@ class CreateDocumentApprovalAction
                 'user_state' => $approvalType === 'reviewal' ? UserReviewalPending::class : UserApprovalPending::class,
             ]);
         });
+
+        Log::info($documentApprovalUsers);
 
         $documentApproval->documentApprovalUsers()->saveMany($documentApprovalUsers);
 
