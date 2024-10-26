@@ -11,6 +11,8 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/{document}/edit', [DocumentController::class, 'edit'])->name('document.edit');
 
+        Route::put('/{document}/save', [DocumentController::class, 'save'])->name('document.save');
+
         Route::post('/', [DocumentController::class, 'store'])->name('document.store');
 
         Route::post('/{document}/share', [DocumentController::class, 'share'])->name('document.share');

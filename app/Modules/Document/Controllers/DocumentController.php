@@ -11,11 +11,13 @@ use Modules\Document\Data\UploadDocumentData;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
+use Modules\Document\Actions\UpdateDocumentAction;
 use Modules\Document\Actions\UploadDocumentAction;
 use Modules\Document\Authorization\DocumentAuthorization;
 use Modules\Document\Data\DocumentResourceData;
 use Modules\Document\Data\ShareDocumentData;
 use Modules\Document\Data\RemoveShareDocumentData;
+use Modules\Document\Data\UpdateDocumentData;
 use Modules\Item\Actions\GetItemDataAction;
 use Modules\Item\Data\ItemAncestorsResourceData;
 use Modules\Item\Models\Item;
@@ -27,7 +29,8 @@ class DocumentController extends Controller
     public function __construct(
         protected UploadDocumentAction $uploadDocumentAction,
         protected DocumentAuthorization $documentAuthorization,
-        protected GetItemDataAction $getItemDataAction
+        protected GetItemDataAction $getItemDataAction,
+        protected UpdateDocumentAction $updateDocumentAction
     ) {}
 
     public function store(UploadDocumentData $data): RedirectResponse
@@ -37,7 +40,7 @@ class DocumentController extends Controller
         return redirect()->back();
     }
 
-    public function show(Document $document): Response
+    public function show(Document $document): JsonResponse
     {
         $this->documentAuthorization->canView(Auth::user(), $document);
 
@@ -45,20 +48,39 @@ class DocumentController extends Controller
 
         $itemAncestors = $item->ancestorsWithSelf()->get()->load('workspace', 'folder');
 
-        return Inertia::render('DocumentProperties', [
+        // return Inertia::render('DocumentProperties', [
+        //     'activityLog' => ActivityLogResourceData::collect($document->activityLogs),
+        //     'itemAncestors' => ItemAncestorsResourceData::collect($itemAncestors, DataCollection::class),
+        //     'document' => DocumentResourceData::fromModel($document),
+        // ]);
+
+        return response()->json([
             'activityLog' => ActivityLogResourceData::collect($document->activityLogs),
             'itemAncestors' => ItemAncestorsResourceData::collect($itemAncestors, DataCollection::class),
             'document' => DocumentResourceData::fromModel($document),
-        ]);
+        ], 200);
     }
 
-    public function edit(Document $document): Response
+    public function edit(Document $document): JsonResponse
     {
         $this->documentAuthorization->canEdit(Auth::user(), $document);
 
-        return Inertia::render('DocumentEdit', [
-            'document' => DocumentResourceData::fromModel($document),
-        ]);
+        // return Inertia::render('DocumentEdit', [
+        //     'document' => DocumentResourceData::fromModel($document),
+        // ]);
+
+        return response()->json([
+            'document' => DocumentResourceData::fromModel($document)
+        ], 200);
+    }
+
+    public function save(Document $document, UpdateDocumentData $data)
+    {
+        $this->documentAuthorization->canEdit(Auth::user(), $document);
+
+        $updatedDocument = $this->updateDocumentAction->execute($document, $data);
+
+        return response()->json(DocumentResourceData::fromModel($updatedDocument));
     }
 
     public function share(ShareDocumentData $data, Document $document): JsonResponse

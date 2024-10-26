@@ -1,12 +1,13 @@
-import React, { useState } from "react";
 import { Head } from "@inertiajs/react";
 import { Flex, rem, Stack, Text, TextInput } from "@mantine/core";
 import { Authenticated } from "@/Modules/Common/Layouts/AuthenticatedLayout/Authenticated";
 import ActivityLogTable from "@/Modules/ActivityLog/Components/ActivityLogTable";
 import FilterForm from "@/Modules/ActivityLog/Forms/FilterForm";
 import { usePaginateDataTable } from "@/Modules/Common/Hooks/use-paginate-datatable";
-import { ActivityLogResourceData } from "@/Modules/ActivityLog/Types/ActivityLogResourceData";
-import { Filters, PaginationData } from "@/Modules/ActivityLog/Types/ActivityLogPageTypes";
+import {
+    Filters,
+    PaginationData,
+} from "@/Modules/ActivityLog/Types/ActivityLogPageTypes";
 import { useSearchDataTable } from "@/Modules/Common/Hooks/use-search-datatable";
 import { IconSearch } from "@tabler/icons-react";
 
@@ -16,14 +17,19 @@ interface IProps {
 }
 
 export default function ActivityLogPage({ activityLogs, filters }: IProps) {
-    const { search, setSearch, handleSearch } = useSearchDataTable(filters.search || "", "/activity-log");
-    const { page, setPage, handlePageChange } = usePaginateDataTable(activityLogs.current_page);
+    const { search, setSearch, handleSearch } = useSearchDataTable(
+        filters.search || "",
+        "/activity-log"
+    );
+    const { page, setPage, handlePageChange } = usePaginateDataTable(
+        activityLogs.current_page
+    );
 
     return (
         <Authenticated>
             <Head title="Activity Log" />
             <Stack px={8} gap={24} py={8}>
-                <Text component="h2" size="xl" fw={600} color="gray.8">
+                <Text component="h2" size="xl" fw={600} c="gray.8">
                     Activity Log
                 </Text>
 
@@ -35,7 +41,12 @@ export default function ActivityLogPage({ activityLogs, filters }: IProps) {
                     <TextInput
                         w={{ md: 400 }}
                         placeholder="Search"
-                        leftSection={<IconSearch style={{ width: rem(16), height: rem(16) }} stroke={1.5} />}
+                        leftSection={
+                            <IconSearch
+                                style={{ width: rem(16), height: rem(16) }}
+                                stroke={1.5}
+                            />
+                        }
                         value={search}
                         onChange={(e) => {
                             setSearch(e.target.value);

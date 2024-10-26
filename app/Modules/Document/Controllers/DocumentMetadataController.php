@@ -25,9 +25,9 @@ class DocumentMetadataController extends Controller
      */
     public function attach(AttachDocumentMetadataData $data, Document $document): JsonResponse
     {
-        $this->attachDocumentMetadataAction->execute($document, $data);
+        // $this->attachDocumentMetadataAction->execute($document, $data);
 
-        return response()->json(['message' => 'Metadata attached successfully.'], 200);
+        return response()->json(['message' => 'Data requirements changed.'], 200);
     }
 
     /**
