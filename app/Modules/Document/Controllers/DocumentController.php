@@ -74,13 +74,13 @@ class DocumentController extends Controller
         // ], 200);
     }
 
-    public function save(Document $document, UpdateDocumentData $data)
+    public function save(Document $document, UpdateDocumentData $data): RedirectResponse
     {
         $this->documentAuthorization->canEdit(Auth::user(), $document);
 
-        $updatedDocument = $this->updateDocumentAction->execute($document, $data);
+        $this->updateDocumentAction->execute($document, $data);
 
-        return response()->json(DocumentResourceData::fromModel($updatedDocument));
+        return redirect()->back();
     }
 
     public function share(ShareDocumentData $data, Document $document): JsonResponse

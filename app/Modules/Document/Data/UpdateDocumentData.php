@@ -18,7 +18,7 @@ class UpdateDocumentData extends Data
 
         public ?string $description,
 
-        public ?array $update_metadata,
+        public array $update_metadata,
 
         public ?array $delete_metadata,
 

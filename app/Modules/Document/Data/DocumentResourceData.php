@@ -32,10 +32,12 @@ class DocumentResourceData extends Resource
             file_path: $document->file_path,
             document_approval_id: $document->documentApproval?->id,
             related_documents: $document->relatedDocuments->map(fn($relatedDocument) => [
+                'id' => $relatedDocument->id,
                 'item_id' => $relatedDocument->item_id,
                 'name' => $relatedDocument->name,
             ])->toArray(),
             metadata: $document->metadata->map(fn($metadata) => [
+                'metadata_id' => $metadata->id,
                 'name' => $metadata->name,
                 'value' => $metadata->pivot->value,
             ])->toArray(),

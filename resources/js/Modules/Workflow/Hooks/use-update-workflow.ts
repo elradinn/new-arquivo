@@ -54,8 +54,6 @@ export function useUpdateWorkflow({ itemParent, isOpen }: IProps) {
 
         data.users = fetchedUsers.map((user) => ({ user_id: user.id }));
 
-        console.log(data.users);
-
         put(route("workflows.update", itemParent?.workflow_id), {
             onSuccess: () => {
                 handleClose();
