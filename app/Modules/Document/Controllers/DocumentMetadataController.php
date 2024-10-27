@@ -7,7 +7,7 @@ use Modules\Document\Models\Document;
 use Modules\Document\Actions\AttachDocumentMetadataAction;
 use Modules\Document\Actions\DetachDocumentMetadataAction;
 use Modules\Document\Actions\UpdateDocumentMetadataAction;
-use Modules\Document\Data\AttachDocumentMetadataData;
+use Modules\Document\Data\DocumentMetadataData;
 use Modules\Document\Data\UpdateDocumentMetadataData;
 use Modules\Metadata\Models\Metadata;
 use Illuminate\Http\JsonResponse;
@@ -16,14 +16,14 @@ class DocumentMetadataController extends Controller
 {
     public function __construct(
         protected AttachDocumentMetadataAction $attachDocumentMetadataAction,
-        protected UpdateDocumentMetadataAction $updateDocumentMetadataAction,
+        // protected UpdateDocumentMetadataAction $updateDocumentMetadataAction,
         protected DetachDocumentMetadataAction $detachDocumentMetadataAction
     ) {}
 
     /**
      * Attach metadata to a document.
      */
-    public function attach(AttachDocumentMetadataData $data, Document $document): JsonResponse
+    public function attach(DocumentMetadataData $data, Document $document): JsonResponse
     {
         // $this->attachDocumentMetadataAction->execute($document, $data);
 
@@ -35,9 +35,9 @@ class DocumentMetadataController extends Controller
      */
     public function update(UpdateDocumentMetadataData $data, Document $document, Metadata $metadata): JsonResponse
     {
-        $this->updateDocumentMetadataAction->execute($document, $metadata, $data);
+        // $this->updateDocumentMetadataAction->execute($document, $metadata, $data);
 
-        return response()->json(['message' => 'Metadata updated successfully.'], 200);
+        return response()->json(['message' => 'Data requirements changed.'], 200);
     }
 
     /**

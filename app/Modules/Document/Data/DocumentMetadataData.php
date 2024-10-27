@@ -7,13 +7,13 @@ use Spatie\LaravelData\Attributes\Validation\Required;
 use Spatie\LaravelData\Attributes\Validation\Exists;
 use Spatie\LaravelData\Attributes\Validation\StringType;
 
-class AttachDocumentMetadataData extends Data
+class DocumentMetadataData extends Data
 {
     public function __construct(
         #[Required, Exists('metadata', 'id')]
         public int $metadata_id,
 
-        #[Required, StringType]
-        public string $value
+        #[StringType]
+        public ?string $value
     ) {}
 }

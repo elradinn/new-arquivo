@@ -61,17 +61,17 @@ class DocumentController extends Controller
         // ], 200);
     }
 
-    public function edit(Document $document): JsonResponse
+    public function edit(Document $document)
     {
         $this->documentAuthorization->canEdit(Auth::user(), $document);
 
-        // return Inertia::render('DocumentEdit', [
-        //     'document' => DocumentResourceData::fromModel($document),
-        // ]);
+        return Inertia::render('DocumentEdit', [
+            'document' => DocumentResourceData::fromModel($document),
+        ]);
 
-        return response()->json([
-            'document' => DocumentResourceData::fromModel($document)
-        ], 200);
+        // return response()->json([
+        //     'document' => DocumentResourceData::fromModel($document)
+        // ], 200);
     }
 
     public function save(Document $document, UpdateDocumentData $data)

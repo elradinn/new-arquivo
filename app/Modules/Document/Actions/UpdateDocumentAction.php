@@ -2,15 +2,15 @@
 
 namespace Modules\Document\Actions;
 
-use Modules\Document\Actions\AttachDocumentMetadataAction;
-use Modules\Document\Data\AttachDocumentMetadataData;
+use Modules\Document\Actions\DocumentMetadataAction;
+use Modules\Document\Data\DocumentMetadataData;
 use Modules\Document\Models\Document;
 use Modules\Document\Data\UpdateDocumentData;
 
 class UpdateDocumentAction
 {
     public function __construct(
-        protected AttachDocumentMetadataAction $attachDocumentMetadataAction
+        protected UpdateDocumentMetadataAction $updateDocumentMetadataAction
     ) {}
 
     public function execute(Document $document, UpdateDocumentData $data): Document
@@ -21,7 +21,7 @@ class UpdateDocumentAction
             'description' => $data->description
         ]);
 
-        $this->attachDocumentMetadataAction->execute($document, $data);
+        $this->updateDocumentMetadataAction->execute($document, $data);
 
         return $document;
     }

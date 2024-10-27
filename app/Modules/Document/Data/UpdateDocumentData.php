@@ -8,17 +8,19 @@ use Spatie\LaravelData\Data;
 class UpdateDocumentData extends Data
 {
     /**
-     * @param AttachDocumentMetadataData[] $metadata
+     * @param DocumentMetadataData[] $update_metadata
+     * @param DocumentMetadataData[] $delete_metadata
      */
     public function __construct(
-        #[Required]
         public string $name,
 
         public ?string $document_number,
 
         public ?string $description,
 
-        public array $metadata,
+        public ?array $update_metadata,
+
+        public ?array $delete_metadata,
 
         public ?array $related_documents,
     ) {}
