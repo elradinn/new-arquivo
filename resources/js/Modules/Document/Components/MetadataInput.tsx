@@ -4,15 +4,19 @@ import { IconPlus, IconTrash } from "@tabler/icons-react";
 import { DocumentMetadata } from "../Types/DocumentMetadata";
 import useModalStore from "@/Modules/Common/Hooks/use-modal-store";
 import AddDocumentMetadataModal from "./AddDocumentMetadataModal";
+import { FolderRequiredMetadataResource } from "@/Modules/Folder/Types/FolderRequiredMetadataResource";
 
 interface MetadataInputProps {
     metadata: DocumentMetadata[];
+    requiredMetadata: FolderRequiredMetadataResource[];
     onChange?: (metadata: DocumentMetadata[]) => void;
     onDelete?: (metadataId: number) => void;
 }
 
-const MetadataInput: React.FC<MetadataInputProps> = ({ metadata, onChange, onDelete }) => {
+const MetadataInput: React.FC<MetadataInputProps> = ({ metadata, requiredMetadata, onChange, onDelete }) => {
     const { openModal } = useModalStore();
+
+    console.log(requiredMetadata);
 
     const handleAddMetadata = (newMetadata: DocumentMetadata) => {
         const updatedMetadata = [...metadata, newMetadata];

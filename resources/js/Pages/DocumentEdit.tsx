@@ -93,6 +93,7 @@ export default function DocumentEditPage({ document, itemAncestors }: IProps) {
 
                         <MetadataInput
                             metadata={data.update_metadata ?? []}
+                            requiredMetadata={document.required_folder_metadata}
                             onChange={handleMetadataChange}
                             onDelete={handleMetadataDelete}
                         />

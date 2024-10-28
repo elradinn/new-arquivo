@@ -4,6 +4,7 @@ namespace Modules\Document\Data;
 
 use Spatie\LaravelData\Resource;
 use Modules\Document\Models\Document;
+use Modules\Folder\Models\Folder;
 
 class DocumentResourceData extends Resource
 {
@@ -17,12 +18,16 @@ class DocumentResourceData extends Resource
         public ?string $document_approval_id,
         public array $related_documents,
         public array $metadata,
+        public array $required_folder_metadata,
         public string $created_at,
         public string $updated_at
     ) {}
 
     public static function fromModel(Document $document): self
     {
+        $requiredMetadata = Folder::find($document->item->parent_id);
+        $requiredFolderMetadata = $requiredMetadata->requiredMetadata()->get()->toArray();
+
         return new self(
             item_id: $document->item_id,
             name: $document->name,
@@ -41,6 +46,7 @@ class DocumentResourceData extends Resource
                 'name' => $metadata->name,
                 'value' => $metadata->pivot->value,
             ])->toArray(),
+            required_folder_metadata: $requiredFolderMetadata,
             created_at: $document->created_at,
             updated_at: $document->updated_at
         );
