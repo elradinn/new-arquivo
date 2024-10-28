@@ -1,6 +1,6 @@
-import React from "react";
-import { Group, ActionIcon, TextInput, Button, Stack } from "@mantine/core";
-import { IconPlus, IconTrash } from "@tabler/icons-react";
+import React, { useMemo } from "react";
+import { Group, ActionIcon, TextInput, Button, Stack, Text, Alert } from "@mantine/core";
+import { IconPlus, IconTrash, IconAlertCircle } from "@tabler/icons-react";
 import { DocumentMetadata } from "../Types/DocumentMetadata";
 import useModalStore from "@/Modules/Common/Hooks/use-modal-store";
 import AddDocumentMetadataModal from "./AddDocumentMetadataModal";
@@ -15,8 +15,6 @@ interface MetadataInputProps {
 
 const MetadataInput: React.FC<MetadataInputProps> = ({ metadata, requiredMetadata, onChange, onDelete }) => {
     const { openModal } = useModalStore();
-
-    console.log(requiredMetadata);
 
     const handleAddMetadata = (newMetadata: DocumentMetadata) => {
         const updatedMetadata = [...metadata, newMetadata];
@@ -39,29 +37,53 @@ const MetadataInput: React.FC<MetadataInputProps> = ({ metadata, requiredMetadat
         onChange && onChange(newMetadata);
     };
 
+    // Compute missing required metadata
+    const missingRequiredMetadata = useMemo(() => {
+        const existingIds = metadata.map(meta => meta.metadata_id);
+        return requiredMetadata.filter(required => !existingIds.includes(required.id));
+    }, [metadata, requiredMetadata]);
+
     return (
         <Stack>
             {metadata.map((meta, index) => (
-                <Group key={index} grow align="flex-end">
+                <Group key={meta.metadata_id || index} grow align="flex-end">
                     <TextInput
+                        disabled
                         label="Name"
                         placeholder="Metadata name"
                         value={meta.name}
                         onChange={(e) => handleChange(index, "name", e.target.value)}
-                        required
                     />
                     <TextInput
                         label="Value"
                         placeholder="Metadata value"
                         value={meta.value}
                         onChange={(e) => handleChange(index, "value", e.target.value)}
-                        required
                     />
                     <ActionIcon color="red" onClick={() => handleRemove(index)}>
                         <IconTrash size={16} />
                     </ActionIcon>
                 </Group>
             ))}
+
+            {/* Display warnings for missing required metadata */}
+            {missingRequiredMetadata.length > 0 && (
+                <Stack gap="xs">
+                    <Text c="red" size="sm">
+                        Missing Required Metadata:
+                    </Text>
+                    {missingRequiredMetadata.map(required => (
+                        <Alert
+                            icon={<IconAlertCircle size={16} />}
+                            title={`${required.name} is missing`}
+                            color="red"
+                            variant="light"
+                            key={required.id}
+                        />
+                    ))}
+                </Stack>
+            )}
+
             <Button variant="light" onClick={handleAddCustomMetadata} leftSection={<IconPlus size={14} />}>
                 Add Custom Metadata
             </Button>
