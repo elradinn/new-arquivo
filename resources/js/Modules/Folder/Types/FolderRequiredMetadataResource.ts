@@ -1,4 +1,4 @@
-export interface FolderRequiredMetadataResource {
+export type FolderRequiredMetadataResource = {
     id: number;
     name: string;
     description: string;

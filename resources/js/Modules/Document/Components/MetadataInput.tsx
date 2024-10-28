@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Group, ActionIcon, TextInput, Button, Stack } from "@mantine/core";
 import { IconPlus, IconTrash } from "@tabler/icons-react";
 import { DocumentMetadata } from "../Types/DocumentMetadata";
+import useModalStore from "@/Modules/Common/Hooks/use-modal-store";
+import AddDocumentMetadataModal from "./AddDocumentMetadataModal";
 
 interface MetadataInputProps {
     metadata: DocumentMetadata[];
@@ -9,26 +11,28 @@ interface MetadataInputProps {
     onDelete?: (metadataId: number) => void;
 }
 
-const MetadataInput: React.FC<MetadataInputProps> = ({ metadata: initialMetadata, onChange, onDelete }) => {
-    const [metadata, setMetadata] = useState<DocumentMetadata[]>(initialMetadata);
+const MetadataInput: React.FC<MetadataInputProps> = ({ metadata, onChange, onDelete }) => {
+    const { openModal } = useModalStore();
 
-    const handleAdd = () => {
-        setMetadata([...metadata, { metadata_id: 0, name: "", value: "" }]);
-        if (onChange) onChange([...metadata, { metadata_id: 0, name: "", value: "" }]);
+    const handleAddMetadata = (newMetadata: DocumentMetadata) => {
+        const updatedMetadata = [...metadata, newMetadata];
+        onChange && onChange(updatedMetadata);
+    };
+
+    const handleAddCustomMetadata = () => {
+        openModal("addDocumentMetadata");
     };
 
     const handleRemove = (index: number) => {
         const removedMeta = metadata[index];
         const newMetadata = metadata.filter((_, i) => i !== index);
-        setMetadata(newMetadata);
-        if (onChange) onChange(newMetadata);
-        if (onDelete && removedMeta.metadata_id !== 0) onDelete(removedMeta.metadata_id);
+        onChange && onChange(newMetadata);
+        onDelete && removedMeta.metadata_id !== 0 && onDelete(removedMeta.metadata_id);
     };
 
     const handleChange = (index: number, field: keyof DocumentMetadata, value: string) => {
         const newMetadata = metadata.map((item, i) => (i === index ? { ...item, [field]: value } : item));
-        setMetadata(newMetadata);
-        if (onChange) onChange(newMetadata);
+        onChange && onChange(newMetadata);
     };
 
     return (
@@ -54,9 +58,14 @@ const MetadataInput: React.FC<MetadataInputProps> = ({ metadata: initialMetadata
                     </ActionIcon>
                 </Group>
             ))}
-            <Button variant="light" onClick={handleAdd} leftSection={<IconPlus size={14} />}>
-                Add Metadata
+            <Button variant="light" onClick={handleAddCustomMetadata} leftSection={<IconPlus size={14} />}>
+                Add Custom Metadata
             </Button>
+            <AddDocumentMetadataModal onAdd={(meta) => handleAddMetadata({
+                metadata_id: meta.id,
+                name: meta.name,
+                value: "",
+            })} />
         </Stack>
     );
 };
