@@ -77,4 +77,15 @@ class MetadataController extends Controller
         $this->deleteMetadataAction->execute($metadata);
         return redirect()->back();
     }
+
+    /**
+     * Fetch all available metadata.
+     */
+    public function fetchMetadata()
+    {
+        $metadata = Metadata::all();
+        return response()->json([
+            'metadata' => MetadataResourceData::collect($metadata),
+        ]);
+    }
 }

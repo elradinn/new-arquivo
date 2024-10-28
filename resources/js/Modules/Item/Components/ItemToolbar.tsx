@@ -125,6 +125,8 @@ const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent }) => {
                     variant="subtle"
                     color="dark.3"
                     leftSection={<IconDeviceSdCard size={18} />}
+                    component={Link}
+                    href={route("folder.showRequiredMetadata", { id: itemParent?.item_id })}
                 >
                     Metadata
                 </Button>

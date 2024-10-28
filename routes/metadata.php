@@ -14,5 +14,7 @@ Route::middleware('auth')->group(function () {
         Route::patch('/{metadata}', [MetadataController::class, 'update'])->name('metadata.update');
 
         Route::delete('/{metadata}', [MetadataController::class, 'destroy'])->name('metadata.destroy');
+
+        Route::get('/fetch', [MetadataController::class, 'fetchMetadata'])->name('metadata.fetch');
     });
 });
