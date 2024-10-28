@@ -22,8 +22,10 @@ use Modules\Item\Data\ItemAncestorsResourceData;
 use Modules\Item\Data\ItemContentsResourceData;
 use Modules\Item\Models\Item;
 use Modules\User\Models\User;
-use Spatie\LaravelData\DataCollection;
 use Modules\Item\Actions\GetItemDataAction;
+use Modules\Folder\Actions\UpdateFolderMetadataAction;
+use Modules\Folder\Data\UpdateFolderMetadataData;
+use Modules\Folder\Data\FolderRequiredMetadataResource;
 
 class FolderController extends Controller
 {
@@ -32,7 +34,8 @@ class FolderController extends Controller
         private UpdateFolderAction $updateFolderAction,
         private DeleteFolderAction $deleteFolderAction,
         private FolderAuthorization $folderAuthorization,
-        private GetItemDataAction $getItemDataAction
+        private GetItemDataAction $getItemDataAction,
+        private UpdateFolderMetadataAction $updateFolderMetadataAction
     ) {}
 
     /**
@@ -108,5 +111,29 @@ class FolderController extends Controller
         $folder->userAccess()->detach($user->id);
 
         return response()->json(['message' => 'Folder unshared successfully.'], 200);
+    }
+
+    /**
+     * Add required metadata to a folder.
+     */
+    public function updateFolderRequiredMetadata(Folder $folder, UpdateFolderMetadataData $data)
+    {
+        $this->updateFolderMetadataAction->execute($folder, $data);
+        return redirect()->back();
+    }
+
+    /**
+     * Show required metadata of a folder.
+     */
+    public function showFolderRequiredMetadata(Folder $folder)
+    {
+        $requiredMetadata = $folder->requiredMetadata()->get();
+
+        return response()->json($requiredMetadata);
+
+        // return Inertia::render('FolderMetadata', [
+        //     'requiredMetadata' => FolderRequiredMetadataResource::collect($requiredMetadata),
+        //     'folder' => FolderResourceData::from($folder),
+        // ]);
     }
 }

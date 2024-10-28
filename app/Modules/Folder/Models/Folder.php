@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Spatie\Activitylog\Models\Activity;
+use Modules\Metadata\Models\Metadata;
 
 class Folder extends Model
 {
@@ -50,5 +51,11 @@ class Folder extends Model
     public function activityLogs(): MorphMany
     {
         return $this->morphMany(Activity::class, 'subject');
+    }
+
+    public function requiredMetadata(): BelongsToMany
+    {
+        return $this->belongsToMany(Metadata::class, 'folder_has_required_metadata', 'folder_item_id', 'metadata_id')
+            ->withTimestamps();
     }
 }

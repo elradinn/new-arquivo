@@ -20,5 +20,9 @@ Route::middleware('auth')->group(function () {
         Route::post('/{folder}/share', [FolderController::class, 'share'])->name('folder.share');
 
         Route::delete('/{folder}/share', [FolderController::class, 'removeShare'])->name('folder.removeShare');
+
+        Route::post('/{folder}/required-metadata', [FolderController::class, 'updateFolderRequiredMetadata'])->name('folder.updateRequiredMetadata');
+
+        Route::get('/{folder}/required-metadata', [FolderController::class, 'showFolderRequiredMetadata'])->name('folder.showRequiredMetadata');
     });
 });
