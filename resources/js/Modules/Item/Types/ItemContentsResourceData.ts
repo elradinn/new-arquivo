@@ -9,4 +9,5 @@ export type ItemContentsResourceData = {
     status?: string;
     description?: string;
     file_path?: string;
+    missing_required_metadata?: boolean; // TODO: make logic to check if the document is missing required metadata
 };

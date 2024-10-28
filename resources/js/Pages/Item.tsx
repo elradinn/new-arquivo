@@ -39,25 +39,17 @@ export default function ItemPage({ itemParent, itemAncestors, itemContents }: It
         <>
             <Head title="My Files" />
 
-            <Authenticated toolbar={
-                // <Toolbar
-                //     page="item"
-                //     itemParent={itemParent}
-                //     selectedIds={ids}
-                //     fileSelected={selectedRecord.length > 0}
-                //     parentId={itemParent.item_id}
-                //     uploadFileRef={openRef}
-                // />
-
-                selectedRecord.length > 0 ? (
-                    <SelectedItemToolbar setSelectedRecord={setSelectedRecord} selectedIds={ids} parentId={itemParent.item_id} />
-                ) : (
-                    <ItemToolbar
-                        itemParent={itemParent}
-                        uploadFileRef={openRef}
-                    />
-                )
-            }>
+            <Authenticated
+                toolbar={
+                    selectedRecord.length > 0 ? (
+                        <SelectedItemToolbar setSelectedRecord={setSelectedRecord} selectedIds={ids} parentId={itemParent.item_id} />
+                    ) : (
+                        <ItemToolbar
+                            itemParent={itemParent}
+                            uploadFileRef={openRef}
+                        />
+                    )
+                }>
                 <ItemDropzone onDrop={uploadFiles} openRef={openRef}>
                     <Stack px={8} gap={24} py={8} style={{ pointerEvents: "all" }}>
                         <ItemBreadcrumbs ancestors={itemAncestors} />
@@ -72,12 +64,13 @@ export default function ItemPage({ itemParent, itemAncestors, itemContents }: It
                                 columns={[
                                     {
                                         accessor: "name",
-                                        render: ({ mime, type, name, status }) => (
+                                        render: ({ mime, type, name, status, missing_required_metadata }) => (
                                             <Group align="center" gap={12}>
                                                 <ItemIcon
                                                     mime={mime ?? ""}
                                                     isFolder={type === "folder"}
                                                     approvalStatus={status}
+                                                    missingRequiredMetadata={missing_required_metadata}
                                                 />
                                                 <span>{name}</span>
                                             </Group>

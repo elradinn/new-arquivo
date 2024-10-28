@@ -11,6 +11,7 @@ import {
     IconFile,
     IconSquareCheckFilled,
     IconMessageFilled,
+    IconTag,
 } from "@tabler/icons-react";
 import {
     isAudio,
@@ -29,9 +30,10 @@ interface ItemIconProps {
     mime: string;
     isFolder: boolean;
     approvalStatus?: string | undefined;
+    missingRequiredMetadata?: boolean;
 }
 
-export const ItemIcon: React.FC<ItemIconProps> = ({ mime, isFolder, approvalStatus }) => {
+export const ItemIcon: React.FC<ItemIconProps> = ({ mime, isFolder, approvalStatus, missingRequiredMetadata }) => {
     const renderIcon = () => {
         if (isFolder) {
             return <IconFolder size={20} fill="orange" color="orange" />;
@@ -69,6 +71,7 @@ export const ItemIcon: React.FC<ItemIconProps> = ({ mime, isFolder, approvalStat
     return (
         <Group gap={4}>
             {renderStatusIcon()}
+            {missingRequiredMetadata && <IconTag color="red" />}
             {renderIcon()}
         </Group>
     );

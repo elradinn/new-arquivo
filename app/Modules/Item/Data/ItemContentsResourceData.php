@@ -18,6 +18,7 @@ class ItemContentsResourceData extends Resource
         public ?string $status,
         public ?string $description,
         public ?string $file_path,
+        public ?bool $missing_required_metadata = true // TODO: make logic to check if the document is missing required metadata
     ) {}
 
     public static function fromModel(Item $item): self
