@@ -58,4 +58,10 @@ class Folder extends Model
         return $this->belongsToMany(Metadata::class, 'folder_has_required_metadata', 'folder_item_id', 'metadata_id')
             ->withTimestamps();
     }
+
+    public function metadataColumns(): BelongsToMany
+    {
+        return $this->belongsToMany(Metadata::class, 'folder_has_metadata_columns', 'folder_item_id', 'metadata_id')
+            ->withTimestamps();
+    }
 }

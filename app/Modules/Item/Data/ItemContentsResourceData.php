@@ -18,7 +18,8 @@ class ItemContentsResourceData extends Resource
         public ?string $status,
         public ?string $description,
         public ?string $file_path,
-        public ?bool $missing_required_metadata = true // TODO: make logic to check if the document is missing required metadata
+        public ?bool $missing_required_metadata = true, // TODO: make logic to check if the document is missing required metadata
+        public ?array $metadata = null
     ) {}
 
     public static function fromModel(Item $item): self
@@ -33,7 +34,12 @@ class ItemContentsResourceData extends Resource
             document_number: $item->document->document_number ?? null,
             status: $item->document && $item->document->status ? $item->document->status->label() : null,
             description: $item->document->description ?? null,
-            file_path: $item->document->file_path ?? null
+            file_path: $item->document->file_path ?? null,
+            metadata: $item->document ? $item->document->metadata()->get()->map(fn($metadata) => [
+                'id' => $metadata->id,
+                'name' => $metadata->name,
+                'value' => $metadata->pivot->value,
+            ])->toArray() : null,
         );
     }
 }

@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { Head } from "@inertiajs/react";
 import { Group, Stack, Text } from "@mantine/core";
-import { DataTable } from "mantine-datatable";
+import { DataTable, DataTableColumn } from "mantine-datatable";
 
 import { ItemIcon } from "@/Modules/Common/Components/ItemIcon/ItemIcon";
 import { Authenticated } from "@/Modules/Common/Layouts/AuthenticatedLayout/Authenticated";
@@ -35,6 +35,34 @@ export default function ItemPage({ itemParent, itemAncestors, itemContents }: It
     const { openDocument } = useDocumentProperties();
 
 
+    const dynamicColumns = itemParent.metadata_columns?.map((metadata) => ({
+        accessor: `metadata_${metadata.id}`,
+        title: metadata.name,
+        render: (record: ItemContentsResourceData) => {
+            const metadataItem = record.metadata?.find((m) => m.id === metadata.id);
+            return metadataItem ? metadataItem.value : null;
+        },
+    }));
+
+    const metadataColumns: DataTableColumn<ItemContentsResourceData>[] = [
+        {
+            accessor: "name",
+            render: ({ mime, type, name, status }) => (
+                <Group align="center" gap={12}>
+                    <ItemIcon mime={mime ?? ""} isFolder={type === "folder"} />
+                    <span>{name}</span>
+                </Group>
+            ),
+        },
+        { accessor: "owner" },
+        {
+            accessor: "updated_at",
+            title: "Last Modified",
+        },
+        { accessor: "size" },
+        ...(dynamicColumns ?? []),
+    ];
+
     return (
         <>
             <Head title="My Files" />
@@ -61,28 +89,29 @@ export default function ItemPage({ itemParent, itemAncestors, itemContents }: It
                         ) : (
                             <DataTable
                                 textSelectionDisabled
-                                columns={[
-                                    {
-                                        accessor: "name",
-                                        render: ({ mime, type, name, status, missing_required_metadata }) => (
-                                            <Group align="center" gap={12}>
-                                                <ItemIcon
-                                                    mime={mime ?? ""}
-                                                    isFolder={type === "folder"}
-                                                    approvalStatus={status}
-                                                    missingRequiredMetadata={missing_required_metadata}
-                                                />
-                                                <span>{name}</span>
-                                            </Group>
-                                        ),
-                                    },
-                                    { accessor: "owner" },
-                                    {
-                                        accessor: "updated_at",
-                                        title: "Last Modified",
-                                    },
-                                    { accessor: "size" },
-                                ]}
+                                columns={metadataColumns}
+                                // columns={[
+                                //     {
+                                //         accessor: "name",
+                                //         render: ({ mime, type, name, status, missing_required_metadata }) => (
+                                //             <Group align="center" gap={12}>
+                                //                 <ItemIcon
+                                //                     mime={mime ?? ""}
+                                //                     isFolder={type === "folder"}
+                                //                     approvalStatus={status}
+                                //                     missingRequiredMetadata={missing_required_metadata}
+                                //                 />
+                                //                 <span>{name}</span>
+                                //             </Group>
+                                //         ),
+                                //     },
+                                //     { accessor: "owner" },
+                                //     {
+                                //         accessor: "updated_at",
+                                //         title: "Last Modified",
+                                //     },
+                                //     { accessor: "size" },
+                                // ]}
                                 records={itemContents}
                                 customRowAttributes={({ type, id }) => ({
                                     onDoubleClick: (e: MouseEvent) => {
