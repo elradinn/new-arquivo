@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Group, Menu, rem } from "@mantine/core";
+import { ActionIcon, Button, Group, Menu, Tooltip, rem } from "@mantine/core";
 import {
     IconPlus,
     IconChevronDown,
@@ -41,7 +41,6 @@ const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent }) => {
             px="md"
             align="center"
             justify="space-between"
-
         >
             <Group gap="xs">
                 <Menu
@@ -53,6 +52,12 @@ const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent }) => {
                     position="bottom-start"
                 >
                     <Menu.Target>
+                        {/* <Tooltip label="New" position="bottom" withArrow>
+                            <ActionIcon variant="transparent" color="dark.3">
+                                <IconPlus size={18} />
+                                <IconChevronDown size={12} style={{ marginLeft: rem(4) }} />
+                            </ActionIcon>
+                        </Tooltip> */}
                         <Button
                             variant="subtle"
                             color="dark.3"
@@ -61,6 +66,7 @@ const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent }) => {
                         >
                             New
                         </Button>
+
                     </Menu.Target>
 
                     <Menu.Dropdown>
@@ -105,100 +111,101 @@ const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent }) => {
                     </Menu.Dropdown>
                 </Menu>
 
-                <Button
-                    size="sm"
-                    variant="subtle"
-                    component={Link}
-                    href={route("folder.edit", { id: itemParent?.item_id })}
-                    color="dark.3"
-                    leftSection={<IconAdjustments size={18} />}
-                >
-                    Properties
-                </Button>
+                <Tooltip label="Properties" position="bottom" withArrow>
+                    <ActionIcon
+                        component={Link}
+                        size="lg"
+                        href={route("folder.edit", { id: itemParent?.item_id })}
+                        variant="transparent"
+                        color="dark.3"
+                    >
+                        <IconAdjustments size={18} />
+                    </ActionIcon>
+                </Tooltip>
 
-                <Button
-                    size="sm"
-                    variant={itemParent?.workflow_id ? "light" : "subtle"}
-                    color={itemParent?.workflow_id ? "green.8" : "dark.3"}
-                    leftSection={<IconGitBranch size={18} />}
-                    onClick={() => openModal(itemParent?.workflow_id ? "updateWorkflow" : "createWorkflow")}
-                >
-                    Workflow
-                </Button>
+                <Tooltip label="Workflow" position="bottom" withArrow>
+                    <ActionIcon
+                        variant="transparent"
+                        size="lg"
+                        color={itemParent?.workflow_id ? "green.8" : "dark.3"}
+                        onClick={() => openModal(itemParent?.workflow_id ? "updateWorkflow" : "createWorkflow")}
+                    >
+                        <IconGitBranch size={18} />
+                    </ActionIcon>
+                </Tooltip>
 
-                <Button
-                    size="sm"
-                    variant={itemParent?.required_metadata?.length ? "light" : "subtle"}
-                    color={itemParent?.required_metadata?.length ? "green.8" : "dark.3"}
-                    leftSection={<IconDeviceSdCard size={18} />}
-                    component={Link}
-                    href={route("folder.showRequiredMetadata", { id: itemParent?.item_id })}
-                >
-                    Metadata
-                </Button>
+                <Tooltip label="Metadata" position="bottom" withArrow>
+                    <ActionIcon
+                        component={Link}
+                        size="lg"
+                        href={route("folder.showRequiredMetadata", { id: itemParent?.item_id })}
+                        variant="transparent"
+                        color={itemParent?.required_metadata?.length ? "green.8" : "dark.3"}
+                    >
+                        <IconDeviceSdCard size={18} />
+                    </ActionIcon>
+                </Tooltip>
 
-                <Button
-                    size="sm"
-                    variant="subtle"
-                    color="dark.3"
-                    component={Link}
-                    leftSection={<IconArticle size={18} />}
-                    href={route("folder.activity-log", { id: itemParent?.item_id })}
-                >
-                    Activity
-                </Button>
+                <Tooltip label="Activity" position="bottom" withArrow>
+                    <ActionIcon
+                        component={Link}
+                        size="lg"
+                        href={route("folder.activity-log", { id: itemParent?.item_id })}
+                        variant="transparent"
+                        color="dark.3"
+                    >
+                        <IconArticle size={18} />
+                    </ActionIcon>
+                </Tooltip>
 
-                <Button
-                    size="sm"
-                    variant={itemParent?.numbering_scheme_id ? "light" : "subtle"}
-                    color={itemParent?.numbering_scheme_id ? "green.8" : "dark.3"}
-                    leftSection={<IconListTree size={18} />}
-                    onClick={() => openModal(itemParent?.numbering_scheme_id ? "updateNumberingScheme" : "createNumberingScheme")}
-                >
-                    Numbering
-                </Button>
+                <Tooltip label="Numbering" position="bottom" withArrow>
+                    <ActionIcon
+                        size="lg"
+                        variant="transparent"
+                        color={itemParent?.numbering_scheme_id ? "green.8" : "dark.3"}
+                        onClick={() => openModal(itemParent?.numbering_scheme_id ? "updateNumberingScheme" : "createNumberingScheme")}
+                    >
+                        <IconListTree size={18} />
+                    </ActionIcon>
+                </Tooltip>
 
-                <Button
-                    size="sm"
-                    variant="subtle"
-                    color="dark.3"
-                    leftSection={<IconTable size={18} />}
-                    onClick={() => openModal("selectMetadataColumns")}
-                >
-                    Column
-                </Button>
+                <Tooltip label="Column" position="bottom" withArrow>
+                    <ActionIcon
+                        variant="transparent"
+                        color="dark.3"
+                        size="lg"
+                        onClick={() => openModal("selectMetadataColumns")}
+                    >
+                        <IconTable size={18} />
+                    </ActionIcon>
+                </Tooltip>
 
-                <Button
-                    size="sm"
-                    variant="subtle"
-                    color="dark.3"
-                    leftSection={<IconFileReport size={18} />}
-                    onClick={() => generateReport(itemParent?.item_id ?? "")}
-                >
-                    Report
-                </Button>
+                <Tooltip label="Report" position="bottom" withArrow>
+                    <ActionIcon
+                        variant="transparent"
+                        color="dark.3"
+                        size="lg"
+                        onClick={() => generateReport(itemParent?.item_id ?? "")}
+                    >
+                        <IconFileReport size={18} />
+                    </ActionIcon>
+                </Tooltip>
             </Group>
 
             <Group gap="xs">
-                <Button
-                    size="sm"
-                    variant="subtle"
-                    color="dark.3"
-                    leftSection={<IconSelector size={18} />}
-                    rightSection={<IconChevronDown size={12} />}
-                >
-                    Sort
-                </Button>
+                <Tooltip label="Sort" position="bottom" withArrow>
+                    <ActionIcon variant="transparent" color="dark.3" size="lg">
+                        <IconSelector size={18} />
+                        <IconChevronDown size={12} style={{ marginLeft: rem(4) }} />
+                    </ActionIcon>
+                </Tooltip>
 
-                <Button
-                    size="sm"
-                    variant="subtle"
-                    color="dark.3"
-                    leftSection={<IconLayoutGrid size={18} />}
-                    rightSection={<IconChevronDown size={12} />}
-                >
-                    View
-                </Button>
+                <Tooltip label="View" position="bottom" withArrow>
+                    <ActionIcon variant="transparent" color="dark.3" size="lg">
+                        <IconLayoutGrid size={18} />
+                        <IconChevronDown size={12} style={{ marginLeft: rem(4) }} />
+                    </ActionIcon>
+                </Tooltip>
             </Group>
 
             {/* Forms */}

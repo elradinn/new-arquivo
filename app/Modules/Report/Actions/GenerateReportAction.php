@@ -32,10 +32,24 @@ class GenerateReportAction
 
         $folder = ItemParentResourceData::fromModel($item);
 
+        $headerPath = public_path() . '/images/report-header.png';
+        $footerPath = public_path() . '/images/report-footer.png';
+
+        $headerType = pathinfo($headerPath, PATHINFO_EXTENSION);
+        $footerType = pathinfo($footerPath, PATHINFO_EXTENSION);
+
+        $headerData = file_get_contents($headerPath);
+        $footerData = file_get_contents($footerPath);
+
+        $headerImage = 'data:image/' . $headerType . ';base64,' . base64_encode($headerData);
+        $footerImage = 'data:image/' . $footerType . ';base64,' . base64_encode($footerData);
+
         $pdf = Pdf::loadView('report.folder_report', [
             'folder' => $folder,
             'items' => ItemContentsResourceData::collect($itemContents),
-        ]);
+            'header' => $headerImage,
+            'footer' => $footerImage,
+        ])->setPaper('a4');
 
         // Generate a unique filename
         $filename = 'report_' . Str::random(10) . '.pdf';
