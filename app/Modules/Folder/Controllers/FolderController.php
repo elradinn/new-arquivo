@@ -14,6 +14,7 @@ use Modules\Folder\Data\CreateFolderData;
 use Modules\Folder\Data\UpdateFolderData;
 use Modules\Folder\Actions\CreateFolderAction;
 use Modules\Folder\Actions\DeleteFolderAction;
+use Modules\Folder\Actions\SelectMetadataColumnAction;
 use Modules\Folder\Actions\UpdateFolderAction;
 use Modules\Folder\Data\FolderResourceData;
 use Modules\Folder\Data\ShareFolderData;
@@ -27,6 +28,7 @@ use Modules\Item\Actions\GetItemDataAction;
 use Modules\Folder\Actions\UpdateFolderMetadataAction;
 use Modules\Folder\Data\UpdateFolderMetadataData;
 use Modules\Folder\Data\FolderRequiredMetadataResource;
+use Modules\Folder\Data\SelectMetadataColumnData;
 
 class FolderController extends Controller
 {
@@ -36,13 +38,10 @@ class FolderController extends Controller
         private DeleteFolderAction $deleteFolderAction,
         private FolderAuthorization $folderAuthorization,
         private GetItemDataAction $getItemDataAction,
-        private UpdateFolderMetadataAction $updateFolderMetadataAction
+        private UpdateFolderMetadataAction $updateFolderMetadataAction,
+        private SelectMetadataColumnAction $selectMetadataColumnAction
     ) {}
 
-    /**
-     * Show contents of folder
-     * @return \Spatie\LaravelData\DataCollection<ItemContentsResourceData>
-     */
     public function show(Folder $folder)
     {
         $this->folderAuthorization->canView(Auth::user(), $folder);
@@ -147,5 +146,11 @@ class FolderController extends Controller
         return response()->json([
             'metadata_columns' => MetadataResourceData::collect($metadataColumns),
         ], 200);
+    }
+
+    public function selectMetadataColumn(Folder $folder, SelectMetadataColumnData $data): RedirectResponse
+    {
+        $this->selectMetadataColumnAction->execute($folder, $data);
+        return redirect()->back();
     }
 }

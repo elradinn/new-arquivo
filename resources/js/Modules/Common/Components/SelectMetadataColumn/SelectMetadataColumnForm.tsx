@@ -5,6 +5,7 @@ import useModalStore from "@/Modules/Common/Hooks/use-modal-store";
 import useFetchMetadata from "@/Modules/Metadata/Hooks/use-fetch-metadata";
 import { useFetchExistingMetadataColumn } from "@/Modules/Common/Hooks/use-fetch-existing-metadata-column";
 import { MetadataResourceData } from "@/Modules/Metadata/Types/MetadataResourceData";
+import { notifications } from "@mantine/notifications";
 
 interface SelectMetadataColumnFormProps {
     folderId: string;
@@ -14,7 +15,7 @@ const SelectMetadataColumnForm: React.FC<SelectMetadataColumnFormProps> = ({ fol
     const { modals, closeModal } = useModalStore();
     const isOpen = modals["selectMetadataColumns"];
     const { metadataList } = useFetchMetadata();
-    const { existingMetadataColumns, loading, error } = useFetchExistingMetadataColumn({ folderId });
+    const { existingMetadataColumns, loading, error } = useFetchExistingMetadataColumn({ folderId, isOpen });
 
     const { data, setData, post, processing, errors } = useForm({
         metadata_ids: [] as number[],
@@ -38,9 +39,17 @@ const SelectMetadataColumnForm: React.FC<SelectMetadataColumnFormProps> = ({ fol
         post(route("folder.selectMetadataColumn", folderId), {
             onSuccess: () => {
                 closeModal("selectMetadataColumns");
+                notifications.show({
+                    title: "Success",
+                    message: "Metadata columns selected successfully",
+                });
             },
             onError: (error) => {
                 console.error(error);
+                notifications.show({
+                    title: "Error",
+                    message: "Failed to select metadata columns",
+                });
             },
         });
     };

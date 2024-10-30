@@ -4,9 +4,10 @@ import { MetadataResourceData } from "@/Modules/Metadata/Types/MetadataResourceD
 
 interface UseFetchExistingMetadataColumnProps {
     folderId: string;
+    isOpen: boolean;
 }
 
-export function useFetchExistingMetadataColumn({ folderId }: UseFetchExistingMetadataColumnProps) {
+export function useFetchExistingMetadataColumn({ folderId, isOpen }: UseFetchExistingMetadataColumnProps) {
     const [existingMetadataColumns, setExistingMetadataColumns] = useState<MetadataResourceData[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
@@ -26,10 +27,10 @@ export function useFetchExistingMetadataColumn({ folderId }: UseFetchExistingMet
             }
         };
 
-        if (folderId) {
+        if (folderId && isOpen) {
             fetchExistingMetadata();
         }
-    }, [folderId]);
+    }, [folderId, isOpen]);
 
     return { existingMetadataColumns, loading, error };
 }

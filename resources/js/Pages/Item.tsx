@@ -54,12 +54,10 @@ export default function ItemPage({ itemParent, itemAncestors, itemContents }: It
                 </Group>
             ),
         },
-        { accessor: "owner" },
         {
             accessor: "updated_at",
             title: "Last Modified",
         },
-        { accessor: "size" },
         ...(dynamicColumns ?? []),
     ];
 
