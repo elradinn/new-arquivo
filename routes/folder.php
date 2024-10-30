@@ -24,5 +24,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/{folder}/required-metadata', [FolderController::class, 'updateFolderRequiredMetadata'])->name('folder.updateRequiredMetadata');
 
         Route::get('/{folder}/required-metadata', [FolderController::class, 'showFolderRequiredMetadata'])->name('folder.showRequiredMetadata');
+
+        Route::get('/{folder}/metadata_columns', [FolderController::class, 'getExistingMetadataColumns'])->name('folder.getExistingMetadataColumns');
     });
 });

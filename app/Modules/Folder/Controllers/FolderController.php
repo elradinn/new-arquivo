@@ -2,6 +2,7 @@
 
 namespace Modules\Folder\Controllers;
 
+use App\Modules\Metadata\Data\MetadataResourceData;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -137,5 +138,14 @@ class FolderController extends Controller
             'requiredMetadata' => FolderRequiredMetadataResource::collect($requiredMetadata),
             'folder' => FolderResourceData::from($folder),
         ]);
+    }
+
+    public function getExistingMetadataColumns(Folder $folder)
+    {
+        $metadataColumns = $folder->metadataColumns()->get();
+
+        return response()->json([
+            'metadata_columns' => MetadataResourceData::collect($metadataColumns),
+        ], 200);
     }
 }

@@ -20,6 +20,7 @@ import { ItemAncestorsResourceData } from "@/Modules/Item/Types/ItemAncestorsRes
 import { ItemContentsResourceData } from "@/Modules/Item/Types/ItemContentsResourceData";
 import { ItemParentResourceData } from "@/Modules/Item/Types/ItemParentResourceData";
 import Toolbar from "@/Modules/Common/Components/Toolbar/Toolbar";
+import SelectMetadataColumnForm from "@/Modules/Common/Components/SelectMetadataColumn/SelectMetadataColumnForm";
 
 interface ItemPageProps {
     itemParent: ItemParentResourceData;
@@ -33,7 +34,6 @@ export default function ItemPage({ itemParent, itemAncestors, itemContents }: It
     const { selectedRecord, setSelectedRecord, ids } = useSelectItems();
     const { openFolder } = useOpenFolder();
     const { openDocument } = useDocumentProperties();
-
 
     const dynamicColumns = itemParent.metadata_columns?.map((metadata) => ({
         accessor: `metadata_${metadata.id}`,
@@ -135,6 +135,8 @@ export default function ItemPage({ itemParent, itemAncestors, itemContents }: It
                     </Stack>
                 </ItemDropzone>
             </Authenticated>
+
+            <SelectMetadataColumnForm folderId={itemParent.item_id} />
         </>
     );
 }

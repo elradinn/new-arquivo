@@ -154,6 +154,7 @@ const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent }) => {
                     variant="subtle"
                     color="dark.3"
                     leftSection={<IconTable size={18} />}
+                    onClick={() => openModal("selectMetadataColumns")}
                 >
                     Column
                 </Button>
