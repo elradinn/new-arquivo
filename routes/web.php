@@ -37,3 +37,5 @@ require __DIR__ . '/admin_tools.php';
 require __DIR__ . '/activity_log.php';
 
 require __DIR__ . '/trash.php';
+
+require __DIR__ . '/generate_report.php';

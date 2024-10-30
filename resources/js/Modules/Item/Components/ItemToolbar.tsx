@@ -14,6 +14,7 @@ import {
     IconTable,
     IconSelector,
     IconLayoutGrid,
+    IconFileReport,
 } from "@tabler/icons-react";
 import useModalStore from "@/Modules/Common/Hooks/use-modal-store";
 import { ItemParentResourceData } from "../Types/ItemParentResourceData";
@@ -23,6 +24,7 @@ import { UpdateNumberingSchemeForm } from "@/Modules/NumberingScheme/Forms/Updat
 import CreateNumberingSchemeForm from "@/Modules/NumberingScheme/Forms/CreateNumberingSchemeForm";
 import CreateFolderForm from "@/Modules/Folder/Forms/FolderForm";
 import UpdateWorkflowForm from "@/Modules/Workflow/Forms/UpdateWorkflowForm";
+import useGenerateReport from "@/Modules/Common/Hooks/use-generate-report";
 
 interface IProps {
     uploadFileRef?: React.RefObject<() => void>;
@@ -31,6 +33,7 @@ interface IProps {
 
 const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent }) => {
     const { openModal } = useModalStore();
+    const { generateReport } = useGenerateReport();
 
     return (
         <Group
@@ -103,6 +106,7 @@ const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent }) => {
                 </Menu>
 
                 <Button
+                    size="sm"
                     variant="subtle"
                     component={Link}
                     href={route("folder.edit", { id: itemParent?.item_id })}
@@ -113,6 +117,7 @@ const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent }) => {
                 </Button>
 
                 <Button
+                    size="sm"
                     variant={itemParent?.workflow_id ? "light" : "subtle"}
                     color={itemParent?.workflow_id ? "green.8" : "dark.3"}
                     leftSection={<IconGitBranch size={18} />}
@@ -122,6 +127,7 @@ const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent }) => {
                 </Button>
 
                 <Button
+                    size="sm"
                     variant={itemParent?.required_metadata?.length ? "light" : "subtle"}
                     color={itemParent?.required_metadata?.length ? "green.8" : "dark.3"}
                     leftSection={<IconDeviceSdCard size={18} />}
@@ -132,6 +138,7 @@ const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent }) => {
                 </Button>
 
                 <Button
+                    size="sm"
                     variant="subtle"
                     color="dark.3"
                     component={Link}
@@ -142,6 +149,7 @@ const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent }) => {
                 </Button>
 
                 <Button
+                    size="sm"
                     variant={itemParent?.numbering_scheme_id ? "light" : "subtle"}
                     color={itemParent?.numbering_scheme_id ? "green.8" : "dark.3"}
                     leftSection={<IconListTree size={18} />}
@@ -151,6 +159,7 @@ const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent }) => {
                 </Button>
 
                 <Button
+                    size="sm"
                     variant="subtle"
                     color="dark.3"
                     leftSection={<IconTable size={18} />}
@@ -158,10 +167,21 @@ const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent }) => {
                 >
                     Column
                 </Button>
+
+                <Button
+                    size="sm"
+                    variant="subtle"
+                    color="dark.3"
+                    leftSection={<IconFileReport size={18} />}
+                    onClick={() => generateReport(itemParent?.item_id ?? "")}
+                >
+                    Report
+                </Button>
             </Group>
 
             <Group gap="xs">
                 <Button
+                    size="sm"
                     variant="subtle"
                     color="dark.3"
                     leftSection={<IconSelector size={18} />}
@@ -171,6 +191,7 @@ const ItemToolbar: React.FC<IProps> = ({ uploadFileRef, itemParent }) => {
                 </Button>
 
                 <Button
+                    size="sm"
                     variant="subtle"
                     color="dark.3"
                     leftSection={<IconLayoutGrid size={18} />}
