@@ -17,18 +17,24 @@
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Owner</th>
                 <th>Last Modified</th>
-                <th>Size</th>
+                @foreach($folder->metadata_columns as $metadataColumn)
+                    <th>{{ $metadataColumn['name'] }}</th>
+                @endforeach
             </tr>
         </thead>
         <tbody>
             @foreach($items as $item)
                 <tr>
                     <td>{{ $item->name }}</td>
-                    <td>{{ $item->owned_by }}</td>
                     <td>{{ $item->updated_at }}</td>
-                    <td>{{ $item->size }}</td>
+                    @foreach($folder->metadata_columns as $metadataColumn)
+                        @php
+                            // Find the metadata value for the current metadata column
+                            $meta = collect($item->metadata)->firstWhere('id', $metadataColumn['id']);
+                        @endphp
+                        <td>{{ $meta['value'] ?? 'N/A' }}</td>
+                    @endforeach
                 </tr>
             @endforeach
         </tbody>

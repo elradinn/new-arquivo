@@ -4,6 +4,7 @@ namespace Modules\Report\Actions;
 
 use Modules\Report\Data\ReportParametersData;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Log;
 use Modules\Item\Data\ItemContentsResourceData;
 use Modules\Item\Data\ItemParentResourceData;
 use Modules\Item\Models\Item;
@@ -22,7 +23,12 @@ class GenerateReportAction
             ];
         }
 
-        $itemContents = $item->getChildren()->load('document');
+        $itemContents = $item->children()
+            ->whereHas('document')
+            ->with('document')
+            ->get();
+
+        Log::info($itemContents);
 
         $folder = ItemParentResourceData::fromModel($item);
 

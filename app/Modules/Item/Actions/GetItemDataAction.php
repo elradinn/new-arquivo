@@ -12,7 +12,8 @@ class GetItemDataAction
 {
     public function execute(Item $item): array
     {
-        $itemContents = $item->getChildren()->load('folder', 'document');
+        $itemContents = $item->getChildren();
+
         $itemAncestors = $item->ancestorsWithSelf()->get()->load('workspace', 'folder');
 
         return [
