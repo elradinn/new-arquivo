@@ -53,7 +53,9 @@ class DashboardController extends Controller
 
         // Apply date range filter
         if ($startDate && $endDate) {
-            $documentsQuery->whereBetween('updated_at', [$startDate, $endDate]);
+            $documentsQuery->whereHas('document', function ($query) use ($startDate, $endDate) {
+                $query->whereBetween('updated_at', [$startDate, $endDate]);
+            });
         }
 
         // Eager load metadata if needed

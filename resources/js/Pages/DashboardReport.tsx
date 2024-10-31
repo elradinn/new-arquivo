@@ -8,6 +8,7 @@ import {
     Stack,
     Text,
     ActionIcon,
+    Flex,
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { IconSearch, IconDownload, IconTrash, IconEdit } from "@tabler/icons-react";
@@ -97,34 +98,45 @@ export default function DashboardReportPage({ documents, filters, selectedMetada
 
                 <Stack>
                     {/* Filter Options */}
-                    <Group gap={12}>
-                        <Select
-                            label="Document Status"
-                            placeholder="Select document status"
-                            value={documentStatus}
-                            onChange={setDocumentStatus}
-                            data={[
-                                { value: "reviewal_accepted", label: "Review Accepted" },
-                                { value: "reviewal_rejected", label: "Review Rejected" },
-                                { value: "reviewal_pending", label: "Review Pending" },
-                                { value: "approval_accepted", label: "Approval Accepted" },
-                                { value: "approval_rejected", label: "Approval Rejected" },
-                                { value: "approval_pending", label: "Approval Pending" },
-                            ]}
-                            style={{ width: 200 }}
-                        />
+                    <Group justify="space-between">
+                        <Flex
+                            gap="md"
+                            justify="flex-start"
+                            align="flex-end"
+                            direction="row"
+                            wrap="wrap"
+                        >
+                            <Select
+                                placeholder="Select document status"
+                                value={documentStatus}
+                                onChange={setDocumentStatus}
+                                data={[
+                                    { value: "reviewal_accepted", label: "Review Accepted" },
+                                    { value: "reviewal_rejected", label: "Review Rejected" },
+                                    { value: "reviewal_pending", label: "Review Pending" },
+                                    { value: "approval_accepted", label: "Approval Accepted" },
+                                    { value: "approval_rejected", label: "Approval Rejected" },
+                                    { value: "approval_pending", label: "Approval Pending" },
+                                ]}
+                                style={{ width: 200 }}
+                            />
 
-                        <DatePickerInput
-                            type="range"
-                            placeholder="Select date range"
-                            label="Date Range"
-                            value={dateRange}
-                            onChange={setDateRange}
-                            style={{ width: 300 }}
-                        />
+                            <DatePickerInput
+                                type="range"
+                                placeholder="Select date range"
+                                value={dateRange}
+                                onChange={setDateRange}
+                                style={{ width: 300 }}
+                            />
 
-                        <Button onClick={handleFilter} leftSection={<IconSearch size={16} />} color="blue">
-                            Apply Filters
+                            <Button onClick={handleFilter} leftSection={<IconSearch size={16} />} color="blue">
+                                Apply Filters
+                            </Button>
+                        </Flex>
+
+                        {/* Generate Report Button */}
+                        <Button onClick={handleGenerateReport} leftSection={<IconDownload size={16} />} color="green">
+                            Generate Report
                         </Button>
                     </Group>
 
@@ -149,9 +161,7 @@ export default function DashboardReportPage({ documents, filters, selectedMetada
                                 </Group>
                             ),
                         },
-                        { accessor: "owner" },
                         { accessor: "updated_at", title: "Last Modified" },
-                        { accessor: "size" },
                         // Dynamic columns based on selected metadata
                         ...selectedMetadata.map((meta) => ({
                             accessor: `metadata_${meta.id}`,
@@ -167,17 +177,12 @@ export default function DashboardReportPage({ documents, filters, selectedMetada
                     recordsPerPage={documents.per_page}
                     page={page}
                     onPageChange={() => { }}
-                    selectedRecords={[]}
-                    onSelectedRecordsChange={() => { }}
                     highlightOnHover
                     verticalSpacing="lg"
                     horizontalSpacing="xl"
                 />
 
-                {/* Generate Report Button */}
-                <Button onClick={handleGenerateReport} leftSection={<IconDownload size={16} />} color="green">
-                    Generate Report
-                </Button>
+
             </Stack>
         </Authenticated>
     );
