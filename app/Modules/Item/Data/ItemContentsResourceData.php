@@ -19,7 +19,7 @@ class ItemContentsResourceData extends Resource
         public ?string $description,
         public ?string $updated_at,
         public ?string $file_path,
-        public ?bool $missing_required_metadata = true, // TODO: make logic to check if the document is missing required metadata
+        public ?bool $missing_required_metadata = false, // TODO: make logic to check if the document is missing required metadata
         public ?array $metadata = null
     ) {}
 

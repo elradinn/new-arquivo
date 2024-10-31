@@ -44,12 +44,19 @@ export default function ItemPage({ itemParent, itemAncestors, itemContents }: It
         },
     }));
 
+    console.log(itemContents);
+
     const metadataColumns: DataTableColumn<ItemContentsResourceData>[] = [
         {
             accessor: "name",
-            render: ({ mime, type, name, status }) => (
+            render: ({ mime, type, name, status, missing_required_metadata }) => (
                 <Group align="center" gap={12}>
-                    <ItemIcon mime={mime ?? ""} isFolder={type === "folder"} />
+                    <ItemIcon
+                        mime={mime ?? ""}
+                        isFolder={type === "folder"}
+                        approvalStatus={status}
+                        missingRequiredMetadata={missing_required_metadata}
+                    />
                     <span>{name}</span>
                 </Group>
             ),

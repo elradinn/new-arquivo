@@ -4,6 +4,8 @@ require __DIR__ . '/mock_main.php';
 
 require __DIR__ . '/auth.php';
 
+require __DIR__ . '/dashboard.php';
+
 require __DIR__ . '/profile.php';
 
 require __DIR__ . '/item.php';
