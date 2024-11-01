@@ -27,6 +27,7 @@ import {
     IconUser,
 } from "@tabler/icons-react";
 import { PageProps } from "../../Types";
+import GlobalSearch from "@/Modules/GlobalSearch/Components/GlobalSearch";
 
 interface IProps {
     children: React.ReactNode;
@@ -55,13 +56,7 @@ export function Authenticated({ children, toolbar }: IProps) {
                 <Flex h={toolbar ? "50%" : "100%"} px="md" justify="space-between" align="center">
                     <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
 
-                    <TextInput
-                        leftSection={<IconSearch size={16} />}
-                        placeholder="Search for documents or folders"
-                        w={{ base: 300, lg: 550 }}
-                        visibleFrom="sm"
-                        variant="filled"
-                    />
+                    <GlobalSearch />
 
                     <Group align="center" gap={8}>
                         {isAdmin && (

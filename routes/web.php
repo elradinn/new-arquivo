@@ -41,3 +41,5 @@ require __DIR__ . '/activity_log.php';
 require __DIR__ . '/trash.php';
 
 require __DIR__ . '/generate_report.php';
+
+require __DIR__ . '/global_search.php';
