@@ -19,6 +19,7 @@ class DocumentResourceData extends Resource
         public array $related_documents,
         public array $metadata,
         public array $required_folder_metadata,
+        public array $versions,
         public string $created_at,
         public string $updated_at
     ) {}
@@ -47,6 +48,12 @@ class DocumentResourceData extends Resource
                 'value' => $metadata->pivot->value,
             ])->toArray(),
             required_folder_metadata: $requiredFolderMetadata,
+            versions: $document->versions->map(fn($version) => [
+                'id' => $version->id,
+                'file_path' => $version->file_path,
+                'uploaded_at' => $version->created_at->toDateTimeString(),
+                'name' => $version->name,
+            ])->toArray(),
             created_at: $document->created_at,
             updated_at: $document->updated_at
         );

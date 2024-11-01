@@ -18,5 +18,11 @@ Route::middleware('auth')->group(function () {
         Route::post('/{document}/share', [DocumentController::class, 'share'])->name('document.share');
 
         Route::delete('/{document}/share', [DocumentController::class, 'removeShare'])->name('document.remove-share');
+
+        Route::post('/{document}/versions', [DocumentController::class, 'uploadDocumentVersion'])->name('document.upload_version');
+
+        Route::post('/versions/{version}/restore', [DocumentController::class, 'restoreDocumentVersion'])->name('document.restore_version');
+
+        Route::delete('/versions/{version}', [DocumentController::class, 'deleteDocumentVersion'])->name('document.delete_version');
     });
 });

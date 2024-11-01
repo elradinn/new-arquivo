@@ -23,6 +23,11 @@ use Modules\Item\Data\ItemAncestorsResourceData;
 use Modules\Item\Models\Item;
 use Modules\User\Models\User;
 use Spatie\LaravelData\DataCollection;
+use Modules\Document\Actions\UploadDocumentVersionAction;
+use Modules\Document\Actions\RestoreDocumentVersionAction;
+use Modules\Document\Actions\DeleteDocumentVersionAction;
+use Modules\Document\Data\DocumentVersionResourceData;
+use Modules\Document\Data\UploadDocumentVersionData;
 
 class DocumentController extends Controller
 {
@@ -30,7 +35,10 @@ class DocumentController extends Controller
         protected UploadDocumentAction $uploadDocumentAction,
         protected DocumentAuthorization $documentAuthorization,
         protected GetItemDataAction $getItemDataAction,
-        protected UpdateDocumentAction $updateDocumentAction
+        protected UpdateDocumentAction $updateDocumentAction,
+        protected UploadDocumentVersionAction $uploadDocumentVersionAction,
+        protected RestoreDocumentVersionAction $restoreDocumentVersionAction,
+        protected DeleteDocumentVersionAction $deleteDocumentVersionAction
     ) {}
 
     public function store(UploadDocumentData $data): RedirectResponse
@@ -103,5 +111,26 @@ class DocumentController extends Controller
         $document->userAccess()->detach($user->id);
 
         return response()->json(['message' => 'Document unshared successfully.'], 200);
+    }
+
+    public function uploadDocumentVersion(UploadDocumentVersionData $data): RedirectResponse
+    {
+        $this->uploadDocumentVersionAction->execute($data);
+
+        return redirect()->back();
+    }
+
+    public function restoreDocumentVersion(string $versionId): RedirectResponse
+    {
+        $this->restoreDocumentVersionAction->execute($versionId);
+
+        return redirect()->back();
+    }
+
+    public function deleteDocumentVersion(string $versionId): RedirectResponse
+    {
+        $this->deleteDocumentVersionAction->execute($versionId);
+
+        return redirect()->back();
     }
 }

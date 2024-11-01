@@ -10,11 +10,11 @@ use Modules\User\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
-use Modules\ActivityLog\Models\ActivityLog;
 use Modules\DocumentApproval\States\DocumentState;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\ModelStates\HasStates;
@@ -24,7 +24,7 @@ class Document extends Model
     use HasUuids, HasStates;
 
     protected $primaryKey = 'item_id'; // Use item_id as the primary key
-    public $incrementing = false; // Since item_id is not auto-incrementing integer
+    public $incrementing = false;
 
     protected $fillable = [
         'item_id',
@@ -41,6 +41,22 @@ class Document extends Model
     protected $casts = [
         'status' => DocumentState::class,
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Ensure that when retrieving the document, it fetches the current version
+        static::retrieved(function ($document) {
+            $currentVersion = $document->versions()->where('current', true)->first();
+            if ($currentVersion) {
+                $document->file_path = $currentVersion->file_path;
+                $document->mime = $currentVersion->mime;
+                $document->size = $currentVersion->size;
+                // Add other attributes if necessary
+            }
+        });
+    }
 
     /**
      * Get the document's items.
@@ -96,5 +112,10 @@ class Document extends Model
     public function activityLogs(): MorphMany
     {
         return $this->morphMany(Activity::class, 'subject');
+    }
+
+    public function versions(): HasMany
+    {
+        return $this->hasMany(DocumentHasVersion::class, 'document_item_id');
     }
 }

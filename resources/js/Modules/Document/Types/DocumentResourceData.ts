@@ -1,5 +1,6 @@
 import { FolderRequiredMetadataResource } from "@/Modules/Folder/Types/FolderRequiredMetadataResource";
 import { DocumentMetadata } from "./DocumentMetadata";
+import { DocumentVersionResourceData } from "./DocumentVersionResourceData";
 
 export type DocumentResourceData = {
     item_id: string;
@@ -16,6 +17,7 @@ export type DocumentResourceData = {
     }>;
     metadata: DocumentMetadata[];
     required_folder_metadata: FolderRequiredMetadataResource[];
+    versions: DocumentVersionResourceData[];
     created_at: string;
     updated_at: string;
 };
