@@ -48,8 +48,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $testUser4 = User::create([
-            'name' => 'Mark Elthon',
-            'email' => 'approvaluser@example.com',
+            'name' => 'Serenity Shoshin',
+            'email' => 'serenityshoshin@gmail.com',
             'password' => '12345678',
             'workflow_role' => 'approver',
         ]);
