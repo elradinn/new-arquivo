@@ -1,29 +1,96 @@
 import { Group, Paper, SimpleGrid, Text } from "@mantine/core";
 import { IconFile } from "@tabler/icons-react";
+import { DashboardResource } from "@/Modules/Dashboard/Types/DashboardResource";
 import classes from "./StatCards.module.css";
+import { router } from "@inertiajs/react";
+
+interface StatCardsProps {
+    dashboard: DashboardResource;
+}
 
 const icons = {
-    user: IconFile,
-    discount: IconFile,
-    receipt: IconFile,
-    coin: IconFile,
+    review_pending: IconFile,
+    review_accepted: IconFile,
+    review_rejected: IconFile,
+    approval_pending: IconFile,
+    approval_accepted: IconFile,
+    approval_rejected: IconFile,
+    total_documents: IconFile,
 };
 
-const data = [
-    { title: "Total Documents", icon: "receipt", value: "214", diff: 34, color: "blue" },
-    { title: "Approved", icon: "coin", value: "124", diff: -13, color: "green" },
-    { title: "Rejected", icon: "discount", value: "67", diff: 18, color: "red" },
-    { title: "Needing Approval", icon: "user", value: "23", diff: -30, color: "orange" },
-] as const;
+export function StatCards({ dashboard }: StatCardsProps) {
+    const data = [
+        {
+            title: "Review Pending",
+            icon: "review_pending",
+            value: dashboard.number_of_review_pending,
+            color: "blue",
+            statusParam: "reviewal_pending",
+        },
+        {
+            title: "Review Accepted",
+            icon: "review_accepted",
+            value: dashboard.number_of_review_accepted,
+            color: "green",
+            statusParam: "reviewal_accepted",
+        },
+        {
+            title: "Review Rejected",
+            icon: "review_rejected",
+            value: dashboard.number_of_review_rejected,
+            color: "red",
+            statusParam: "reviewal_rejected",
+        },
+        {
+            title: "Approval Pending",
+            icon: "approval_pending",
+            value: dashboard.number_of_approval_pending,
+            color: "blue",
+            statusParam: "approval_pending",
+        },
+        {
+            title: "Approval Accepted",
+            icon: "approval_accepted",
+            value: dashboard.number_of_approval_accepted,
+            color: "green",
+            statusParam: "approval_accepted",
+        },
+        {
+            title: "Approval Rejected",
+            icon: "approval_rejected",
+            value: dashboard.number_of_approval_rejected,
+            color: "red",
+            statusParam: "approval_rejected",
+        },
+        {
+            title: "Total Documents",
+            icon: "total_documents",
+            value: dashboard.number_of_documents,
+            color: "purple",
+            statusParam: null,
+        },
+    ] as const;
 
-export function StatCards() {
     const stats = data.map((stat) => {
         const Icon = icons[stat.icon];
 
+        const handleClick = () => {
+            if (stat.statusParam) {
+                router.visit(`/dashboard/reports?document_status=${stat.statusParam}`);
+            }
+        };
+
         return (
-            <Paper withBorder p="md" radius="md" key={stat.title}>
+            <Paper
+                withBorder
+                p="md"
+                radius="md"
+                key={stat.title}
+                onClick={handleClick}
+                style={{ cursor: stat.statusParam ? "pointer" : "default" }}
+            >
                 <Group justify="space-between">
-                    <Text size="sm" c="dimmed" className={classes.title}>
+                    <Text size="sm" color="dimmed" className={classes.title}>
                         {stat.title}
                     </Text>
                     <Icon
@@ -42,6 +109,7 @@ export function StatCards() {
             </Paper>
         );
     });
+
     return (
         <div className={classes.root}>
             <SimpleGrid cols={{ base: 1, xs: 2, md: 4 }}>{stats}</SimpleGrid>

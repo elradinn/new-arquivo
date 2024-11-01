@@ -9,6 +9,8 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Modules\Common\Controllers\Controller;
 use Modules\Dashboard\Actions\SelectDashboardReportMetadataColumnAction;
+use Modules\Dashboard\Data\DashboardResource;
+use Modules\Dashboard\Data\RecentlyUploadedDocumentResource;
 use Modules\Dashboard\Data\SelectDashboardMetadataColumnData;
 use Modules\Metadata\Models\Metadata;
 use Modules\Document\Models\Document;
@@ -23,9 +25,63 @@ class DashboardController extends Controller
         protected SelectDashboardReportMetadataColumnAction $selectDashboardReportMetadataColumnAction
     ) {}
 
-    public function dashboard()
+    public function dashboard(): Response
     {
-        return Inertia::render('Dashboard');
+        // Define the statuses to count
+        $statuses = [
+            'reviewal_pending',
+            'reviewal_accepted',
+            'reviewal_rejected',
+            'approval_pending',
+            'approval_accepted',
+            'approval_rejected',
+        ];
+
+        // Initialize an array to hold counts
+        $statusCounts = [];
+
+        // Loop through each status and count using the helper
+        foreach ($statuses as $statusKey) {
+            $statusClass = DocumentStatusHelper::getStatusClass($statusKey);
+            if ($statusClass) {
+                $count = Document::where('status', $statusClass)->count();
+                $statusCounts[$statusKey] = $count;
+            } else {
+                $statusCounts[$statusKey] = 0;
+            }
+        }
+
+        // Fetch recently uploaded documents
+        $recently_uploaded_documents = Document::orderBy('updated_at', 'desc')
+            ->take(5)
+            ->get()
+            ->map(function ($doc) {
+                return new RecentlyUploadedDocumentResource(
+                    name: $doc->name,
+                    status: $doc->status ? $doc->status->label() : 'No Status',
+                    date_uploaded: $doc->updated_at->format('Y-m-d H:i:s')
+                );
+            })
+            ->toArray();
+
+
+
+        // Create DashboardResource instance
+        $dashboardData = new DashboardResource(
+            number_of_review_pending: $statusCounts['reviewal_pending'],
+            number_of_review_accepted: $statusCounts['reviewal_accepted'],
+            number_of_review_rejected: $statusCounts['reviewal_rejected'],
+            number_of_approval_pending: $statusCounts['approval_pending'],
+            number_of_approval_accepted: $statusCounts['approval_accepted'],
+            number_of_approval_rejected: $statusCounts['approval_rejected'],
+            number_of_documents: Document::count(),
+            recently_uploaded_documents: $recently_uploaded_documents
+        );
+
+
+        return Inertia::render('Dashboard', [
+            'dashboard' => $dashboardData,
+        ]);
     }
 
     /**
