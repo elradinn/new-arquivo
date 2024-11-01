@@ -54,7 +54,7 @@ export default function DashboardReportPage({
     const { search, setSearch, handleSearch } = useSearchDataTable("", `/dashboard/reports`);
     const { page, setPage, handlePageChange } = usePaginateDataTable(documents.current_page);
 
-    const { generateReport } = useGenerateReport();
+    const { generateDashboardReport } = useGenerateReport();
 
     const { openModal } = useModalStore();
 
@@ -75,8 +75,14 @@ export default function DashboardReportPage({
     };
 
     const handleGenerateReport = () => {
-        const folderItemId = "your-folder-item-id"; // Replace with actual folder ID or dynamically obtain it
-        generateReport(folderItemId);
+        const payload = {
+            document_status: documentStatus,
+            start_date: dateRange[0] ? dateRange[0].toISOString().split('T')[0] : null,
+            end_date: dateRange[1] ? dateRange[1].toISOString().split('T')[0] : null,
+            metadata_ids: existingMetadataIds,
+        };
+
+        generateDashboardReport(payload);
     };
 
     return (

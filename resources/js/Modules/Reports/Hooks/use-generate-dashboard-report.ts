@@ -7,7 +7,7 @@ interface GenerateDashboardReportPayload {
     metadata_ids: number[];
 }
 
-export default function useGenerateReport() {
+export default function useGenerateDashboardReport() {
     const generateReport = async (folderItemId: string) => {
         try {
             const response = await axios.post(route('report.generate'), {
