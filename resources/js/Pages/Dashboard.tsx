@@ -1,10 +1,11 @@
-import { Head } from "@inertiajs/react";
-import { Group, Stack, Text } from "@mantine/core";
+import { Head, Link } from "@inertiajs/react";
+import { Group, Stack, Text, Button } from "@mantine/core";
 import { Authenticated } from "@/Modules/Common/Layouts/AuthenticatedLayout/Authenticated";
 import { DataTable } from "mantine-datatable";
 import { ItemIcon } from "@/Modules/Common/Components/ItemIcon/ItemIcon";
 import { StatCards } from "@/Modules/Common/Components/StatCards/StatCards";
 import { DashboardResource } from "@/Modules/Dashboard/Types/DashboardResource";
+import { IconArrowRight } from "@tabler/icons-react";
 
 interface DashboardPageProps {
     dashboard: DashboardResource;
@@ -16,9 +17,20 @@ export default function DashboardPage({ dashboard }: DashboardPageProps) {
             <Head title="Dashboard" />
             <Stack px={8} gap={48} py={8}>
                 <Stack gap={24}>
-                    <Text component="h2" size="xl" fw={600} color="gray.8">
-                        Dashboard
-                    </Text>
+                    <Group align="center" justify="space-between">
+                        <Text component="h2" size="xl" fw={600} color="gray.8">
+                            Dashboard
+                        </Text>
+                        <Button
+                            component={Link}
+                            href="/dashboard/reports"
+                            variant="subtle"
+                            color="blue"
+                            rightSection={<IconArrowRight size={16} />}
+                        >
+                            Go to Reports
+                        </Button>
+                    </Group>
 
                     <StatCards dashboard={dashboard} />
                 </Stack>
