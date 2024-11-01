@@ -8,8 +8,10 @@ Route::middleware('auth')->group(function () {
 
     Route::prefix('dashboard')->group(function () {
 
-        Route::get('/', [DashboardController::class, 'dashboard']);
+        Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
 
-        Route::get('/reports', [DashboardController::class, 'showDashboardReport']);
+        Route::get('/reports', [DashboardController::class, 'showDashboardReport'])->name('dashboard.reports');
+
+        Route::post('/reports/select-metadata', [DashboardController::class, 'selectDashboardMetadataColumn'])->name('dashboard.selectMetadataColumn');
     });
 });

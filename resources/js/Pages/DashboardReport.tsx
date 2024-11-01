@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import { router } from "@inertiajs/react";
 import { Head } from "@inertiajs/react";
@@ -10,36 +11,20 @@ import {
     ActionIcon,
     Flex,
 } from "@mantine/core";
-import { DatePickerInput } from "@mantine/dates";
-import { IconSearch, IconDownload, IconTrash, IconEdit } from "@tabler/icons-react";
+import { IconSearch, IconDownload } from "@tabler/icons-react";
 import { DataTable } from "mantine-datatable";
 import { Authenticated } from "@/Modules/Common/Layouts/AuthenticatedLayout/Authenticated";
 import { useSearchDataTable } from "@/Modules/Common/Hooks/use-search-datatable";
 import { usePaginateDataTable } from "@/Modules/Common/Hooks/use-paginate-datatable";
 import useGenerateReport from "@/Modules/Common/Hooks/use-generate-report";
-import SelectMetadataColumnForm from "@/Modules/Common/Components/SelectMetadataColumn/SelectMetadataColumnForm";
 import useModalStore from "@/Modules/Common/Hooks/use-modal-store";
-import { ItemIcon } from "@/Modules/Common/Components/ItemIcon/ItemIcon";
 import { PaginationData } from "@/Modules/Common/Types/CommonPageTypes";
+import { MetadataResourceData } from "@/Modules/Metadata/Types/MetadataResourceData";
+import SelectDashboardMetadataColumnForm from "@/Modules/Dashboard/Components/SelectDashboardMetadataColumnForm";
+import { DashboardMetadataResourceData } from "@/Modules/Dashboard/Types/DashboardMetadataResourceData";
 import { ItemContentsResourceData } from "@/Modules/Item/Types/ItemContentsResourceData";
-
-interface Document {
-    id: number;
-    name: string;
-    owner: string;
-    updated_at: string;
-    size: string;
-    type: string;
-    mime: string;
-    is_folder: number;
-    metadata?: { id: number; metadata_id: number; value: string }[];
-}
-
-interface Metadata {
-    id: number;
-    name: string;
-    type: string;
-}
+import { DatePickerInput } from "@mantine/dates";
+import { ItemIcon } from "@/Modules/Common/Components/ItemIcon/ItemIcon";
 
 interface DashboardReportProps {
     documents: PaginationData<ItemContentsResourceData>;
@@ -48,10 +33,18 @@ interface DashboardReportProps {
         start_date: string | null;
         end_date: string | null;
     };
-    selectedMetadata: Metadata[];
+    selectedMetadata: MetadataResourceData[];
+    availableMetadata: DashboardMetadataResourceData[];
+    existingMetadataIds: number[];
 }
 
-export default function DashboardReportPage({ documents, filters, selectedMetadata }: DashboardReportProps) {
+export default function DashboardReportPage({
+    documents,
+    filters,
+    selectedMetadata,
+    availableMetadata,
+    existingMetadataIds,
+}: DashboardReportProps) {
     const [documentStatus, setDocumentStatus] = useState<string | null>(filters.document_status);
     const [dateRange, setDateRange] = useState<[Date | null, Date | null]>([
         filters.start_date ? new Date(filters.start_date) : null,
@@ -63,7 +56,7 @@ export default function DashboardReportPage({ documents, filters, selectedMetada
 
     const { generateReport } = useGenerateReport();
 
-    const { openModal, closeModal, modals } = useModalStore();
+    const { openModal } = useModalStore();
 
     const handleFilter = () => {
         const query: any = {};
@@ -140,49 +133,57 @@ export default function DashboardReportPage({ documents, filters, selectedMetada
                         </Button>
                     </Group>
 
-                    {/* Metadata Column Selection */}
-                    <SelectMetadataColumnForm folderId="your-folder-item-id" />
-                </Stack>
+                    <Group>
+                        <Button onClick={() => openModal("selectDashboardMetadataColumns")}>
+                            Select Metadata Columns
+                        </Button>
+                    </Group>
 
-                {/* Documents Table */}
-                <DataTable
-                    columns={[
-                        {
-                            accessor: "name",
-                            render: ({ mime, type, name, status, missing_required_metadata }) => (
-                                <Group align="center" gap={12}>
-                                    <ItemIcon
-                                        mime={mime ?? ""}
-                                        isFolder={type === "folder"}
-                                        approvalStatus={status}
-                                        missingRequiredMetadata={missing_required_metadata}
-                                    />
-                                    <span>{name}</span>
-                                </Group>
-                            ),
-                        },
-                        { accessor: "updated_at", title: "Last Modified" },
-                        // Dynamic columns based on selected metadata
-                        ...selectedMetadata.map((meta) => ({
-                            accessor: `metadata_${meta.id}`,
-                            title: meta.name,
-                            render: (record: ItemContentsResourceData) => {
-                                const metaValue = record.metadata?.find((m) => m.id === meta.id);
-                                return metaValue ? metaValue.value : "N/A";
+                    {/* Existing SelectMetadataColumnForm */}
+                    <SelectDashboardMetadataColumnForm
+                        folderId="your-folder-item-id"
+                        availableMetadata={availableMetadata}
+                        existingMetadataIds={existingMetadataIds}
+                    />
+
+                    {/* Documents Table */}
+                    <DataTable
+                        columns={[
+                            {
+                                accessor: "name",
+                                render: ({ mime, type, name, status, missing_required_metadata }) => (
+                                    <Group align="center" gap={12}>
+                                        <ItemIcon
+                                            mime={mime ?? ""}
+                                            isFolder={type === "folder"}
+                                            approvalStatus={status}
+                                            missingRequiredMetadata={missing_required_metadata}
+                                        />
+                                        <span>{name}</span>
+                                    </Group>
+                                ),
                             },
-                        })),
-                    ]}
-                    records={documents.data}
-                    totalRecords={documents.total}
-                    recordsPerPage={documents.per_page}
-                    page={page}
-                    onPageChange={() => { }}
-                    highlightOnHover
-                    verticalSpacing="lg"
-                    horizontalSpacing="xl"
-                />
-
-
+                            { accessor: "updated_at", title: "Last Modified" },
+                            // Dynamic columns based on selected metadata
+                            ...selectedMetadata.map((meta) => ({
+                                accessor: `metadata_${meta.id}`,
+                                title: meta.name,
+                                render: (record: ItemContentsResourceData) => {
+                                    const metaValue = record.metadata?.find((m) => m.id === meta.id);
+                                    return metaValue ? metaValue.value : "N/A";
+                                },
+                            })),
+                        ]}
+                        records={documents.data}
+                        totalRecords={documents.total}
+                        recordsPerPage={documents.per_page}
+                        page={page}
+                        onPageChange={() => { }}
+                        highlightOnHover
+                        verticalSpacing="lg"
+                        horizontalSpacing="xl"
+                    />
+                </Stack>
             </Stack>
         </Authenticated>
     );

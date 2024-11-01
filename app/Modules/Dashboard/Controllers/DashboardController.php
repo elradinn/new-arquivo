@@ -2,11 +2,14 @@
 
 namespace Modules\Dashboard\Controllers;
 
+use Modules\Dashboard\Data\DashboardMetadataResourceData;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 use Modules\Common\Controllers\Controller;
+use Modules\Dashboard\Actions\SelectDashboardReportMetadataColumnAction;
+use Modules\Dashboard\Data\SelectDashboardMetadataColumnData;
 use Modules\Metadata\Models\Metadata;
 use Modules\Document\Models\Document;
 use Modules\Dashboard\Helpers\DocumentStatusHelper;
@@ -16,6 +19,10 @@ use Modules\Item\Models\Item;
 
 class DashboardController extends Controller
 {
+    public function __construct(
+        protected SelectDashboardReportMetadataColumnAction $selectDashboardReportMetadataColumnAction
+    ) {}
+
     public function dashboard()
     {
         return Inertia::render('Dashboard');
@@ -38,6 +45,9 @@ class DashboardController extends Controller
         $selectedMetadataIds = DB::table('dashboard_report_metadata_columns')->pluck('metadata_id')->toArray();
         $selectedMetadata = Metadata::whereIn('id', $selectedMetadataIds)->get();
 
+        // Get all available metadata
+        $availableMetadata = Metadata::all();
+
         // Query documents based on filters
         $documentsQuery = Item::query()->with('document')->whereHas('document');
 
@@ -58,12 +68,7 @@ class DashboardController extends Controller
             });
         }
 
-        // Eager load metadata if needed
-        if ($selectedMetadata->isNotEmpty()) {
-            $documentsQuery->with(['metadata' => function ($query) use ($selectedMetadataIds) {
-                $query->whereIn('metadata_id', $selectedMetadataIds);
-            }]);
-        }
+        // The metadata filtering section has been removed
 
         // Paginate results
         $documents = $documentsQuery->paginate(15);
@@ -76,7 +81,16 @@ class DashboardController extends Controller
                 'start_date' => $startDate,
                 'end_date' => $endDate,
             ],
-            'selectedMetadata' => $selectedMetadata,
+            'selectedMetadata' => DashboardMetadataResourceData::collect($selectedMetadata),
+            'availableMetadata' => DashboardMetadataResourceData::collect($availableMetadata),
+            'existingMetadataIds' => $selectedMetadataIds,
         ]);
+    }
+
+    public function selectDashboardMetadataColumn(SelectDashboardMetadataColumnData $data)
+    {
+        $this->selectDashboardReportMetadataColumnAction->execute($data);
+
+        return redirect()->back();
     }
 }
